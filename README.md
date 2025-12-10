@@ -1,1 +1,1 @@
-https://azloet.github.io/Hex/Hex_%20A Strategy Guide.html
+https://azloet.github.io/Hex/Hex_%20A%20Strategy%20Guide.html
