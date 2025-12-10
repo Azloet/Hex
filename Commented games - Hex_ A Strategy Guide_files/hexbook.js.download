@@ -1,0 +1,475 @@
+"use strict";
+
+
+if (screen.width < 610){
+    var viewport = document.getElementsByName("viewport")[0];
+
+    viewport.parentNode.removeChild(viewport);
+
+    var newViewport = document.createElement("meta");
+    newViewport.setAttribute("name", "viewport");
+    newViewport.setAttribute("content", "width=610");
+    document.head.appendChild(newViewport);
+}
+
+var colors = {
+    BLACK: 1,
+    WHITE: 2,
+}
+
+var moveType = {
+    NULL: 0,
+    BASIC: 1,
+    SWAP: 2
+}
+
+var orientations = {
+    FLAT: 0,
+    SYMM: 1
+}
+
+/*
+Moves are: {row: , col: , text: '', type: }
+Also a swappedText property for moves of type SWAP
+*/
+
+var alphabetLowercase = "abcdefghijklmnopqrstuvwxyz";
+
+var MAIN_SEQ_NAME        = "main";
+var USER_SEQ_NAME        = "(user_seq)";
+var USER_SEQ_EXTEND_NAME = "(user_seq_extend)";
+
+function getTranslateClass(row, col, orient) {
+    var orientLetter = orient == orientations.FLAT ? "f" : "s";
+    return "t_" + alphabetLowercase[row] + alphabetLowercase[col] + orientLetter;
+}
+
+function getStoneElementId(row, col, boardName) {
+    return alphabetLowercase[col] + (row + 1).toString() + "_" + boardName;
+}
+
+function setLastMoveIndicatorLocation(boardName, row, col) {
+    var id = "lastmove_" + boardName;
+    var element = document.getElementById(id);
+    if(element) {
+        element.className.baseVal = getTranslateClass(row, col, boards[boardName].orientation);
+    }
+}
+
+function hideLastMoveIndicator(boardName) {
+    var id = "lastmove_" + boardName;
+    var element = document.getElementById(id);
+    if(element) {
+        element.className.baseVal = "lastMoveHidden";
+    }
+}
+
+function setStone(boardName, row, col, color, text) {
+    var id = getStoneElementId(row, col, boardName);
+    var element = document.getElementById(id);
+    var labelElement = document.getElementById(id + "label");
+    
+    if(color == colors.BLACK) {
+        element.className.baseVal = "blackStone";
+        if(labelElement) {
+            labelElement.className.baseVal = "blackStoneText label";
+            labelElement.textContent = text;
+        }
+    } else {
+        element.className.baseVal = "whiteStone";
+        if(labelElement) {
+            labelElement.className.baseVal = "whiteStoneText label";
+            labelElement.textContent = text;            
+        }
+    }
+
+    setLastMoveIndicatorLocation(boardName, row, col);
+}
+
+function clearStone(boardName, row, col) {
+    var id = getStoneElementId(row, col, boardName);
+    var element = document.getElementById(id);
+    var labelElement = document.getElementById(id + "label");
+    
+    element.className.baseVal = "ns";
+    if(labelElement) {
+        labelElement.className.baseVal = "noStoneText label";
+        labelElement.textContent = "";
+    }
+}
+
+//Just removes the move, add back in swapped stones:
+function removeMoveSimple(boardName, move) {
+    var row, col;
+    switch(move.type) {
+        case moveType.NULL:
+            return; //Do nothing
+            break;
+        case moveType.BASIC: 
+            row = move.row;
+            col = move.col;
+            break;
+        case moveType.SWAP: 
+            row = move.col;
+            col = move.row;
+            break;
+    
+    }
+    clearStone(boardName, row, col);
+}
+
+function removeMove(boardName, move, color) {
+    removeMoveSimple(boardName, move);
+    if(move.type == moveType.SWAP) {
+        //Add back the swapped stone:
+        setStone(boardName, move.row, move.col, color, move.swappedText);
+    }
+}
+
+function addMove(boardName, move, color) {
+    switch(move.type) {
+        case moveType.NULL:
+            break;
+        case moveType.BASIC: 
+            setStone(boardName, move.row, move.col, color, move.text);
+            break;
+        case moveType.SWAP:
+            //First, remove the old stone at the given row/col
+            clearStone(boardName, move.row, move.col);
+
+            //Next, add the swapped stone:
+            //Swap row and col here
+            setStone(boardName, move.col, move.row, color, move.text);
+            break;
+    }
+}
+
+function getResetButton(boardName) {
+    return document.getElementById(boardName + "_reset");
+}
+function getNextButton(boardName) {
+    return document.getElementById(boardName + "_next");
+}
+function getBackButton(boardName) {
+    return document.getElementById(boardName + "_back");
+}
+function getLastButton(boardName) {
+    return document.getElementById(boardName + "_last");
+}
+function getFirstButton(boardName) {
+    return document.getElementById(boardName + "_first");
+}
+
+function removeHiddenButtons(boardName) {
+    if(getResetButton(boardName))
+        getResetButton(boardName).classList.remove("boardButtonHidden");
+    if(getNextButton(boardName))
+        getNextButton(boardName).classList.remove("boardButtonHidden");
+    if(getLastButton(boardName))
+        getLastButton(boardName).classList.remove("boardButtonHidden");
+    if(getBackButton(boardName))
+        getBackButton(boardName).classList.remove("boardButtonHidden");
+    if(getFirstButton(boardName))
+        getFirstButton(boardName).classList.remove("boardButtonHidden");
+}
+
+function checkButtonsVisible(boardName) {
+    var currentSeq = boards[boardName].currentSequence;
+    
+    var atEnd = boards[boardName].nextMove == boards[boardName].moves.length;
+    var atStart = boards[boardName].nextMove == 0;
+    
+    if(currentSeq == MAIN_SEQ_NAME && atEnd) {
+        if(getResetButton(boardName)) {
+            getResetButton(boardName).classList.add("boardButtonGreyed");
+            getResetButton(boardName).classList.add("boardButtonAuto");
+        }
+    } else {
+        if(getResetButton(boardName)) {
+            getResetButton(boardName).classList.remove("boardButtonGreyed");
+            getResetButton(boardName).classList.remove("boardButtonAuto");
+        }
+    }
+    
+    if(atEnd) {
+        if(getNextButton(boardName))
+            getNextButton(boardName).classList.add("boardButtonGreyed");
+        if(getLastButton(boardName))
+            getLastButton(boardName).classList.add("boardButtonGreyed");
+    } else {
+        if(getNextButton(boardName))
+            getNextButton(boardName).classList.remove("boardButtonGreyed");
+        if(getLastButton(boardName))
+            getLastButton(boardName).classList.remove("boardButtonGreyed");
+    }
+    
+    if(atStart) {
+        if(getBackButton(boardName))
+            getBackButton(boardName).classList.add("boardButtonGreyed");
+        if(getFirstButton(boardName))
+            getFirstButton(boardName).classList.add("boardButtonGreyed");
+    } else {
+        if(getBackButton(boardName))
+            getBackButton(boardName).classList.remove("boardButtonGreyed");
+        if(getFirstButton(boardName))
+            getFirstButton(boardName).classList.remove("boardButtonGreyed");
+    }
+}
+
+function showMarks(boardName) {
+    var groupName = "marks_" + boardName;
+    var marksGroup = document.getElementById(groupName);
+    if(marksGroup) {
+        marksGroup.classList.remove("hideDrawings");
+    }
+}
+
+function hideMarks(boardName) {
+    var groupName = "marks_" + boardName;
+    var marksGroup = document.getElementById(groupName);
+    if(marksGroup) {
+        marksGroup.classList.add("hideDrawings");
+    }
+}
+
+function checkMarks(boardName) {
+    var currentSeq = boards[boardName].currentSequence;
+    var mainSeqLength = boards[boardName].sequences[MAIN_SEQ_NAME].moves.length;
+    if((currentSeq == MAIN_SEQ_NAME || currentSeq == USER_SEQ_EXTEND_NAME)
+        && boards[boardName].nextMove >= mainSeqLength)
+    {
+        showMarks(boardName);
+    } else {
+        hideMarks(boardName);
+    }
+}
+
+function addClickEvents(boardName) {
+    function getHexClicked(r, c, name) {
+        return function() {
+            hexClicked(r, c, name);
+        }
+    }
+    
+    var boardElem = document.getElementById(boardName);
+    if(boardElem) {
+        var hexagonElems = boardElem.getElementsByClassName("h");
+        for(var i = 0; i < hexagonElems.length; i++) {
+            var href = hexagonElems[i].getAttribute("xlink:href"); 
+            //Format example of href: #cb_f -> 2, 1
+            //Have to ignore the # sign:
+            var row = alphabetLowercase.indexOf(href.charAt(1));
+            var col = alphabetLowercase.indexOf(href.charAt(2));
+            hexagonElems[i].addEventListener('click', getHexClicked(row, col, boardName));            
+        }
+    }
+}
+
+function setLastMoveIndicator(boardName) {
+    var board = boards[boardName];
+    if(board.nextMove == 0) {
+        hideLastMoveIndicator(boardName);
+    } else {
+        var move = board.moves[board.nextMove - 1]; 
+        switch(move.type) {
+            case moveType.NULL:
+                hideLastMoveIndicator(boardName);
+                break;
+            case moveType.BASIC: 
+                setLastMoveIndicatorLocation(boardName, move.row, move.col);
+                break;
+            case moveType.SWAP:
+                setLastMoveIndicatorLocation(boardName, move.col, move.row);
+                break;
+        }
+    }
+}
+
+//////////////
+//  public  //
+//////////////
+
+var boards = [];
+/*
+    sequences are: {blackToMoveInit: <bool>, moves: []}
+*/
+function addBoard(boardName, blackToMoveInit, sequences, orient) {
+    
+    //If there is no "main" sequence, then define an empty one:
+    if(!(MAIN_SEQ_NAME in sequences)) {
+        sequences[MAIN_SEQ_NAME] = {
+            moves: [],
+            blackToMoveInit: blackToMoveInit
+        }
+    }
+    
+    var initMoves = sequences[MAIN_SEQ_NAME].moves;
+    
+    boards[boardName] = {
+        blackNext: blackToMoveInit ^ (initMoves.length % 2 == 1),
+        sequences: sequences,
+        moves: initMoves.slice(),
+        nextMove: initMoves.length,
+        currentSequence: MAIN_SEQ_NAME,
+        orientation: orient
+    };
+    
+    removeHiddenButtons(boardName); //Buttons are hidden by default. Javascript turns them on. Users without JS enabled will never see them.
+    checkButtonsVisible(boardName);
+    addClickEvents(boardName);
+}
+
+function checkBoardDefined(boardName) {
+    if(boards[boardName])
+        return true;
+    else 
+        return false;
+}
+
+function setToMove(boardName, sequenceName, moveNumber) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    for(var i = 0; i < boards[boardName].moves.length; i++) {
+        removeMoveSimple(boardName, boards[boardName].moves[i]);
+    }
+    
+    boards[boardName].moves = boards[boardName].sequences[sequenceName].moves.slice();
+    boards[boardName].nextMove = moveNumber;
+    boards[boardName].blackNext = boards[boardName].sequences[sequenceName].blackToMoveInit;
+    boards[boardName].currentSequence = sequenceName;
+    
+    checkButtonsVisible(boardName);
+    checkMarks(boardName);
+    
+    for(var i = 0; i < moveNumber; i++) {
+        addMove(boardName, boards[boardName].moves[i], boards[boardName].blackNext ? colors.BLACK : colors.WHITE);
+        boards[boardName].blackNext = !boards[boardName].blackNext;
+    }
+
+    setLastMoveIndicator(boardName);
+}
+
+function hexClicked(row, col, boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    var id = getStoneElementId(row, col, boardName);
+    var element = document.getElementById(id);
+    
+    var oldClass = element.getAttribute("class");
+    if(oldClass == "ns"){
+        var moves = boards[boardName].moves;
+        moves.splice(boards[boardName].nextMove, moves.length); //delete everything in the array after here
+        if(boards[boardName].blackNext) {
+            moves.push({row: row, col: col, color: colors.BLACK, text: '', type: moveType.BASIC});
+            setStone(boardName, row, col, colors.BLACK, "");
+        } else {
+            moves.push({row: row, col: col, color: colors.WHITE, text: '', type: moveType.BASIC});
+            setStone(boardName, row, col, colors.WHITE, "");
+        }
+        boards[boardName].nextMove = moves.length;
+        boards[boardName].blackNext = !boards[boardName].blackNext;
+        
+        var lastMoveInMainSeq = boards[boardName].sequences[MAIN_SEQ_NAME].moves.length;
+        if(boards[boardName].currentSequence == MAIN_SEQ_NAME && boards[boardName].nextMove > lastMoveInMainSeq) {
+            //In this case the user is _extending_ the main sequence
+            boards[boardName].currentSequence = USER_SEQ_EXTEND_NAME;
+        } else if(boards[boardName].currentSequence == USER_SEQ_EXTEND_NAME) {
+            //If it's before the last move of the main sequence, then the user has edited the main sequence
+            if(boards[boardName].nextMove <= lastMoveInMainSeq) {
+                boards[boardName].currentSequence = USER_SEQ_NAME;
+            }
+        } else {
+            //The user has edited the sequence, or is extending a sequence other than the main sequence.
+            boards[boardName].currentSequence = USER_SEQ_NAME;
+        }
+        
+        checkButtonsVisible(boardName);
+        setLastMoveIndicator(boardName);
+    }
+}
+
+///////////////////
+// board buttons //
+///////////////////
+
+function resetBoard(boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    setToMove(boardName, MAIN_SEQ_NAME, boards[boardName].sequences[MAIN_SEQ_NAME].moves.length);
+    showMarks(boardName);
+}
+
+function nextBoard(boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    var board = boards[boardName];
+    if(board.nextMove == board.moves.length)
+        return;
+    
+    addMove(boardName, board.moves[board.nextMove], board.blackNext ? colors.BLACK : colors.WHITE);
+    board.blackNext = !board.blackNext;
+    board.nextMove++;
+    
+    checkButtonsVisible(boardName);
+    checkMarks(boardName);
+    setLastMoveIndicator(boardName);
+}
+
+function backBoard(boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    var board = boards[boardName];
+    if(board.nextMove == 0)
+        return;
+    
+    board.nextMove--;
+    removeMove(boardName, board.moves[board.nextMove], board.blackNext ? colors.BLACK : colors.WHITE);
+    board.blackNext = !board.blackNext;
+    
+    checkButtonsVisible(boardName);
+    checkMarks(boardName);
+    setLastMoveIndicator(boardName);
+}
+
+function lastBoard(boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    while(boards[boardName].nextMove < boards[boardName].moves.length) {
+        nextBoard(boardName);
+    }
+}
+
+function firstBoard(boardName) {
+    //The board name can be undefined if the page hasn't finished loading yet.
+    if(!checkBoardDefined(boardName)) {
+        return;
+    }
+
+    while(boards[boardName].nextMove > 0) {
+        backBoard(boardName);
+    }
+}
+
+window.onload = function () {
+	var a = "matt", d = "hew.seymour", b = "&#064;", f = "gma", c = "il.com";
+	var e = document.getElementById("copyright-div");
+	e.innerHTML += "<p class='copyright'>Questions or comments? Contact me at <a href='mailto:" + a + d + b + f + c + "'>" + a + d + b + f + c + "</a></p>";
+}

@@ -1,0 +1,398 @@
+@font-face {
+  font-family: 'FiraSans-ExtraLight';
+  src: url('fonts/FiraSans-ExtraLight.woff2') format('woff2'),
+       url('fonts/FiraSans-ExtraLight.woff') format('woff'),
+       url('fonts/FiraSans-ExtraLight.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'FiraSans-Light';
+  src: url('fonts/FiraSans-Light.woff2') format('woff2'),
+       url('fonts/FiraSans-Light.woff') format('woff'),
+       url('fonts/FiraSans-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'FiraSans-LightItalic';
+  src: url('fonts/FiraSans-LightItalic.woff2') format('woff2'),
+       url('fonts/FiraSans-LightItalic.woff') format('woff'),
+       url('fonts/FiraSans-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'FiraSans-Regular';
+  src: url('fonts/FiraSans-Regular.woff2') format('woff2'),
+       url('fonts/FiraSans-Regular.woff') format('woff'),
+       url('fonts/FiraSans-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'FiraSans-Medium';
+  src: url('fonts/FiraSans-Medium.woff2') format('woff2'),
+       url('fonts/FiraSans-Medium.woff') format('woff'),
+       url('fonts/FiraSans-Medium.ttf') format('truetype');
+}
+
+html,body { 
+    background-color: #ffffff;
+    
+}
+html {
+    background:#e6e6e6; 
+}
+body {
+    background:#fff; 
+    margin:auto; 
+    padding-left:10px; 
+    padding-right:10px; 
+}
+
+@media (max-width: 1240px) {
+body, hr, .hr-contain {
+    width: 610px;
+}
+.diagram-size-large {
+    width: 600px;
+}
+}
+@media (min-width: 1240px) {
+body, hr, .hr-contain {
+    width: 1210px;
+}
+.diagram-size-large {
+    width: 1210px;
+}
+}
+
+#head { 
+    top:0; 
+    bottom:0px; 
+}
+#foot { 
+    top:0; 
+    bottom:0; 
+}
+a:link, a:visited { 
+    color: #0645AD; 
+}
+
+.nav-container, .nav-link {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.nav-container {
+    border-top: 1px solid #000;
+    height: 100px;
+    width: 100%;
+}
+
+.nav-link {
+    height: 100%;
+    text-align: center;
+}
+
+.nav-prev {
+    border-right: 1px solid #ccc;
+}
+.nav-next {
+    border-left: 1px solid #ccc;
+}
+
+.nav-link:after {
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+    height: 100%;
+    margin-left: -0.25em; /* To offset spacing. May vary by font */
+}
+
+.nav-link-text {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18;
+    font-feature-settings: "smcp" on; 
+    max-width: 95%;
+}
+
+.nav-prev {
+    float: left;
+    width: 11.5em;
+}
+
+.nav-next {
+    float: right;
+    width: 11.5em;
+}
+
+.nav-toc {
+    margin: 0 11.5em 0 11.5em;
+}
+
+.copyright-div {
+    border-top: 1px solid #000;
+}
+.copyright {
+    margin: auto;
+    text-align: center;
+    font-size: 14;
+}
+
+p, dl, ul, ol, .diagram-size-small {
+	width: 600px;
+}
+
+
+.diagram-container {
+    display: inline-block;
+    vertical-align: top;
+}
+
+@media (min-width: 1240px) {
+.collapse-small {
+    max-height: 0px;
+}
+}
+
+@media (min-width: 1540px) {
+.collapse-large {
+    max-height: 0px;
+}
+}
+
+h1, h2, h3, h4 {
+	width: 600px;
+    clear: left;
+}
+
+p, dl, ul, ol, h2.diagram-caption, .diagram, .nav-link-text  { 
+    font-family: FiraSans-Light, sans-serif; 
+}
+
+em {
+    font-family: FiraSans-LightItalic, sans-serif; 
+    font-style: normal;
+}
+
+dt {
+    font-family: FiraSans-Regular, sans-serif;
+}
+
+h2, h3, h4 {
+    font-family: FiraSans-Regular, sans-serif;
+}
+h1 {
+    font-family: FiraSans-Regular, sans-serif;
+    letter-spacing: .15rem;
+}
+
+hr {
+    font-size: 30;
+    border: 0;
+    height: 1px;
+    background: hsl(0, 0%, 10%);
+}
+h1 {
+    font-feature-settings: "smcp" on; 
+    font-size: 34;
+    margin: 1em;
+}
+h2 {
+    font-size: 28;
+    margin: .25em;
+}
+h2.chapterNum {
+    font-size: 26;
+    margin-top: 1em;
+}
+h2.chapterTitle {
+    margin-bottom: 1.5em;
+}
+h3 {
+    font-size: 22;
+    margin-bottom: .25em;
+    margin-top: 0em;
+    padding-top: .25em;
+}
+#author {
+    font-family: FiraSans-Light, sans-serif; 
+    font-size: 16;
+    margin-left: 0em;
+}
+
+ol {
+    font-size: 18;
+}
+
+p, dl, ul, h4 { 
+	font-size: 18;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+p, dl, ul, ol, h1, h2, h3, h4 {
+    margin-left: 0em;
+}
+ol, ul, dl {
+    padding-left: 0em;
+}
+
+ul {
+	list-style-image: url("bullet.svg");
+}
+ul.toc{
+	list-style-image: none;
+	list-style-type: none;
+}
+.bib li p:nth-child(2) {
+  padding-top: 0em;
+}
+
+ 
+h2.diagram-caption  {
+    font-feature-settings: "smcp" on; 
+    letter-spacing: .025rem;
+    font-size: 20; 
+    text-align: center;
+    margin: .5em;
+    margin-bottom: 0px;
+}
+p.diagram-caption {
+    font-size: 18;
+    text-align: center;
+}
+
+.diagram {
+    min-width: 600px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.board {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+p.subcaption {
+	font-size: 18;
+    width: 100%;
+    margin-bottom: 0px
+}
+
+p {
+    hyphens: auto;
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+
+li {
+	margin-left: 2em;
+}
+
+.inlineStone {
+    vertical-align: .05em;
+}
+
+.nowrap {
+    white-space: pre;
+}
+span.movelink {
+    color: #0645AD; 
+}
+
+.seqSpace {
+    width: .1em;
+    height: 0em;
+    display: inline-block;
+}
+.seq {
+    word-spacing: .3em;
+}
+
+p.diagram-caption, p.subcaption, h2.diagram-caption  {
+	margin-left: auto;
+    margin-right: auto;
+	position: static;
+}
+.group {
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+}
+.text {
+    float: left;
+    clear: left;
+}
+.diagram-container-right {
+    float: right;
+    clear: right;
+}
+.diagram-container-left {
+    float: left;
+    clear: left;
+}
+.diagram-container {
+ 	margin-top: 5px;
+	margin-bottom: 5px;
+}
+/*Tooltips*/
+.tooltip_outer {
+    color: #0645AD; 
+}
+.tooltip_show {
+    position: absolute; 
+    opacity: 0;
+    display: none;
+    transition: opacity 0.25s;
+    height: 0px;
+}
+.tooltip_outer:hover .tooltip_show {
+    opacity: 1;
+    display: inline;
+}
+.tooltip_content {
+    position: relative; 
+    border: 1px solid;
+    background-color: #ffffff;
+    display: inline-block;
+}
+
+.tooltip_content svg {
+    vertical-align:bottom;
+}
+
+.inlineStoneBlack {
+    fill: hsl(0, 0%, 10%);
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+.inlineStoneWhite {
+    fill: none;
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+.inlineStoneWhiteText, .inlineStoneBlackText{
+    font-size: 14;
+}
+.twoDigits {
+    font-size: 11;
+}
+
+.inlineStoneBlackText {
+    fill: hsl(0, 0%, 100%); 
+}
+
+.inlineHexText{
+    font-size: 14;
+}
+.inlineHex{
+    fill: none;
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+.inlineHexSvg{
+    vertical-align: bottom;
+}

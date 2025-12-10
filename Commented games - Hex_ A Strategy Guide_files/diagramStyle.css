@@ -1,0 +1,186 @@
+
+.arrowHeadWhite {
+    stroke: none;
+    fill: hsl(0, 0%, 90%);
+}
+.arrowHeadBlack {
+    stroke: none;
+    fill: hsl(0, 0%, 10%);
+}
+
+.hideDrawings {
+    visibility: hidden;
+}
+
+.boardButtonBase {
+    transition: transform .1s;
+}
+
+.boardButtonHidden {
+    opacity: 0;
+}
+
+.boardButtonAuto {
+    transform: scale(0);
+}
+
+.boardButtonGreyed {
+    opacity: 0.33;
+}
+
+.hexBoard:hover .boardButtonAuto {
+    transform: scale(1);
+}
+
+.buttonGroup:hover .boardButtonBase {
+    transform: scale(1.2);
+}
+
+.buttonGroup:active .boardButtonBase {
+    transform: scale(1.0);
+}
+
+.boardButtonLabel {
+    font-size: 12px;
+    font-family: FiraSans-Regular, sans-serif;
+    fill: hsla(0, 0%, 0%, 0);
+    stroke: hsl(0, 0%, 95%);
+    pointer-events: none;
+}
+.boardButtonRefreshLabel {
+    stroke-width: 2.5;
+}
+.boardButtonControlLabel {
+    stroke-width: 4;
+}
+
+.boardButton {
+    stroke: none;
+    fill: hsl(0, 0%, 20%);
+}
+
+.mark {
+    pointer-events: none;
+}
+
+.boardLine {
+    fill: none;
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+.edge {
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+.blackEdge {
+    fill: hsl(0, 0%, 14%);
+}
+.whiteEdge {
+    fill: hsl(0, 0%, 100%);
+}
+
+.hexagonBg {
+    fill: hsl(0, 0%, 98%);
+    stroke-width: 1.25;
+    stroke: hsl(0, 0%, 70%);
+}
+
+.hexagonBgShaded {
+    fill: hsl(0, 0%, 90%);
+    stroke-width: 1.25;
+    stroke: hsl(0, 0%, 70%);
+}
+
+.hexOutline {
+    fill: none;
+    stroke-width: 2.5;
+    stroke: hsl(0, 0%, 10%);
+    stroke-linecap: round;
+}
+
+.h { /*hexagon, shortened for space*/
+    fill: rgba(0,0,0,0);
+    stroke: rgba(0,0,0,0);
+}
+
+.h:hover {
+    stroke-width: 2;
+    stroke: hsl(0, 0%, 40%);
+ }
+ 
+ 
+ 
+ 
+.label {
+    font-size: 12px;
+    font-family: FiraSans-Regular, sans-serif;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */ 
+}
+
+.coordinateLabel {
+    fill: hsl(0, 0%, 10%); 
+}
+ 
+.ns { 
+    opacity: 0; 
+    pointer-events: none; 
+}
+.label { 
+    fill: hsl(0, 0%, 10%); 
+    pointer-events: none; 
+}
+.label.noStoneText { 
+    fill: hsla(0, 0%, 10%, 0); 
+    pointer-events: none; 
+}
+.blackStone { 
+    fill: hsl(0, 0%, 14%); 
+    stroke: hsl(0, 0%, 10%); 
+    stroke-width: 1.75;
+    pointer-events: none;
+}
+.blackStoneText { 
+    fill: hsl(0, 0%, 100%); 
+    pointer-events: none; 
+}
+
+.whiteStone { 
+    fill: hsl(0, 0%, 100%);
+    stroke: hsl(0, 0%, 25%); 
+    /*stroke-width: 1.75;*/
+    stroke-width: 2.25;
+    pointer-events: none; 
+}
+.whiteStoneText { 
+    fill: hsl(0, 0%, 10%);
+    pointer-events: none; 
+    
+}
+
+.lastMoveHidden {
+    visibility: hidden;
+}
+
+.lastMove {
+    fill: rgba(174, 193, 255, 0.65);
+    stroke: none;
+}
+
+/*scaling*/
+/*
+.ns, .noStoneText{
+    transform: scale(0);
+}
+
+.blackStone, .whiteStone, .whiteStoneText, .blackStoneText {
+    transform: scale(1);
+}
+
+.ns, .noStoneText, .blackStone, .whiteStone, .whiteStoneText, .blackStoneText{
+    transition: transform .2s;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+*/
