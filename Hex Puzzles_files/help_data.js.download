@@ -1,0 +1,178 @@
+var help_data = [
+    {
+        "header": true,
+        "text": "What is Hex?"
+    },
+    {
+        "paragraph": true,
+        "text": "Hex is a strategy board game between two players, played on a board like this:"
+    },
+    {
+        "version": 9,
+        "rows": 4,
+        "cols": 4,
+        "firstPlayer": 1,
+        "alreadyConnected": false,
+        "topLeft": true,
+        "topRight": true,
+        "bottomLeft": true,
+        "bottomRight": true,
+        "topLeftStart": 1,
+        "topLeftEnd": 4,
+        "topRightStart": 1,
+        "topRightEnd": 4,
+        "bottomLeftStart": 1,
+        "bottomLeftEnd": 4,
+        "bottomRightStart": 1,
+        "bottomRightEnd": 4,
+        "hexes": "aaabacadbabbbcbdcacbcccddadbdcdd",
+        "blackstones": "",
+        "whitestones": "",
+        "arrowsUp": "",
+        "arrowsRight": "",
+        "arrowsDown": "",
+        "arrowsLeft": ""
+    },
+    {
+        "paragraph": true,
+        "text": "Each player owns an opposing pair of edges. Black owns the top left and bottom right edges, while White owns the other two. The objective is to build a connection between your edges. For example, Black has won this game:"
+    },
+    {
+        "version": 9,
+        "rows": 4,
+        "cols": 4,
+        "firstPlayer": 1,
+        "alreadyConnected": false,
+        "topLeft": true,
+        "topRight": true,
+        "bottomLeft": true,
+        "bottomRight": true,
+        "topLeftStart": 1,
+        "topLeftEnd": 4,
+        "topRightStart": 1,
+        "topRightEnd": 4,
+        "bottomLeftStart": 1,
+        "bottomLeftEnd": 4,
+        "bottomRightStart": 1,
+        "bottomRightEnd": 4,
+        "hexes": "aaabacadbabbbcbdcacbcccddadbdcdd",
+        "blackstones": "abbbbcccdc",
+        "whitestones": "acadcbcd",
+        "arrowsUp": "",
+        "arrowsRight": "",
+        "arrowsDown": "",
+        "arrowsLeft": ""
+    },
+    {
+        "paragraph": true,
+        "text": "While White has won this game:"
+    },
+    {
+        "version": 9,
+        "rows": 4,
+        "cols": 4,
+        "firstPlayer": 1,
+        "alreadyConnected": false,
+        "topLeft": true,
+        "topRight": true,
+        "bottomLeft": true,
+        "bottomRight": true,
+        "topLeftStart": 1,
+        "topLeftEnd": 4,
+        "topRightStart": 1,
+        "topRightEnd": 4,
+        "bottomLeftStart": 1,
+        "bottomLeftEnd": 4,
+        "bottomRightStart": 1,
+        "bottomRightEnd": 4,
+        "hexes": "aaabacadbabbbcbdcacbcccddadbdcdd",
+        "blackstones": "abbaccdc",
+        "whitestones": "adbbbcca",
+        "arrowsUp": "",
+        "arrowsRight": "",
+        "arrowsDown": "",
+        "arrowsLeft": ""
+    },
+    {
+        "paragraph": true,
+        "text": "<em>Note: real games of Hex are played on bigger boards, usually 11x11 or larger.</em>"
+    },
+    {
+        "paragraph": true,
+        "text": "The rules are quite simple: on their turn a player places a stone of their color on any open tile. There are no restrictions as to where you may place your stone. Once placed, a stone is never captured or moved. The game ends once one player forms a winning connection. It turns out that this will always happen eventually. As a result, Hex never ends in a draw."
+    },
+    {
+        "header": true,
+        "text": "Where can I read more about Hex?"
+    },
+    {
+        "paragraph": true,
+        "text": "If you&rsquo;d like to read more about Hex strategy, check out <a href='http://mseymour.ca/hex_book/hexstrat.html' target='_blank' rel='noopener'>my book</a>."
+    },
+    {
+        "paragraph": true,
+        "text": "If you&rsquo;d like to read about the history of Hex, have a look at Thomas Maarup&rsquo;s <a href='http://maarup.net/thomas/hex/#invention' target='_blank' rel='noopener'>website</a>."
+    },
+    {
+        "header": true,
+        "text": "Can I download these puzzles as a PDF?"
+    },
+    {
+        "paragraph": true,
+        "text": "Yes! Two PDFs are available, one with the <a href='http://mseymour.ca/hex_puzzle/hex_puzzles.pdf' target='_blank' rel='noopener'>standard style</a> boards and one with <a href='http://mseymour.ca/hex_puzzle/hex_puzzles_go.pdf' target='_blank' rel='noopener'>go style</a> boards."
+    },
+    {
+        "header": true,
+        "text": "Passing"
+    },
+    {
+        "paragraph": true,
+        "text": "There is no passing in Hex. So why is it an option in these puzzles? The goal is to help you learn to recognise patterns that are already connected. This will help you learn the critical skill of evaluating positions; not just your own but your opponent&rsquo;s as well. Knowing the strengths and weaknesses of each player&rsquo;s position is key to spending your move most effectively. Another benefit of recognising connected patterns is that it can help you visualize your goal. When solving problems (or playing the game), it is very helpful to know connected patterns to work towards. In many cases you will find you only have to look a few moves ahead to find a shape that you know is connected."
+    },
+    {
+        "paragraph": true,
+        "text": "When you press PASS, the computer will get a turn to attempt to block you. This requires you to show that you can defend the shape and keep it connected."
+    },
+    {
+        "header": true,
+        "text": "I went back to an old puzzle and the orientation is different"
+    },
+    {
+        "paragraph": true,
+        "text": "The puzzles are oriented randomly to make it harder to memorize them. For each puzzle there are four possible orientations: two each for the player as black or white. This way you learn to read the situation rather than memorize the puzzle."
+    },
+    {
+        "header": true,
+        "text": "If the computer plays a response, does that mean I&rsquo;ve made the correct move?"
+    },
+    {
+        "paragraph": true,
+        "text": "Not necessarily. The computer responding to your move doesn&rsquo;t imply it was correct. Sometimes the computer plays out several moves before marking the problem wrong. Paying attention to the computer&rsquo;s refutation can be instructive."
+    },
+    {
+        "header": true,
+        "text": "It says &ldquo;Wrong&rdquo; but the computer hasn&rsquo;t responded"
+    },
+    {
+        "paragraph": true,
+        "text": "Although the most common sequences are covered in the database, not every wrong move has a response programmed. Every winning sequence should be in the database, however (if it&rsquo;s not, please let me know!)"
+    },
+    {
+        "header": true,
+        "text": "I think I found an error in one of the problems"
+    },
+    {
+        "paragraph": true,
+        "text": "All of these problems have been checked with software that solves Hex positions (see the ABOUT page), although it&rsquo;s always possible that mistakes have crept in. If you&rsquo;re certain that you&rsquo;ve found an error, my contact info is on the ABOUT page."
+    },
+    {
+        "header": true,
+        "text": "Can I save my progress, or move it to another device?"
+    },
+    {
+        "paragraph": true,
+        "text": "Your progress is saved automatically. However, if you clear your browser&rsquo;s data you may lose your progress. You can save your progress to a file on the SETTINGS page. Once saved, you can restore your progress from this file using the &ldquo;Restore progress&rdquo; button on the same page. If you would like to move your progress to another device, transfer the progress file to that device and then use the &ldquo;Restore progress&rdquo; button on the new device."
+    }
+
+
+]

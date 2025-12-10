@@ -1,0 +1,629 @@
+@font-face {
+  font-family: 'FiraSans-Light';
+  src: url('fonts/FiraSans-Light.woff2') format('woff2'),
+       url('fonts/FiraSans-Light.woff') format('woff'),
+       url('fonts/FiraSans-Light.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'FiraSans-Regular';
+    src: url('fonts/FiraSans-Regular.woff2') format('woff2'),
+         url('fonts/FiraSans-Regular.woff') format('woff'),
+         url('fonts/FiraSans-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'FiraSans-Medium';
+    src: url('fonts/FiraSans-Medium.woff2') format('woff2'),
+         url('fonts/FiraSans-Medium.woff') format('woff'),
+         url('fonts/FiraSans-Medium.ttf') format('truetype');
+  }
+
+body {
+    overscroll-behavior-y: contain;
+}
+
+
+.title, #puzzle-info, .puzzle-list-line, .modal-info, .info-text, #downloadprogress {
+    font-family: FiraSans-Light, sans-serif;
+    /*
+    font-family: FiraSans-Regular, sans-serif;
+    color: rgb(50, 50, 50);
+    */
+}
+#puzzle-list-progress, .info-label, #clear-progress, .modal-header, .modal-accept, .modal-cancel, .icon-text, .info-header, .settings-header, .puzzle-list-line-header {
+    font-family: FiraSans-Regular, sans-serif;
+}
+.nav-icon-text {
+    font-family: FiraSans-Medium, sans-serif;
+}
+
+
+.title {
+    font-size: 25px;
+    font-feature-settings: "smcp" on; 
+    line-height: 40px;
+    transform-origin: top left;
+    transform: scaleX(.85);
+}
+
+.modal-header {
+    font-size: 22px;
+}
+
+#puzzle-info, #puzzle-list-progress, .puzzle-list-line-header, .puzzle-list-line, .modal-info, .modal-accept, .modal-cancel, .info-text, .info-header, #downloadprogress {
+    font-size: 16px;
+}
+
+.settings-header, .info-label {
+    font-size: 14px;
+}
+.info-label, .settings-header {
+    color: rgb(150, 150, 150);
+}
+.info-label {
+    padding-right: 8px;
+    vertical-align: middle;
+    
+}
+
+
+
+body,.modal-content {
+    background-color: hsl(0, 0%, 97%);
+}
+
+#everything {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+#container, #main-menu-container, #settings-container, #about-container, #help-container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 700px;
+    min-height: 0;
+  
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#container {
+  display: grid;
+
+  grid-template-rows: 45px 40px 1fr 65px 65px; 
+  grid-template-columns: 1fr min(100%, 400px) 1fr;
+
+  overflow: hidden;
+}
+
+#openfilecontrol {
+  margin: 0;
+}
+
+/*The black lines at the top and bottom:*/
+#header, #puzzle-list-header, #settings-header, #about-header, #help-header {
+  margin: 0;
+  margin-top: 3px;
+  border-top: 3px;
+  border-top-style: solid;
+  border-color: rgb(53, 53, 53);
+}
+
+#footer, #puzzle-list-footer, #settings-footer, #about-footer, #help-footer {
+    margin: 0;
+    margin-bottom: 3px;
+    border-bottom: 3px;
+    border-bottom-style: solid;
+    border-color: rgb(53, 53, 53);
+}
+
+
+
+#header {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#problem-name {
+    display: inline-block;
+    width:150px; 
+    margin-right: -25px;
+}
+
+
+
+#checkmark-container {
+    line-height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px;
+}
+
+#actions {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: -3;
+    grid-row-end: -2;
+    display: flex;
+    justify-content: center;
+    height: 65px;
+    flex-shrink: 0;
+}
+  
+#footer {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: -2;
+  grid-row-end: -1;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+.puzzle-wrapper {
+  margin: 0;
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 3;
+  grid-row-end: 4;
+
+  justify-self: center;
+  align-self: center;
+
+  position: relative;
+}
+
+.puzzle-wrapper-tutorial {
+    grid-column-start: 2;
+    grid-column-end: -2;
+    grid-row-start: 3;
+    grid-row-end: 5;
+  
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+}
+  
+.info-header {
+    padding: 5px 10px 5px 10px;
+}
+.info-text {
+    padding: 5px 10px 5px 10px;
+}
+/*Must be after info-text because it overrides the padding*/
+.info-text-last {
+    padding: 5px 10px 15px 10px;
+}
+
+.info-spacer {
+    flex-grow: 1;
+}
+
+a, .custom-file-upload {
+    color:rgb(67, 81, 206); 
+}
+
+.custom-file-upload {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#openprogressfilecontrol {
+    display: none;
+}
+
+
+#puzzle-info {    
+    grid-column-start: 2;
+    grid-column-end: -2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    
+}
+/* This header stuff is offset slightly inwards:*/
+#puzzle-info, .title, #puzzle-list-progress {
+    padding-left: 5px;
+}
+
+.icon-button-deactivated {
+    opacity: 0.5;
+}
+
+.icon-text {
+    font-size:14;
+    dominant-baseline: central;
+    text-anchor: middle;
+    
+    pointer-events: none;
+    transform: scaleX(.85);
+}
+
+.icon-path {
+    stroke:rgb(245,245,245);
+    stroke-width:3.5;
+    fill:none;
+    pointer-events: none;
+}
+.icon-fill {
+    fill:rgb(245,245,245);
+    stroke: none;
+    pointer-events: none;
+}
+
+.nav-icon-path {
+    stroke:rgb(53, 53, 53);
+    stroke-width:3.5;
+    fill:none;
+    pointer-events: none;
+}
+.nav-icon-fill {
+    fill:rgb(53, 53, 53);
+    stroke: none;
+    pointer-events: none;
+}
+
+.nav-icon-path-selected {
+    stroke:rgb(67, 81, 206);
+    stroke-width:3.5;
+    fill:none;
+    pointer-events: none;
+}
+.nav-icon-fill-selected {
+    fill:rgb(67, 81, 206);
+    stroke: none;
+    pointer-events: none;
+}
+
+.nav-help-text {
+    font-size: 32px;
+}
+
+.nav-about-text {
+    font-size: 26px;
+}
+
+.nav-icon-text {
+    dominant-baseline: central;
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+.greyed-out {
+    opacity: 0.2;
+}
+
+.icon {
+    /*fill:hsl(115, 0%, 50.7%);*/
+    fill: rgb(53, 53, 53);
+    transition: fill .2s ease;
+}
+
+
+.checkmarkCircle {
+    fill:hsl(115, 45.2%, 50.7%);
+}
+
+.checkmarkFaded {
+    opacity: 0.35;
+}
+
+.xmarkCircle {
+    fill:hsl(0, 69.3%, 57.4%);
+}
+
+.greyCircle {
+    fill:rgb(199, 199, 199);
+}
+
+.info-circle {
+    fill:rgb(64, 64, 197);
+}
+.info-circle-path {
+    stroke:rgb(245,245,245);
+    stroke-width: 5;
+}
+
+.mark {
+    animation-duration: 0.15s;
+    animation-name: flip-in;
+}
+.mark-flip-out {
+    animation-duration: 0.15s;
+    animation-name: flip-out;
+}
+
+@keyframes flip-in {
+    from {
+        transform: scale(1.0, 0);
+    }
+    to {
+        transform: scale(1.0, 1.0);
+    }
+}
+
+@keyframes flip-out {
+    from {
+        transform: scale(1.0, 1.0);
+    }
+    to {
+        transform: scale(1.0, 0);
+    }
+}
+
+#main-menu-container {
+    display: grid;
+
+    grid-template-rows: 60px 25px 1fr 65px;
+    grid-template-columns: 1fr min(100%, 400px) 1fr;
+}
+
+#puzzle-list-header {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#puzzle-list-progress {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: flex;
+    align-items: center;
+}
+
+#puzzle-list-footer {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: -2;
+    grid-row-end: -1;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+#puzzle-list-container {
+    margin: 0;
+    overflow-y: scroll;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: -2;
+}
+
+#puzzle-list-footer, #footer, #help-footer, #about-footer, #settings-footer {
+    border-top: 1px solid rgb(185, 185, 185);
+}
+
+.puzzle-wrapper-tutorial, #help-info, #settings-content, #puzzle-list-container {
+    border-top: 1px solid rgb(185, 185, 185);
+}
+
+.puzzle-list-line-header {
+    line-height: 30px;
+    height: 35px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.puzzle-list-line {
+    display: flex;
+    line-height: 25px;
+}
+.puzzle-list-line-current {
+    background-color: rgb(214, 219, 255); /*same hue as selected nav icon*/
+
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .puzzle-list-line:hover {
+        background-color: rgb(224, 224, 224);
+    }
+    .puzzle-list-line-current:hover {
+        background-color: rgb(172, 175, 202); /*same hue as selected nav icon*/
+    
+    }
+    .icon:hover {
+        fill:hsl(115, 0%, 60%);
+    }
+    .modal-accept:hover {
+        text-decoration: underline;
+    }
+    #clear-progress:hover, .modal-cancel:hover {
+        text-decoration: underline;
+    }
+}
+
+.puzzle-list-checkmark {
+    margin-right: 7px;
+    /*vertical-align: bottom;*/
+}
+
+
+#settings-container, #about-container, #help-container {
+    display: grid;
+
+    grid-template-rows: 85px 1fr 65px;
+    grid-template-columns: 1fr min(100%, 400px) 1fr;
+}
+
+#settings-header, #about-header, #help-header {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#settings-footer, #about-footer, #help-footer {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: -2;
+    grid-row-end: -1;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+
+#about-info, #help-info {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: -2;
+
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+#settings-content {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: -2;
+
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#style-picker {
+    display: grid;
+
+    grid-template-rows: 130px 130px 130px;
+    grid-template-columns: 1fr 190px 190px 1fr;
+    align-items: start;
+    justify-items: center;
+}    
+.style-picker-selected {
+    background-color: rgb(224, 224, 224);
+}
+
+.flex-spacer {
+    flex: 1 0 auto;
+}
+
+#clear-progress, .modal-accept, .modal-cancel {
+    vertical-align: middle;
+    padding: 3px;
+    border-radius: 5px;    
+}
+#clear-progress {
+    font-size: 14px;
+}
+
+#clear-progress, .modal-cancel {
+    color: rgb(150, 150, 150);
+    
+}
+.modal-accept {
+    background-color: rgb(224, 107, 107);
+    color: hsla(0,0%,100%,0.86);
+}
+
+
+
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    background: #00000000;
+    /*
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    */
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:focus {
+    outline:0; /*todo: Replace with something more accessible*/
+}
+
+#modal-container {
+    display: grid;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+
+    grid-template-rows: 1fr 220px 1fr;
+    grid-template-columns: 1fr 380px 1fr;
+}
+
+.modal-content {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    padding: 7% 10% 7% 10%;
+ 
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    align-items: baseline;
+}
+
+.modal-close-spacer {
+    flex: 1 0 auto;
+}
+
+.modal-info {
+    margin-top: 20px;
+    flex: 1 0 auto;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.modal-accept, .modal-cancel {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 3px 15px 3px 15px;
+}
+
+.modal-close {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+

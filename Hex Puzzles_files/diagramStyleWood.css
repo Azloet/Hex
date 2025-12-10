@@ -1,0 +1,168 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.noSelect {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */ 
+    pointer-events: none; 
+}
+
+.edge {
+    stroke: hsl(0, 0%, 10%);
+    stroke-width: 1.25;
+}
+
+.edgeBlackGo {
+    stroke-width: 5;
+    stroke: hsl(28, 72%, 10%);
+}
+
+.edgeWhiteGo {
+    stroke-width: 5;
+    stroke:hsl(41, 62%, 90%);
+}
+
+.blackEdge {
+    fill: hsl(28, 72%, 10%);
+}
+
+.whiteEdge {
+    fill:hsl(41, 62%, 90%);
+}
+
+.blackInlay { /*Color should match hue of blackEdge*/
+    fill: hsl(28, 72%, 10%);
+    stroke: hsl(28, 72%, 12%);
+    stroke-width: .5;
+}
+
+.whiteInlay { /*Color should match hue of whiteEdge*/
+    fill:hsl(41, 32%, 82%);
+    stroke: hsl(41, 70%, 12%);
+    stroke-width: .5;
+}
+
+.hexagonFg {
+    stroke-width: 1.25;
+    
+    stroke: hsl(0, 0%, 0%);
+    fill:hsl(41, 80%, 65%);
+    pointer-events: none;
+}
+
+.hexagonBackground {
+    fill:hsl(41, 80%, 65%);
+    pointer-events: none;
+}
+
+.hexagonOutline {
+    stroke-width: 1.25;
+    stroke: hsl(0, 0%, 0%);
+    fill:none;
+    pointer-events: none;
+}
+
+
+.linesGo {
+    stroke-width: 1.25;
+    /*stroke: hsl(0, 0%, 0%);*/
+    stroke:hsl(40, 51%, 27%);
+    fill: none;
+}
+
+.hexagonFgGo {
+    stroke-width: 1.25;
+    
+    stroke: hsl(41, 80%, 65%);
+    fill:hsl(41, 80%, 65%);
+    pointer-events: none;
+}
+
+.hexagonFgHein {
+    stroke: none;
+    fill:hsl(41, 80%, 65%);
+    pointer-events: none;
+}
+.hexagonFgTopLeftHein {
+    stroke: none;
+    fill:hsl(41, 85%, 70%);
+    pointer-events: none;
+}
+
+.hexagonFgTopRightHein {
+    stroke: none;
+    fill:hsl(41, 63%, 59%);
+	pointer-events: none;
+}
+.hexagonFgBottomLeftHein {
+    stroke: none;
+    fill:hsl(41, 53%, 55%);
+	pointer-events: none;
+}
+.hexagonFgBottomRightHein {
+    stroke: none;
+    fill:hsl(41, 43%, 48%);
+    pointer-events: none;
+}
+
+.holeHein {
+    stroke: none;
+    fill:hsl(41, 45%, 36%);
+    pointer-events: none;
+}
+
+.hexagonMouseOver {
+    fill: none;
+    stroke: none;
+    pointer-events: visible;
+}
+
+ 
+ 
+ 
+.label {
+    font-size: 16;
+    font-family: FiraSans-Regular, sans-serif;
+}
+
+.labelBlackStone {
+    fill: hsl(0, 0%, 100%);
+}
+
+.labelWhiteStone {
+    fill: hsl(0, 0%, 14%); 
+}
+
+
+.coordinateLabel {
+    fill: hsl(0, 0%, 10%); 
+}
+ 
+.noStone { 
+    display: none; 
+    pointer-events: none; 
+}
+.blackStone { 
+    fill:url(#RadialGradientBlackStone);
+    filter:url(#shadow);
+}
+.whiteStone { 
+    fill:url(#RadialGradientWhiteStone);
+    filter:url(#shadow);    
+}
+
+.onhover{
+    opacity: 0;
+}
+.onhover:hover{
+    opacity: 0.5;
+}
+
+#puzzle-group {
+    filter:url(#board-shadow);
+}
+

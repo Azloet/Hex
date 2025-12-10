@@ -1,0 +1,1364 @@
+
+<html lang="en">
+<head>
+<title>Printable boards - Hex: A Strategy Guide</title>
+<meta name="description" content="PDF of printable Hex boards."/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+.boardButtonRefreshLabel {
+    marker-end: url(hexstrat11.html#markerArrow); 
+}
+.boardButtonControlLabel {
+    marker-end: url(hexstrat11.html#markerPlay); 
+}
+.boardArrow {
+    marker-end: url(hexstrat11.html#markerBoardArrow); 
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="hexbook.css" />
+<link rel="stylesheet" type="text/css" href="diagramStyle.css" />
+<link rel="stylesheet" type="text/css" href="translate.css" />
+<script src=hexbook.js type="text/javascript"></script>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+<defs>
+<marker id="markerArrow" markerWidth="4" markerHeight="6" refX="1.1" refY="3" orient="auto" >
+    <path d="M 1 1 L 3 3 L 1 5"  class ="arrowHeadWhite"/>
+</marker>
+<marker id="markerPlay" markerWidth="4" markerHeight="6" refX="1.5" refY="3" orient="auto" >
+    <path d="M 1 1.5 L 3 3 L 1 4.5"  class ="arrowHeadWhite"/>
+</marker>
+<marker id="markerBoardArrow" markerWidth="10" markerHeight="12" refX="4" refY="4" orient="auto" >
+    <path d="M 0 0 L 8 4 L 0 8 L 3 4"  class ="arrowHeadBlack"/>
+</marker>
+<g id = "eye">
+    <circle cx = "0" cy = "0" r = ".4" stroke = "none"/>
+    <circle cx = "-.17678" cy = "-.17678" r = ".15" fill = "white" stroke = "none"/>
+    <path d="M -.9 0 Q 0 1 .9 0 Q 0 -1 -.9 0 Z" stroke-width=".18" fill = "none" stroke-linejoin="miter"/>
+</g>
+<g id="stonearrow_black">
+<path d="M-4.5 0 L 4.5 0 M 0.5 4 L 4.5 0 L 0.5 -4" fill="transparent" stroke="white" stroke-width="2"/>
+</g>
+<g id="stonearrow_white">
+<path d="M-4.5 0 L 4.5 0 M 0.5 4 L 4.5 0 L 0.5 -4" fill="transparent" stroke="black" stroke-width="1.6"/>
+</g>
+</defs>
+</svg>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+<g id='circ'><circle class='' cx='0' cy='0' r='9.36'  />
+</g>
+<g id = 'h_bg'><polygon points = '6.9282048,-11.9999971763 13.8564048,-2.82371999982e-06 6.9282,11.9999943526 -6.9282048,11.9999971763 -13.8564048,2.82371999982e-06 -6.9282,-11.9999943526' class='hexagonbg' />
+</g>
+<g id = 'h_bgs'><polygon points = '6.9282048,-11.9999971763 13.8564048,-2.82371999982e-06 6.9282,11.9999943526 -6.9282048,11.9999971763 -13.8564048,2.82371999982e-06 -6.9282,-11.9999943526' class='hexagonbgshaded' />
+</g>
+<g id = 'h_fg'><polygon points = '6.9282048,-11.9999971763 13.8564048,-2.82371999982e-06 6.9282,11.9999943526 -6.9282048,11.9999971763 -13.8564048,2.82371999982e-06 -6.9282,-11.9999943526'  />
+</g>
+<g id = 'hf_bg'><polygon points = '12.0,-6.9282 12.0,6.9282 0.0,13.8564 -12.0,6.9282 -12.0,-6.9282 0.0,-13.8564' class='hexagonbg' />
+</g>
+<g id = 'hf_bgs'><polygon points = '12.0,-6.9282 12.0,6.9282 0.0,13.8564 -12.0,6.9282 -12.0,-6.9282 0.0,-13.8564' class='hexagonbgshaded' />
+</g>
+<g id = 'hf_fg'><polygon points = '12.0,-6.9282 12.0,6.9282 0.0,13.8564 -12.0,6.9282 -12.0,-6.9282 0.0,-13.8564'  />
+</g>
+<g id = 'aaS'><use xlink:href='#h_bg' class='t_aas'/></g>
+<g id = 'aaS_s'><use xlink:href='#h_bgs' class='t_aas'/></g>
+<g id = 'aaS_f'><use xlink:href='#h_fg' class='t_aas'/></g>
+<g id = 'aa'><use xlink:href='#hf_bg' class='t_aaf'/></g>
+<g id = 'aa_s'><use xlink:href='#hf_bgs' class='t_aaf'/></g>
+<g id = 'aa_f'><use xlink:href='#hf_fg' class='t_aaf'/></g>
+<g id = 'abS'><use xlink:href='#h_bg' class='t_abs'/></g>
+<g id = 'abS_s'><use xlink:href='#h_bgs' class='t_abs'/></g>
+<g id = 'abS_f'><use xlink:href='#h_fg' class='t_abs'/></g>
+<g id = 'ab'><use xlink:href='#hf_bg' class='t_abf'/></g>
+<g id = 'ab_s'><use xlink:href='#hf_bgs' class='t_abf'/></g>
+<g id = 'ab_f'><use xlink:href='#hf_fg' class='t_abf'/></g>
+<g id = 'acS'><use xlink:href='#h_bg' class='t_acs'/></g>
+<g id = 'acS_s'><use xlink:href='#h_bgs' class='t_acs'/></g>
+<g id = 'acS_f'><use xlink:href='#h_fg' class='t_acs'/></g>
+<g id = 'ac'><use xlink:href='#hf_bg' class='t_acf'/></g>
+<g id = 'ac_s'><use xlink:href='#hf_bgs' class='t_acf'/></g>
+<g id = 'ac_f'><use xlink:href='#hf_fg' class='t_acf'/></g>
+<g id = 'adS'><use xlink:href='#h_bg' class='t_ads'/></g>
+<g id = 'adS_s'><use xlink:href='#h_bgs' class='t_ads'/></g>
+<g id = 'adS_f'><use xlink:href='#h_fg' class='t_ads'/></g>
+<g id = 'ad'><use xlink:href='#hf_bg' class='t_adf'/></g>
+<g id = 'ad_s'><use xlink:href='#hf_bgs' class='t_adf'/></g>
+<g id = 'ad_f'><use xlink:href='#hf_fg' class='t_adf'/></g>
+<g id = 'aeS'><use xlink:href='#h_bg' class='t_aes'/></g>
+<g id = 'aeS_s'><use xlink:href='#h_bgs' class='t_aes'/></g>
+<g id = 'aeS_f'><use xlink:href='#h_fg' class='t_aes'/></g>
+<g id = 'ae'><use xlink:href='#hf_bg' class='t_aef'/></g>
+<g id = 'ae_s'><use xlink:href='#hf_bgs' class='t_aef'/></g>
+<g id = 'ae_f'><use xlink:href='#hf_fg' class='t_aef'/></g>
+<g id = 'afS'><use xlink:href='#h_bg' class='t_afs'/></g>
+<g id = 'afS_s'><use xlink:href='#h_bgs' class='t_afs'/></g>
+<g id = 'afS_f'><use xlink:href='#h_fg' class='t_afs'/></g>
+<g id = 'af'><use xlink:href='#hf_bg' class='t_aff'/></g>
+<g id = 'af_s'><use xlink:href='#hf_bgs' class='t_aff'/></g>
+<g id = 'af_f'><use xlink:href='#hf_fg' class='t_aff'/></g>
+<g id = 'agS'><use xlink:href='#h_bg' class='t_ags'/></g>
+<g id = 'agS_s'><use xlink:href='#h_bgs' class='t_ags'/></g>
+<g id = 'agS_f'><use xlink:href='#h_fg' class='t_ags'/></g>
+<g id = 'ag'><use xlink:href='#hf_bg' class='t_agf'/></g>
+<g id = 'ag_s'><use xlink:href='#hf_bgs' class='t_agf'/></g>
+<g id = 'ag_f'><use xlink:href='#hf_fg' class='t_agf'/></g>
+<g id = 'ahS'><use xlink:href='#h_bg' class='t_ahs'/></g>
+<g id = 'ahS_s'><use xlink:href='#h_bgs' class='t_ahs'/></g>
+<g id = 'ahS_f'><use xlink:href='#h_fg' class='t_ahs'/></g>
+<g id = 'ah'><use xlink:href='#hf_bg' class='t_ahf'/></g>
+<g id = 'ah_s'><use xlink:href='#hf_bgs' class='t_ahf'/></g>
+<g id = 'ah_f'><use xlink:href='#hf_fg' class='t_ahf'/></g>
+<g id = 'aiS'><use xlink:href='#h_bg' class='t_ais'/></g>
+<g id = 'aiS_s'><use xlink:href='#h_bgs' class='t_ais'/></g>
+<g id = 'aiS_f'><use xlink:href='#h_fg' class='t_ais'/></g>
+<g id = 'ai'><use xlink:href='#hf_bg' class='t_aif'/></g>
+<g id = 'ai_s'><use xlink:href='#hf_bgs' class='t_aif'/></g>
+<g id = 'ai_f'><use xlink:href='#hf_fg' class='t_aif'/></g>
+<g id = 'ajS'><use xlink:href='#h_bg' class='t_ajs'/></g>
+<g id = 'ajS_s'><use xlink:href='#h_bgs' class='t_ajs'/></g>
+<g id = 'ajS_f'><use xlink:href='#h_fg' class='t_ajs'/></g>
+<g id = 'aj'><use xlink:href='#hf_bg' class='t_ajf'/></g>
+<g id = 'aj_s'><use xlink:href='#hf_bgs' class='t_ajf'/></g>
+<g id = 'aj_f'><use xlink:href='#hf_fg' class='t_ajf'/></g>
+<g id = 'akS'><use xlink:href='#h_bg' class='t_aks'/></g>
+<g id = 'akS_s'><use xlink:href='#h_bgs' class='t_aks'/></g>
+<g id = 'akS_f'><use xlink:href='#h_fg' class='t_aks'/></g>
+<g id = 'ak'><use xlink:href='#hf_bg' class='t_akf'/></g>
+<g id = 'ak_s'><use xlink:href='#hf_bgs' class='t_akf'/></g>
+<g id = 'ak_f'><use xlink:href='#hf_fg' class='t_akf'/></g>
+<g id = 'alS'><use xlink:href='#h_bg' class='t_als'/></g>
+<g id = 'alS_s'><use xlink:href='#h_bgs' class='t_als'/></g>
+<g id = 'alS_f'><use xlink:href='#h_fg' class='t_als'/></g>
+<g id = 'al'><use xlink:href='#hf_bg' class='t_alf'/></g>
+<g id = 'al_s'><use xlink:href='#hf_bgs' class='t_alf'/></g>
+<g id = 'al_f'><use xlink:href='#hf_fg' class='t_alf'/></g>
+<g id = 'amS'><use xlink:href='#h_bg' class='t_ams'/></g>
+<g id = 'amS_s'><use xlink:href='#h_bgs' class='t_ams'/></g>
+<g id = 'amS_f'><use xlink:href='#h_fg' class='t_ams'/></g>
+<g id = 'am'><use xlink:href='#hf_bg' class='t_amf'/></g>
+<g id = 'am_s'><use xlink:href='#hf_bgs' class='t_amf'/></g>
+<g id = 'am_f'><use xlink:href='#hf_fg' class='t_amf'/></g>
+<g id = 'baS'><use xlink:href='#h_bg' class='t_bas'/></g>
+<g id = 'baS_s'><use xlink:href='#h_bgs' class='t_bas'/></g>
+<g id = 'baS_f'><use xlink:href='#h_fg' class='t_bas'/></g>
+<g id = 'ba'><use xlink:href='#hf_bg' class='t_baf'/></g>
+<g id = 'ba_s'><use xlink:href='#hf_bgs' class='t_baf'/></g>
+<g id = 'ba_f'><use xlink:href='#hf_fg' class='t_baf'/></g>
+<g id = 'bbS'><use xlink:href='#h_bg' class='t_bbs'/></g>
+<g id = 'bbS_s'><use xlink:href='#h_bgs' class='t_bbs'/></g>
+<g id = 'bbS_f'><use xlink:href='#h_fg' class='t_bbs'/></g>
+<g id = 'bb'><use xlink:href='#hf_bg' class='t_bbf'/></g>
+<g id = 'bb_s'><use xlink:href='#hf_bgs' class='t_bbf'/></g>
+<g id = 'bb_f'><use xlink:href='#hf_fg' class='t_bbf'/></g>
+<g id = 'bcS'><use xlink:href='#h_bg' class='t_bcs'/></g>
+<g id = 'bcS_s'><use xlink:href='#h_bgs' class='t_bcs'/></g>
+<g id = 'bcS_f'><use xlink:href='#h_fg' class='t_bcs'/></g>
+<g id = 'bc'><use xlink:href='#hf_bg' class='t_bcf'/></g>
+<g id = 'bc_s'><use xlink:href='#hf_bgs' class='t_bcf'/></g>
+<g id = 'bc_f'><use xlink:href='#hf_fg' class='t_bcf'/></g>
+<g id = 'bdS'><use xlink:href='#h_bg' class='t_bds'/></g>
+<g id = 'bdS_s'><use xlink:href='#h_bgs' class='t_bds'/></g>
+<g id = 'bdS_f'><use xlink:href='#h_fg' class='t_bds'/></g>
+<g id = 'bd'><use xlink:href='#hf_bg' class='t_bdf'/></g>
+<g id = 'bd_s'><use xlink:href='#hf_bgs' class='t_bdf'/></g>
+<g id = 'bd_f'><use xlink:href='#hf_fg' class='t_bdf'/></g>
+<g id = 'beS'><use xlink:href='#h_bg' class='t_bes'/></g>
+<g id = 'beS_s'><use xlink:href='#h_bgs' class='t_bes'/></g>
+<g id = 'beS_f'><use xlink:href='#h_fg' class='t_bes'/></g>
+<g id = 'be'><use xlink:href='#hf_bg' class='t_bef'/></g>
+<g id = 'be_s'><use xlink:href='#hf_bgs' class='t_bef'/></g>
+<g id = 'be_f'><use xlink:href='#hf_fg' class='t_bef'/></g>
+<g id = 'bfS'><use xlink:href='#h_bg' class='t_bfs'/></g>
+<g id = 'bfS_s'><use xlink:href='#h_bgs' class='t_bfs'/></g>
+<g id = 'bfS_f'><use xlink:href='#h_fg' class='t_bfs'/></g>
+<g id = 'bf'><use xlink:href='#hf_bg' class='t_bff'/></g>
+<g id = 'bf_s'><use xlink:href='#hf_bgs' class='t_bff'/></g>
+<g id = 'bf_f'><use xlink:href='#hf_fg' class='t_bff'/></g>
+<g id = 'bgS'><use xlink:href='#h_bg' class='t_bgs'/></g>
+<g id = 'bgS_s'><use xlink:href='#h_bgs' class='t_bgs'/></g>
+<g id = 'bgS_f'><use xlink:href='#h_fg' class='t_bgs'/></g>
+<g id = 'bg'><use xlink:href='#hf_bg' class='t_bgf'/></g>
+<g id = 'bg_s'><use xlink:href='#hf_bgs' class='t_bgf'/></g>
+<g id = 'bg_f'><use xlink:href='#hf_fg' class='t_bgf'/></g>
+<g id = 'bhS'><use xlink:href='#h_bg' class='t_bhs'/></g>
+<g id = 'bhS_s'><use xlink:href='#h_bgs' class='t_bhs'/></g>
+<g id = 'bhS_f'><use xlink:href='#h_fg' class='t_bhs'/></g>
+<g id = 'bh'><use xlink:href='#hf_bg' class='t_bhf'/></g>
+<g id = 'bh_s'><use xlink:href='#hf_bgs' class='t_bhf'/></g>
+<g id = 'bh_f'><use xlink:href='#hf_fg' class='t_bhf'/></g>
+<g id = 'biS'><use xlink:href='#h_bg' class='t_bis'/></g>
+<g id = 'biS_s'><use xlink:href='#h_bgs' class='t_bis'/></g>
+<g id = 'biS_f'><use xlink:href='#h_fg' class='t_bis'/></g>
+<g id = 'bi'><use xlink:href='#hf_bg' class='t_bif'/></g>
+<g id = 'bi_s'><use xlink:href='#hf_bgs' class='t_bif'/></g>
+<g id = 'bi_f'><use xlink:href='#hf_fg' class='t_bif'/></g>
+<g id = 'bjS'><use xlink:href='#h_bg' class='t_bjs'/></g>
+<g id = 'bjS_s'><use xlink:href='#h_bgs' class='t_bjs'/></g>
+<g id = 'bjS_f'><use xlink:href='#h_fg' class='t_bjs'/></g>
+<g id = 'bj'><use xlink:href='#hf_bg' class='t_bjf'/></g>
+<g id = 'bj_s'><use xlink:href='#hf_bgs' class='t_bjf'/></g>
+<g id = 'bj_f'><use xlink:href='#hf_fg' class='t_bjf'/></g>
+<g id = 'bkS'><use xlink:href='#h_bg' class='t_bks'/></g>
+<g id = 'bkS_s'><use xlink:href='#h_bgs' class='t_bks'/></g>
+<g id = 'bkS_f'><use xlink:href='#h_fg' class='t_bks'/></g>
+<g id = 'bk'><use xlink:href='#hf_bg' class='t_bkf'/></g>
+<g id = 'bk_s'><use xlink:href='#hf_bgs' class='t_bkf'/></g>
+<g id = 'bk_f'><use xlink:href='#hf_fg' class='t_bkf'/></g>
+<g id = 'blS'><use xlink:href='#h_bg' class='t_bls'/></g>
+<g id = 'blS_s'><use xlink:href='#h_bgs' class='t_bls'/></g>
+<g id = 'blS_f'><use xlink:href='#h_fg' class='t_bls'/></g>
+<g id = 'bl'><use xlink:href='#hf_bg' class='t_blf'/></g>
+<g id = 'bl_s'><use xlink:href='#hf_bgs' class='t_blf'/></g>
+<g id = 'bl_f'><use xlink:href='#hf_fg' class='t_blf'/></g>
+<g id = 'bmS'><use xlink:href='#h_bg' class='t_bms'/></g>
+<g id = 'bmS_s'><use xlink:href='#h_bgs' class='t_bms'/></g>
+<g id = 'bmS_f'><use xlink:href='#h_fg' class='t_bms'/></g>
+<g id = 'bm'><use xlink:href='#hf_bg' class='t_bmf'/></g>
+<g id = 'bm_s'><use xlink:href='#hf_bgs' class='t_bmf'/></g>
+<g id = 'bm_f'><use xlink:href='#hf_fg' class='t_bmf'/></g>
+<g id = 'caS'><use xlink:href='#h_bg' class='t_cas'/></g>
+<g id = 'caS_s'><use xlink:href='#h_bgs' class='t_cas'/></g>
+<g id = 'caS_f'><use xlink:href='#h_fg' class='t_cas'/></g>
+<g id = 'ca'><use xlink:href='#hf_bg' class='t_caf'/></g>
+<g id = 'ca_s'><use xlink:href='#hf_bgs' class='t_caf'/></g>
+<g id = 'ca_f'><use xlink:href='#hf_fg' class='t_caf'/></g>
+<g id = 'cbS'><use xlink:href='#h_bg' class='t_cbs'/></g>
+<g id = 'cbS_s'><use xlink:href='#h_bgs' class='t_cbs'/></g>
+<g id = 'cbS_f'><use xlink:href='#h_fg' class='t_cbs'/></g>
+<g id = 'cb'><use xlink:href='#hf_bg' class='t_cbf'/></g>
+<g id = 'cb_s'><use xlink:href='#hf_bgs' class='t_cbf'/></g>
+<g id = 'cb_f'><use xlink:href='#hf_fg' class='t_cbf'/></g>
+<g id = 'ccS'><use xlink:href='#h_bg' class='t_ccs'/></g>
+<g id = 'ccS_s'><use xlink:href='#h_bgs' class='t_ccs'/></g>
+<g id = 'ccS_f'><use xlink:href='#h_fg' class='t_ccs'/></g>
+<g id = 'cc'><use xlink:href='#hf_bg' class='t_ccf'/></g>
+<g id = 'cc_s'><use xlink:href='#hf_bgs' class='t_ccf'/></g>
+<g id = 'cc_f'><use xlink:href='#hf_fg' class='t_ccf'/></g>
+<g id = 'cdS'><use xlink:href='#h_bg' class='t_cds'/></g>
+<g id = 'cdS_s'><use xlink:href='#h_bgs' class='t_cds'/></g>
+<g id = 'cdS_f'><use xlink:href='#h_fg' class='t_cds'/></g>
+<g id = 'cd'><use xlink:href='#hf_bg' class='t_cdf'/></g>
+<g id = 'cd_s'><use xlink:href='#hf_bgs' class='t_cdf'/></g>
+<g id = 'cd_f'><use xlink:href='#hf_fg' class='t_cdf'/></g>
+<g id = 'ceS'><use xlink:href='#h_bg' class='t_ces'/></g>
+<g id = 'ceS_s'><use xlink:href='#h_bgs' class='t_ces'/></g>
+<g id = 'ceS_f'><use xlink:href='#h_fg' class='t_ces'/></g>
+<g id = 'ce'><use xlink:href='#hf_bg' class='t_cef'/></g>
+<g id = 'ce_s'><use xlink:href='#hf_bgs' class='t_cef'/></g>
+<g id = 'ce_f'><use xlink:href='#hf_fg' class='t_cef'/></g>
+<g id = 'cfS'><use xlink:href='#h_bg' class='t_cfs'/></g>
+<g id = 'cfS_s'><use xlink:href='#h_bgs' class='t_cfs'/></g>
+<g id = 'cfS_f'><use xlink:href='#h_fg' class='t_cfs'/></g>
+<g id = 'cf'><use xlink:href='#hf_bg' class='t_cff'/></g>
+<g id = 'cf_s'><use xlink:href='#hf_bgs' class='t_cff'/></g>
+<g id = 'cf_f'><use xlink:href='#hf_fg' class='t_cff'/></g>
+<g id = 'cgS'><use xlink:href='#h_bg' class='t_cgs'/></g>
+<g id = 'cgS_s'><use xlink:href='#h_bgs' class='t_cgs'/></g>
+<g id = 'cgS_f'><use xlink:href='#h_fg' class='t_cgs'/></g>
+<g id = 'cg'><use xlink:href='#hf_bg' class='t_cgf'/></g>
+<g id = 'cg_s'><use xlink:href='#hf_bgs' class='t_cgf'/></g>
+<g id = 'cg_f'><use xlink:href='#hf_fg' class='t_cgf'/></g>
+<g id = 'chS'><use xlink:href='#h_bg' class='t_chs'/></g>
+<g id = 'chS_s'><use xlink:href='#h_bgs' class='t_chs'/></g>
+<g id = 'chS_f'><use xlink:href='#h_fg' class='t_chs'/></g>
+<g id = 'ch'><use xlink:href='#hf_bg' class='t_chf'/></g>
+<g id = 'ch_s'><use xlink:href='#hf_bgs' class='t_chf'/></g>
+<g id = 'ch_f'><use xlink:href='#hf_fg' class='t_chf'/></g>
+<g id = 'ciS'><use xlink:href='#h_bg' class='t_cis'/></g>
+<g id = 'ciS_s'><use xlink:href='#h_bgs' class='t_cis'/></g>
+<g id = 'ciS_f'><use xlink:href='#h_fg' class='t_cis'/></g>
+<g id = 'ci'><use xlink:href='#hf_bg' class='t_cif'/></g>
+<g id = 'ci_s'><use xlink:href='#hf_bgs' class='t_cif'/></g>
+<g id = 'ci_f'><use xlink:href='#hf_fg' class='t_cif'/></g>
+<g id = 'cjS'><use xlink:href='#h_bg' class='t_cjs'/></g>
+<g id = 'cjS_s'><use xlink:href='#h_bgs' class='t_cjs'/></g>
+<g id = 'cjS_f'><use xlink:href='#h_fg' class='t_cjs'/></g>
+<g id = 'cj'><use xlink:href='#hf_bg' class='t_cjf'/></g>
+<g id = 'cj_s'><use xlink:href='#hf_bgs' class='t_cjf'/></g>
+<g id = 'cj_f'><use xlink:href='#hf_fg' class='t_cjf'/></g>
+<g id = 'ckS'><use xlink:href='#h_bg' class='t_cks'/></g>
+<g id = 'ckS_s'><use xlink:href='#h_bgs' class='t_cks'/></g>
+<g id = 'ckS_f'><use xlink:href='#h_fg' class='t_cks'/></g>
+<g id = 'ck'><use xlink:href='#hf_bg' class='t_ckf'/></g>
+<g id = 'ck_s'><use xlink:href='#hf_bgs' class='t_ckf'/></g>
+<g id = 'ck_f'><use xlink:href='#hf_fg' class='t_ckf'/></g>
+<g id = 'clS'><use xlink:href='#h_bg' class='t_cls'/></g>
+<g id = 'clS_s'><use xlink:href='#h_bgs' class='t_cls'/></g>
+<g id = 'clS_f'><use xlink:href='#h_fg' class='t_cls'/></g>
+<g id = 'cl'><use xlink:href='#hf_bg' class='t_clf'/></g>
+<g id = 'cl_s'><use xlink:href='#hf_bgs' class='t_clf'/></g>
+<g id = 'cl_f'><use xlink:href='#hf_fg' class='t_clf'/></g>
+<g id = 'cmS'><use xlink:href='#h_bg' class='t_cms'/></g>
+<g id = 'cmS_s'><use xlink:href='#h_bgs' class='t_cms'/></g>
+<g id = 'cmS_f'><use xlink:href='#h_fg' class='t_cms'/></g>
+<g id = 'cm'><use xlink:href='#hf_bg' class='t_cmf'/></g>
+<g id = 'cm_s'><use xlink:href='#hf_bgs' class='t_cmf'/></g>
+<g id = 'cm_f'><use xlink:href='#hf_fg' class='t_cmf'/></g>
+<g id = 'daS'><use xlink:href='#h_bg' class='t_das'/></g>
+<g id = 'daS_s'><use xlink:href='#h_bgs' class='t_das'/></g>
+<g id = 'daS_f'><use xlink:href='#h_fg' class='t_das'/></g>
+<g id = 'da'><use xlink:href='#hf_bg' class='t_daf'/></g>
+<g id = 'da_s'><use xlink:href='#hf_bgs' class='t_daf'/></g>
+<g id = 'da_f'><use xlink:href='#hf_fg' class='t_daf'/></g>
+<g id = 'dbS'><use xlink:href='#h_bg' class='t_dbs'/></g>
+<g id = 'dbS_s'><use xlink:href='#h_bgs' class='t_dbs'/></g>
+<g id = 'dbS_f'><use xlink:href='#h_fg' class='t_dbs'/></g>
+<g id = 'db'><use xlink:href='#hf_bg' class='t_dbf'/></g>
+<g id = 'db_s'><use xlink:href='#hf_bgs' class='t_dbf'/></g>
+<g id = 'db_f'><use xlink:href='#hf_fg' class='t_dbf'/></g>
+<g id = 'dcS'><use xlink:href='#h_bg' class='t_dcs'/></g>
+<g id = 'dcS_s'><use xlink:href='#h_bgs' class='t_dcs'/></g>
+<g id = 'dcS_f'><use xlink:href='#h_fg' class='t_dcs'/></g>
+<g id = 'dc'><use xlink:href='#hf_bg' class='t_dcf'/></g>
+<g id = 'dc_s'><use xlink:href='#hf_bgs' class='t_dcf'/></g>
+<g id = 'dc_f'><use xlink:href='#hf_fg' class='t_dcf'/></g>
+<g id = 'ddS'><use xlink:href='#h_bg' class='t_dds'/></g>
+<g id = 'ddS_s'><use xlink:href='#h_bgs' class='t_dds'/></g>
+<g id = 'ddS_f'><use xlink:href='#h_fg' class='t_dds'/></g>
+<g id = 'dd'><use xlink:href='#hf_bg' class='t_ddf'/></g>
+<g id = 'dd_s'><use xlink:href='#hf_bgs' class='t_ddf'/></g>
+<g id = 'dd_f'><use xlink:href='#hf_fg' class='t_ddf'/></g>
+<g id = 'deS'><use xlink:href='#h_bg' class='t_des'/></g>
+<g id = 'deS_s'><use xlink:href='#h_bgs' class='t_des'/></g>
+<g id = 'deS_f'><use xlink:href='#h_fg' class='t_des'/></g>
+<g id = 'de'><use xlink:href='#hf_bg' class='t_def'/></g>
+<g id = 'de_s'><use xlink:href='#hf_bgs' class='t_def'/></g>
+<g id = 'de_f'><use xlink:href='#hf_fg' class='t_def'/></g>
+<g id = 'dfS'><use xlink:href='#h_bg' class='t_dfs'/></g>
+<g id = 'dfS_s'><use xlink:href='#h_bgs' class='t_dfs'/></g>
+<g id = 'dfS_f'><use xlink:href='#h_fg' class='t_dfs'/></g>
+<g id = 'df'><use xlink:href='#hf_bg' class='t_dff'/></g>
+<g id = 'df_s'><use xlink:href='#hf_bgs' class='t_dff'/></g>
+<g id = 'df_f'><use xlink:href='#hf_fg' class='t_dff'/></g>
+<g id = 'dgS'><use xlink:href='#h_bg' class='t_dgs'/></g>
+<g id = 'dgS_s'><use xlink:href='#h_bgs' class='t_dgs'/></g>
+<g id = 'dgS_f'><use xlink:href='#h_fg' class='t_dgs'/></g>
+<g id = 'dg'><use xlink:href='#hf_bg' class='t_dgf'/></g>
+<g id = 'dg_s'><use xlink:href='#hf_bgs' class='t_dgf'/></g>
+<g id = 'dg_f'><use xlink:href='#hf_fg' class='t_dgf'/></g>
+<g id = 'dhS'><use xlink:href='#h_bg' class='t_dhs'/></g>
+<g id = 'dhS_s'><use xlink:href='#h_bgs' class='t_dhs'/></g>
+<g id = 'dhS_f'><use xlink:href='#h_fg' class='t_dhs'/></g>
+<g id = 'dh'><use xlink:href='#hf_bg' class='t_dhf'/></g>
+<g id = 'dh_s'><use xlink:href='#hf_bgs' class='t_dhf'/></g>
+<g id = 'dh_f'><use xlink:href='#hf_fg' class='t_dhf'/></g>
+<g id = 'diS'><use xlink:href='#h_bg' class='t_dis'/></g>
+<g id = 'diS_s'><use xlink:href='#h_bgs' class='t_dis'/></g>
+<g id = 'diS_f'><use xlink:href='#h_fg' class='t_dis'/></g>
+<g id = 'di'><use xlink:href='#hf_bg' class='t_dif'/></g>
+<g id = 'di_s'><use xlink:href='#hf_bgs' class='t_dif'/></g>
+<g id = 'di_f'><use xlink:href='#hf_fg' class='t_dif'/></g>
+<g id = 'djS'><use xlink:href='#h_bg' class='t_djs'/></g>
+<g id = 'djS_s'><use xlink:href='#h_bgs' class='t_djs'/></g>
+<g id = 'djS_f'><use xlink:href='#h_fg' class='t_djs'/></g>
+<g id = 'dj'><use xlink:href='#hf_bg' class='t_djf'/></g>
+<g id = 'dj_s'><use xlink:href='#hf_bgs' class='t_djf'/></g>
+<g id = 'dj_f'><use xlink:href='#hf_fg' class='t_djf'/></g>
+<g id = 'dkS'><use xlink:href='#h_bg' class='t_dks'/></g>
+<g id = 'dkS_s'><use xlink:href='#h_bgs' class='t_dks'/></g>
+<g id = 'dkS_f'><use xlink:href='#h_fg' class='t_dks'/></g>
+<g id = 'dk'><use xlink:href='#hf_bg' class='t_dkf'/></g>
+<g id = 'dk_s'><use xlink:href='#hf_bgs' class='t_dkf'/></g>
+<g id = 'dk_f'><use xlink:href='#hf_fg' class='t_dkf'/></g>
+<g id = 'dlS'><use xlink:href='#h_bg' class='t_dls'/></g>
+<g id = 'dlS_s'><use xlink:href='#h_bgs' class='t_dls'/></g>
+<g id = 'dlS_f'><use xlink:href='#h_fg' class='t_dls'/></g>
+<g id = 'dl'><use xlink:href='#hf_bg' class='t_dlf'/></g>
+<g id = 'dl_s'><use xlink:href='#hf_bgs' class='t_dlf'/></g>
+<g id = 'dl_f'><use xlink:href='#hf_fg' class='t_dlf'/></g>
+<g id = 'dmS'><use xlink:href='#h_bg' class='t_dms'/></g>
+<g id = 'dmS_s'><use xlink:href='#h_bgs' class='t_dms'/></g>
+<g id = 'dmS_f'><use xlink:href='#h_fg' class='t_dms'/></g>
+<g id = 'dm'><use xlink:href='#hf_bg' class='t_dmf'/></g>
+<g id = 'dm_s'><use xlink:href='#hf_bgs' class='t_dmf'/></g>
+<g id = 'dm_f'><use xlink:href='#hf_fg' class='t_dmf'/></g>
+<g id = 'eaS'><use xlink:href='#h_bg' class='t_eas'/></g>
+<g id = 'eaS_s'><use xlink:href='#h_bgs' class='t_eas'/></g>
+<g id = 'eaS_f'><use xlink:href='#h_fg' class='t_eas'/></g>
+<g id = 'ea'><use xlink:href='#hf_bg' class='t_eaf'/></g>
+<g id = 'ea_s'><use xlink:href='#hf_bgs' class='t_eaf'/></g>
+<g id = 'ea_f'><use xlink:href='#hf_fg' class='t_eaf'/></g>
+<g id = 'ebS'><use xlink:href='#h_bg' class='t_ebs'/></g>
+<g id = 'ebS_s'><use xlink:href='#h_bgs' class='t_ebs'/></g>
+<g id = 'ebS_f'><use xlink:href='#h_fg' class='t_ebs'/></g>
+<g id = 'eb'><use xlink:href='#hf_bg' class='t_ebf'/></g>
+<g id = 'eb_s'><use xlink:href='#hf_bgs' class='t_ebf'/></g>
+<g id = 'eb_f'><use xlink:href='#hf_fg' class='t_ebf'/></g>
+<g id = 'ecS'><use xlink:href='#h_bg' class='t_ecs'/></g>
+<g id = 'ecS_s'><use xlink:href='#h_bgs' class='t_ecs'/></g>
+<g id = 'ecS_f'><use xlink:href='#h_fg' class='t_ecs'/></g>
+<g id = 'ec'><use xlink:href='#hf_bg' class='t_ecf'/></g>
+<g id = 'ec_s'><use xlink:href='#hf_bgs' class='t_ecf'/></g>
+<g id = 'ec_f'><use xlink:href='#hf_fg' class='t_ecf'/></g>
+<g id = 'edS'><use xlink:href='#h_bg' class='t_eds'/></g>
+<g id = 'edS_s'><use xlink:href='#h_bgs' class='t_eds'/></g>
+<g id = 'edS_f'><use xlink:href='#h_fg' class='t_eds'/></g>
+<g id = 'ed'><use xlink:href='#hf_bg' class='t_edf'/></g>
+<g id = 'ed_s'><use xlink:href='#hf_bgs' class='t_edf'/></g>
+<g id = 'ed_f'><use xlink:href='#hf_fg' class='t_edf'/></g>
+<g id = 'eeS'><use xlink:href='#h_bg' class='t_ees'/></g>
+<g id = 'eeS_s'><use xlink:href='#h_bgs' class='t_ees'/></g>
+<g id = 'eeS_f'><use xlink:href='#h_fg' class='t_ees'/></g>
+<g id = 'ee'><use xlink:href='#hf_bg' class='t_eef'/></g>
+<g id = 'ee_s'><use xlink:href='#hf_bgs' class='t_eef'/></g>
+<g id = 'ee_f'><use xlink:href='#hf_fg' class='t_eef'/></g>
+<g id = 'efS'><use xlink:href='#h_bg' class='t_efs'/></g>
+<g id = 'efS_s'><use xlink:href='#h_bgs' class='t_efs'/></g>
+<g id = 'efS_f'><use xlink:href='#h_fg' class='t_efs'/></g>
+<g id = 'ef'><use xlink:href='#hf_bg' class='t_eff'/></g>
+<g id = 'ef_s'><use xlink:href='#hf_bgs' class='t_eff'/></g>
+<g id = 'ef_f'><use xlink:href='#hf_fg' class='t_eff'/></g>
+<g id = 'egS'><use xlink:href='#h_bg' class='t_egs'/></g>
+<g id = 'egS_s'><use xlink:href='#h_bgs' class='t_egs'/></g>
+<g id = 'egS_f'><use xlink:href='#h_fg' class='t_egs'/></g>
+<g id = 'eg'><use xlink:href='#hf_bg' class='t_egf'/></g>
+<g id = 'eg_s'><use xlink:href='#hf_bgs' class='t_egf'/></g>
+<g id = 'eg_f'><use xlink:href='#hf_fg' class='t_egf'/></g>
+<g id = 'ehS'><use xlink:href='#h_bg' class='t_ehs'/></g>
+<g id = 'ehS_s'><use xlink:href='#h_bgs' class='t_ehs'/></g>
+<g id = 'ehS_f'><use xlink:href='#h_fg' class='t_ehs'/></g>
+<g id = 'eh'><use xlink:href='#hf_bg' class='t_ehf'/></g>
+<g id = 'eh_s'><use xlink:href='#hf_bgs' class='t_ehf'/></g>
+<g id = 'eh_f'><use xlink:href='#hf_fg' class='t_ehf'/></g>
+<g id = 'eiS'><use xlink:href='#h_bg' class='t_eis'/></g>
+<g id = 'eiS_s'><use xlink:href='#h_bgs' class='t_eis'/></g>
+<g id = 'eiS_f'><use xlink:href='#h_fg' class='t_eis'/></g>
+<g id = 'ei'><use xlink:href='#hf_bg' class='t_eif'/></g>
+<g id = 'ei_s'><use xlink:href='#hf_bgs' class='t_eif'/></g>
+<g id = 'ei_f'><use xlink:href='#hf_fg' class='t_eif'/></g>
+<g id = 'ejS'><use xlink:href='#h_bg' class='t_ejs'/></g>
+<g id = 'ejS_s'><use xlink:href='#h_bgs' class='t_ejs'/></g>
+<g id = 'ejS_f'><use xlink:href='#h_fg' class='t_ejs'/></g>
+<g id = 'ej'><use xlink:href='#hf_bg' class='t_ejf'/></g>
+<g id = 'ej_s'><use xlink:href='#hf_bgs' class='t_ejf'/></g>
+<g id = 'ej_f'><use xlink:href='#hf_fg' class='t_ejf'/></g>
+<g id = 'ekS'><use xlink:href='#h_bg' class='t_eks'/></g>
+<g id = 'ekS_s'><use xlink:href='#h_bgs' class='t_eks'/></g>
+<g id = 'ekS_f'><use xlink:href='#h_fg' class='t_eks'/></g>
+<g id = 'ek'><use xlink:href='#hf_bg' class='t_ekf'/></g>
+<g id = 'ek_s'><use xlink:href='#hf_bgs' class='t_ekf'/></g>
+<g id = 'ek_f'><use xlink:href='#hf_fg' class='t_ekf'/></g>
+<g id = 'elS'><use xlink:href='#h_bg' class='t_els'/></g>
+<g id = 'elS_s'><use xlink:href='#h_bgs' class='t_els'/></g>
+<g id = 'elS_f'><use xlink:href='#h_fg' class='t_els'/></g>
+<g id = 'el'><use xlink:href='#hf_bg' class='t_elf'/></g>
+<g id = 'el_s'><use xlink:href='#hf_bgs' class='t_elf'/></g>
+<g id = 'el_f'><use xlink:href='#hf_fg' class='t_elf'/></g>
+<g id = 'emS'><use xlink:href='#h_bg' class='t_ems'/></g>
+<g id = 'emS_s'><use xlink:href='#h_bgs' class='t_ems'/></g>
+<g id = 'emS_f'><use xlink:href='#h_fg' class='t_ems'/></g>
+<g id = 'em'><use xlink:href='#hf_bg' class='t_emf'/></g>
+<g id = 'em_s'><use xlink:href='#hf_bgs' class='t_emf'/></g>
+<g id = 'em_f'><use xlink:href='#hf_fg' class='t_emf'/></g>
+<g id = 'faS'><use xlink:href='#h_bg' class='t_fas'/></g>
+<g id = 'faS_s'><use xlink:href='#h_bgs' class='t_fas'/></g>
+<g id = 'faS_f'><use xlink:href='#h_fg' class='t_fas'/></g>
+<g id = 'fa'><use xlink:href='#hf_bg' class='t_faf'/></g>
+<g id = 'fa_s'><use xlink:href='#hf_bgs' class='t_faf'/></g>
+<g id = 'fa_f'><use xlink:href='#hf_fg' class='t_faf'/></g>
+<g id = 'fbS'><use xlink:href='#h_bg' class='t_fbs'/></g>
+<g id = 'fbS_s'><use xlink:href='#h_bgs' class='t_fbs'/></g>
+<g id = 'fbS_f'><use xlink:href='#h_fg' class='t_fbs'/></g>
+<g id = 'fb'><use xlink:href='#hf_bg' class='t_fbf'/></g>
+<g id = 'fb_s'><use xlink:href='#hf_bgs' class='t_fbf'/></g>
+<g id = 'fb_f'><use xlink:href='#hf_fg' class='t_fbf'/></g>
+<g id = 'fcS'><use xlink:href='#h_bg' class='t_fcs'/></g>
+<g id = 'fcS_s'><use xlink:href='#h_bgs' class='t_fcs'/></g>
+<g id = 'fcS_f'><use xlink:href='#h_fg' class='t_fcs'/></g>
+<g id = 'fc'><use xlink:href='#hf_bg' class='t_fcf'/></g>
+<g id = 'fc_s'><use xlink:href='#hf_bgs' class='t_fcf'/></g>
+<g id = 'fc_f'><use xlink:href='#hf_fg' class='t_fcf'/></g>
+<g id = 'fdS'><use xlink:href='#h_bg' class='t_fds'/></g>
+<g id = 'fdS_s'><use xlink:href='#h_bgs' class='t_fds'/></g>
+<g id = 'fdS_f'><use xlink:href='#h_fg' class='t_fds'/></g>
+<g id = 'fd'><use xlink:href='#hf_bg' class='t_fdf'/></g>
+<g id = 'fd_s'><use xlink:href='#hf_bgs' class='t_fdf'/></g>
+<g id = 'fd_f'><use xlink:href='#hf_fg' class='t_fdf'/></g>
+<g id = 'feS'><use xlink:href='#h_bg' class='t_fes'/></g>
+<g id = 'feS_s'><use xlink:href='#h_bgs' class='t_fes'/></g>
+<g id = 'feS_f'><use xlink:href='#h_fg' class='t_fes'/></g>
+<g id = 'fe'><use xlink:href='#hf_bg' class='t_fef'/></g>
+<g id = 'fe_s'><use xlink:href='#hf_bgs' class='t_fef'/></g>
+<g id = 'fe_f'><use xlink:href='#hf_fg' class='t_fef'/></g>
+<g id = 'ffS'><use xlink:href='#h_bg' class='t_ffs'/></g>
+<g id = 'ffS_s'><use xlink:href='#h_bgs' class='t_ffs'/></g>
+<g id = 'ffS_f'><use xlink:href='#h_fg' class='t_ffs'/></g>
+<g id = 'ff'><use xlink:href='#hf_bg' class='t_fff'/></g>
+<g id = 'ff_s'><use xlink:href='#hf_bgs' class='t_fff'/></g>
+<g id = 'ff_f'><use xlink:href='#hf_fg' class='t_fff'/></g>
+<g id = 'fgS'><use xlink:href='#h_bg' class='t_fgs'/></g>
+<g id = 'fgS_s'><use xlink:href='#h_bgs' class='t_fgs'/></g>
+<g id = 'fgS_f'><use xlink:href='#h_fg' class='t_fgs'/></g>
+<g id = 'fg'><use xlink:href='#hf_bg' class='t_fgf'/></g>
+<g id = 'fg_s'><use xlink:href='#hf_bgs' class='t_fgf'/></g>
+<g id = 'fg_f'><use xlink:href='#hf_fg' class='t_fgf'/></g>
+<g id = 'fhS'><use xlink:href='#h_bg' class='t_fhs'/></g>
+<g id = 'fhS_s'><use xlink:href='#h_bgs' class='t_fhs'/></g>
+<g id = 'fhS_f'><use xlink:href='#h_fg' class='t_fhs'/></g>
+<g id = 'fh'><use xlink:href='#hf_bg' class='t_fhf'/></g>
+<g id = 'fh_s'><use xlink:href='#hf_bgs' class='t_fhf'/></g>
+<g id = 'fh_f'><use xlink:href='#hf_fg' class='t_fhf'/></g>
+<g id = 'fiS'><use xlink:href='#h_bg' class='t_fis'/></g>
+<g id = 'fiS_s'><use xlink:href='#h_bgs' class='t_fis'/></g>
+<g id = 'fiS_f'><use xlink:href='#h_fg' class='t_fis'/></g>
+<g id = 'fi'><use xlink:href='#hf_bg' class='t_fif'/></g>
+<g id = 'fi_s'><use xlink:href='#hf_bgs' class='t_fif'/></g>
+<g id = 'fi_f'><use xlink:href='#hf_fg' class='t_fif'/></g>
+<g id = 'fjS'><use xlink:href='#h_bg' class='t_fjs'/></g>
+<g id = 'fjS_s'><use xlink:href='#h_bgs' class='t_fjs'/></g>
+<g id = 'fjS_f'><use xlink:href='#h_fg' class='t_fjs'/></g>
+<g id = 'fj'><use xlink:href='#hf_bg' class='t_fjf'/></g>
+<g id = 'fj_s'><use xlink:href='#hf_bgs' class='t_fjf'/></g>
+<g id = 'fj_f'><use xlink:href='#hf_fg' class='t_fjf'/></g>
+<g id = 'fkS'><use xlink:href='#h_bg' class='t_fks'/></g>
+<g id = 'fkS_s'><use xlink:href='#h_bgs' class='t_fks'/></g>
+<g id = 'fkS_f'><use xlink:href='#h_fg' class='t_fks'/></g>
+<g id = 'fk'><use xlink:href='#hf_bg' class='t_fkf'/></g>
+<g id = 'fk_s'><use xlink:href='#hf_bgs' class='t_fkf'/></g>
+<g id = 'fk_f'><use xlink:href='#hf_fg' class='t_fkf'/></g>
+<g id = 'flS'><use xlink:href='#h_bg' class='t_fls'/></g>
+<g id = 'flS_s'><use xlink:href='#h_bgs' class='t_fls'/></g>
+<g id = 'flS_f'><use xlink:href='#h_fg' class='t_fls'/></g>
+<g id = 'fl'><use xlink:href='#hf_bg' class='t_flf'/></g>
+<g id = 'fl_s'><use xlink:href='#hf_bgs' class='t_flf'/></g>
+<g id = 'fl_f'><use xlink:href='#hf_fg' class='t_flf'/></g>
+<g id = 'fmS'><use xlink:href='#h_bg' class='t_fms'/></g>
+<g id = 'fmS_s'><use xlink:href='#h_bgs' class='t_fms'/></g>
+<g id = 'fmS_f'><use xlink:href='#h_fg' class='t_fms'/></g>
+<g id = 'fm'><use xlink:href='#hf_bg' class='t_fmf'/></g>
+<g id = 'fm_s'><use xlink:href='#hf_bgs' class='t_fmf'/></g>
+<g id = 'fm_f'><use xlink:href='#hf_fg' class='t_fmf'/></g>
+<g id = 'gaS'><use xlink:href='#h_bg' class='t_gas'/></g>
+<g id = 'gaS_s'><use xlink:href='#h_bgs' class='t_gas'/></g>
+<g id = 'gaS_f'><use xlink:href='#h_fg' class='t_gas'/></g>
+<g id = 'ga'><use xlink:href='#hf_bg' class='t_gaf'/></g>
+<g id = 'ga_s'><use xlink:href='#hf_bgs' class='t_gaf'/></g>
+<g id = 'ga_f'><use xlink:href='#hf_fg' class='t_gaf'/></g>
+<g id = 'gbS'><use xlink:href='#h_bg' class='t_gbs'/></g>
+<g id = 'gbS_s'><use xlink:href='#h_bgs' class='t_gbs'/></g>
+<g id = 'gbS_f'><use xlink:href='#h_fg' class='t_gbs'/></g>
+<g id = 'gb'><use xlink:href='#hf_bg' class='t_gbf'/></g>
+<g id = 'gb_s'><use xlink:href='#hf_bgs' class='t_gbf'/></g>
+<g id = 'gb_f'><use xlink:href='#hf_fg' class='t_gbf'/></g>
+<g id = 'gcS'><use xlink:href='#h_bg' class='t_gcs'/></g>
+<g id = 'gcS_s'><use xlink:href='#h_bgs' class='t_gcs'/></g>
+<g id = 'gcS_f'><use xlink:href='#h_fg' class='t_gcs'/></g>
+<g id = 'gc'><use xlink:href='#hf_bg' class='t_gcf'/></g>
+<g id = 'gc_s'><use xlink:href='#hf_bgs' class='t_gcf'/></g>
+<g id = 'gc_f'><use xlink:href='#hf_fg' class='t_gcf'/></g>
+<g id = 'gdS'><use xlink:href='#h_bg' class='t_gds'/></g>
+<g id = 'gdS_s'><use xlink:href='#h_bgs' class='t_gds'/></g>
+<g id = 'gdS_f'><use xlink:href='#h_fg' class='t_gds'/></g>
+<g id = 'gd'><use xlink:href='#hf_bg' class='t_gdf'/></g>
+<g id = 'gd_s'><use xlink:href='#hf_bgs' class='t_gdf'/></g>
+<g id = 'gd_f'><use xlink:href='#hf_fg' class='t_gdf'/></g>
+<g id = 'geS'><use xlink:href='#h_bg' class='t_ges'/></g>
+<g id = 'geS_s'><use xlink:href='#h_bgs' class='t_ges'/></g>
+<g id = 'geS_f'><use xlink:href='#h_fg' class='t_ges'/></g>
+<g id = 'ge'><use xlink:href='#hf_bg' class='t_gef'/></g>
+<g id = 'ge_s'><use xlink:href='#hf_bgs' class='t_gef'/></g>
+<g id = 'ge_f'><use xlink:href='#hf_fg' class='t_gef'/></g>
+<g id = 'gfS'><use xlink:href='#h_bg' class='t_gfs'/></g>
+<g id = 'gfS_s'><use xlink:href='#h_bgs' class='t_gfs'/></g>
+<g id = 'gfS_f'><use xlink:href='#h_fg' class='t_gfs'/></g>
+<g id = 'gf'><use xlink:href='#hf_bg' class='t_gff'/></g>
+<g id = 'gf_s'><use xlink:href='#hf_bgs' class='t_gff'/></g>
+<g id = 'gf_f'><use xlink:href='#hf_fg' class='t_gff'/></g>
+<g id = 'ggS'><use xlink:href='#h_bg' class='t_ggs'/></g>
+<g id = 'ggS_s'><use xlink:href='#h_bgs' class='t_ggs'/></g>
+<g id = 'ggS_f'><use xlink:href='#h_fg' class='t_ggs'/></g>
+<g id = 'gg'><use xlink:href='#hf_bg' class='t_ggf'/></g>
+<g id = 'gg_s'><use xlink:href='#hf_bgs' class='t_ggf'/></g>
+<g id = 'gg_f'><use xlink:href='#hf_fg' class='t_ggf'/></g>
+<g id = 'ghS'><use xlink:href='#h_bg' class='t_ghs'/></g>
+<g id = 'ghS_s'><use xlink:href='#h_bgs' class='t_ghs'/></g>
+<g id = 'ghS_f'><use xlink:href='#h_fg' class='t_ghs'/></g>
+<g id = 'gh'><use xlink:href='#hf_bg' class='t_ghf'/></g>
+<g id = 'gh_s'><use xlink:href='#hf_bgs' class='t_ghf'/></g>
+<g id = 'gh_f'><use xlink:href='#hf_fg' class='t_ghf'/></g>
+<g id = 'giS'><use xlink:href='#h_bg' class='t_gis'/></g>
+<g id = 'giS_s'><use xlink:href='#h_bgs' class='t_gis'/></g>
+<g id = 'giS_f'><use xlink:href='#h_fg' class='t_gis'/></g>
+<g id = 'gi'><use xlink:href='#hf_bg' class='t_gif'/></g>
+<g id = 'gi_s'><use xlink:href='#hf_bgs' class='t_gif'/></g>
+<g id = 'gi_f'><use xlink:href='#hf_fg' class='t_gif'/></g>
+<g id = 'gjS'><use xlink:href='#h_bg' class='t_gjs'/></g>
+<g id = 'gjS_s'><use xlink:href='#h_bgs' class='t_gjs'/></g>
+<g id = 'gjS_f'><use xlink:href='#h_fg' class='t_gjs'/></g>
+<g id = 'gj'><use xlink:href='#hf_bg' class='t_gjf'/></g>
+<g id = 'gj_s'><use xlink:href='#hf_bgs' class='t_gjf'/></g>
+<g id = 'gj_f'><use xlink:href='#hf_fg' class='t_gjf'/></g>
+<g id = 'gkS'><use xlink:href='#h_bg' class='t_gks'/></g>
+<g id = 'gkS_s'><use xlink:href='#h_bgs' class='t_gks'/></g>
+<g id = 'gkS_f'><use xlink:href='#h_fg' class='t_gks'/></g>
+<g id = 'gk'><use xlink:href='#hf_bg' class='t_gkf'/></g>
+<g id = 'gk_s'><use xlink:href='#hf_bgs' class='t_gkf'/></g>
+<g id = 'gk_f'><use xlink:href='#hf_fg' class='t_gkf'/></g>
+<g id = 'glS'><use xlink:href='#h_bg' class='t_gls'/></g>
+<g id = 'glS_s'><use xlink:href='#h_bgs' class='t_gls'/></g>
+<g id = 'glS_f'><use xlink:href='#h_fg' class='t_gls'/></g>
+<g id = 'gl'><use xlink:href='#hf_bg' class='t_glf'/></g>
+<g id = 'gl_s'><use xlink:href='#hf_bgs' class='t_glf'/></g>
+<g id = 'gl_f'><use xlink:href='#hf_fg' class='t_glf'/></g>
+<g id = 'gmS'><use xlink:href='#h_bg' class='t_gms'/></g>
+<g id = 'gmS_s'><use xlink:href='#h_bgs' class='t_gms'/></g>
+<g id = 'gmS_f'><use xlink:href='#h_fg' class='t_gms'/></g>
+<g id = 'gm'><use xlink:href='#hf_bg' class='t_gmf'/></g>
+<g id = 'gm_s'><use xlink:href='#hf_bgs' class='t_gmf'/></g>
+<g id = 'gm_f'><use xlink:href='#hf_fg' class='t_gmf'/></g>
+<g id = 'haS'><use xlink:href='#h_bg' class='t_has'/></g>
+<g id = 'haS_s'><use xlink:href='#h_bgs' class='t_has'/></g>
+<g id = 'haS_f'><use xlink:href='#h_fg' class='t_has'/></g>
+<g id = 'ha'><use xlink:href='#hf_bg' class='t_haf'/></g>
+<g id = 'ha_s'><use xlink:href='#hf_bgs' class='t_haf'/></g>
+<g id = 'ha_f'><use xlink:href='#hf_fg' class='t_haf'/></g>
+<g id = 'hbS'><use xlink:href='#h_bg' class='t_hbs'/></g>
+<g id = 'hbS_s'><use xlink:href='#h_bgs' class='t_hbs'/></g>
+<g id = 'hbS_f'><use xlink:href='#h_fg' class='t_hbs'/></g>
+<g id = 'hb'><use xlink:href='#hf_bg' class='t_hbf'/></g>
+<g id = 'hb_s'><use xlink:href='#hf_bgs' class='t_hbf'/></g>
+<g id = 'hb_f'><use xlink:href='#hf_fg' class='t_hbf'/></g>
+<g id = 'hcS'><use xlink:href='#h_bg' class='t_hcs'/></g>
+<g id = 'hcS_s'><use xlink:href='#h_bgs' class='t_hcs'/></g>
+<g id = 'hcS_f'><use xlink:href='#h_fg' class='t_hcs'/></g>
+<g id = 'hc'><use xlink:href='#hf_bg' class='t_hcf'/></g>
+<g id = 'hc_s'><use xlink:href='#hf_bgs' class='t_hcf'/></g>
+<g id = 'hc_f'><use xlink:href='#hf_fg' class='t_hcf'/></g>
+<g id = 'hdS'><use xlink:href='#h_bg' class='t_hds'/></g>
+<g id = 'hdS_s'><use xlink:href='#h_bgs' class='t_hds'/></g>
+<g id = 'hdS_f'><use xlink:href='#h_fg' class='t_hds'/></g>
+<g id = 'hd'><use xlink:href='#hf_bg' class='t_hdf'/></g>
+<g id = 'hd_s'><use xlink:href='#hf_bgs' class='t_hdf'/></g>
+<g id = 'hd_f'><use xlink:href='#hf_fg' class='t_hdf'/></g>
+<g id = 'heS'><use xlink:href='#h_bg' class='t_hes'/></g>
+<g id = 'heS_s'><use xlink:href='#h_bgs' class='t_hes'/></g>
+<g id = 'heS_f'><use xlink:href='#h_fg' class='t_hes'/></g>
+<g id = 'he'><use xlink:href='#hf_bg' class='t_hef'/></g>
+<g id = 'he_s'><use xlink:href='#hf_bgs' class='t_hef'/></g>
+<g id = 'he_f'><use xlink:href='#hf_fg' class='t_hef'/></g>
+<g id = 'hfS'><use xlink:href='#h_bg' class='t_hfs'/></g>
+<g id = 'hfS_s'><use xlink:href='#h_bgs' class='t_hfs'/></g>
+<g id = 'hfS_f'><use xlink:href='#h_fg' class='t_hfs'/></g>
+<g id = 'hf'><use xlink:href='#hf_bg' class='t_hff'/></g>
+<g id = 'hf_s'><use xlink:href='#hf_bgs' class='t_hff'/></g>
+<g id = 'hf_f'><use xlink:href='#hf_fg' class='t_hff'/></g>
+<g id = 'hgS'><use xlink:href='#h_bg' class='t_hgs'/></g>
+<g id = 'hgS_s'><use xlink:href='#h_bgs' class='t_hgs'/></g>
+<g id = 'hgS_f'><use xlink:href='#h_fg' class='t_hgs'/></g>
+<g id = 'hg'><use xlink:href='#hf_bg' class='t_hgf'/></g>
+<g id = 'hg_s'><use xlink:href='#hf_bgs' class='t_hgf'/></g>
+<g id = 'hg_f'><use xlink:href='#hf_fg' class='t_hgf'/></g>
+<g id = 'hhS'><use xlink:href='#h_bg' class='t_hhs'/></g>
+<g id = 'hhS_s'><use xlink:href='#h_bgs' class='t_hhs'/></g>
+<g id = 'hhS_f'><use xlink:href='#h_fg' class='t_hhs'/></g>
+<g id = 'hh'><use xlink:href='#hf_bg' class='t_hhf'/></g>
+<g id = 'hh_s'><use xlink:href='#hf_bgs' class='t_hhf'/></g>
+<g id = 'hh_f'><use xlink:href='#hf_fg' class='t_hhf'/></g>
+<g id = 'hiS'><use xlink:href='#h_bg' class='t_his'/></g>
+<g id = 'hiS_s'><use xlink:href='#h_bgs' class='t_his'/></g>
+<g id = 'hiS_f'><use xlink:href='#h_fg' class='t_his'/></g>
+<g id = 'hi'><use xlink:href='#hf_bg' class='t_hif'/></g>
+<g id = 'hi_s'><use xlink:href='#hf_bgs' class='t_hif'/></g>
+<g id = 'hi_f'><use xlink:href='#hf_fg' class='t_hif'/></g>
+<g id = 'hjS'><use xlink:href='#h_bg' class='t_hjs'/></g>
+<g id = 'hjS_s'><use xlink:href='#h_bgs' class='t_hjs'/></g>
+<g id = 'hjS_f'><use xlink:href='#h_fg' class='t_hjs'/></g>
+<g id = 'hj'><use xlink:href='#hf_bg' class='t_hjf'/></g>
+<g id = 'hj_s'><use xlink:href='#hf_bgs' class='t_hjf'/></g>
+<g id = 'hj_f'><use xlink:href='#hf_fg' class='t_hjf'/></g>
+<g id = 'hkS'><use xlink:href='#h_bg' class='t_hks'/></g>
+<g id = 'hkS_s'><use xlink:href='#h_bgs' class='t_hks'/></g>
+<g id = 'hkS_f'><use xlink:href='#h_fg' class='t_hks'/></g>
+<g id = 'hk'><use xlink:href='#hf_bg' class='t_hkf'/></g>
+<g id = 'hk_s'><use xlink:href='#hf_bgs' class='t_hkf'/></g>
+<g id = 'hk_f'><use xlink:href='#hf_fg' class='t_hkf'/></g>
+<g id = 'hlS'><use xlink:href='#h_bg' class='t_hls'/></g>
+<g id = 'hlS_s'><use xlink:href='#h_bgs' class='t_hls'/></g>
+<g id = 'hlS_f'><use xlink:href='#h_fg' class='t_hls'/></g>
+<g id = 'hl'><use xlink:href='#hf_bg' class='t_hlf'/></g>
+<g id = 'hl_s'><use xlink:href='#hf_bgs' class='t_hlf'/></g>
+<g id = 'hl_f'><use xlink:href='#hf_fg' class='t_hlf'/></g>
+<g id = 'hmS'><use xlink:href='#h_bg' class='t_hms'/></g>
+<g id = 'hmS_s'><use xlink:href='#h_bgs' class='t_hms'/></g>
+<g id = 'hmS_f'><use xlink:href='#h_fg' class='t_hms'/></g>
+<g id = 'hm'><use xlink:href='#hf_bg' class='t_hmf'/></g>
+<g id = 'hm_s'><use xlink:href='#hf_bgs' class='t_hmf'/></g>
+<g id = 'hm_f'><use xlink:href='#hf_fg' class='t_hmf'/></g>
+<g id = 'iaS'><use xlink:href='#h_bg' class='t_ias'/></g>
+<g id = 'iaS_s'><use xlink:href='#h_bgs' class='t_ias'/></g>
+<g id = 'iaS_f'><use xlink:href='#h_fg' class='t_ias'/></g>
+<g id = 'ia'><use xlink:href='#hf_bg' class='t_iaf'/></g>
+<g id = 'ia_s'><use xlink:href='#hf_bgs' class='t_iaf'/></g>
+<g id = 'ia_f'><use xlink:href='#hf_fg' class='t_iaf'/></g>
+<g id = 'ibS'><use xlink:href='#h_bg' class='t_ibs'/></g>
+<g id = 'ibS_s'><use xlink:href='#h_bgs' class='t_ibs'/></g>
+<g id = 'ibS_f'><use xlink:href='#h_fg' class='t_ibs'/></g>
+<g id = 'ib'><use xlink:href='#hf_bg' class='t_ibf'/></g>
+<g id = 'ib_s'><use xlink:href='#hf_bgs' class='t_ibf'/></g>
+<g id = 'ib_f'><use xlink:href='#hf_fg' class='t_ibf'/></g>
+<g id = 'icS'><use xlink:href='#h_bg' class='t_ics'/></g>
+<g id = 'icS_s'><use xlink:href='#h_bgs' class='t_ics'/></g>
+<g id = 'icS_f'><use xlink:href='#h_fg' class='t_ics'/></g>
+<g id = 'ic'><use xlink:href='#hf_bg' class='t_icf'/></g>
+<g id = 'ic_s'><use xlink:href='#hf_bgs' class='t_icf'/></g>
+<g id = 'ic_f'><use xlink:href='#hf_fg' class='t_icf'/></g>
+<g id = 'idS'><use xlink:href='#h_bg' class='t_ids'/></g>
+<g id = 'idS_s'><use xlink:href='#h_bgs' class='t_ids'/></g>
+<g id = 'idS_f'><use xlink:href='#h_fg' class='t_ids'/></g>
+<g id = 'id'><use xlink:href='#hf_bg' class='t_idf'/></g>
+<g id = 'id_s'><use xlink:href='#hf_bgs' class='t_idf'/></g>
+<g id = 'id_f'><use xlink:href='#hf_fg' class='t_idf'/></g>
+<g id = 'ieS'><use xlink:href='#h_bg' class='t_ies'/></g>
+<g id = 'ieS_s'><use xlink:href='#h_bgs' class='t_ies'/></g>
+<g id = 'ieS_f'><use xlink:href='#h_fg' class='t_ies'/></g>
+<g id = 'ie'><use xlink:href='#hf_bg' class='t_ief'/></g>
+<g id = 'ie_s'><use xlink:href='#hf_bgs' class='t_ief'/></g>
+<g id = 'ie_f'><use xlink:href='#hf_fg' class='t_ief'/></g>
+<g id = 'ifS'><use xlink:href='#h_bg' class='t_ifs'/></g>
+<g id = 'ifS_s'><use xlink:href='#h_bgs' class='t_ifs'/></g>
+<g id = 'ifS_f'><use xlink:href='#h_fg' class='t_ifs'/></g>
+<g id = 'if'><use xlink:href='#hf_bg' class='t_iff'/></g>
+<g id = 'if_s'><use xlink:href='#hf_bgs' class='t_iff'/></g>
+<g id = 'if_f'><use xlink:href='#hf_fg' class='t_iff'/></g>
+<g id = 'igS'><use xlink:href='#h_bg' class='t_igs'/></g>
+<g id = 'igS_s'><use xlink:href='#h_bgs' class='t_igs'/></g>
+<g id = 'igS_f'><use xlink:href='#h_fg' class='t_igs'/></g>
+<g id = 'ig'><use xlink:href='#hf_bg' class='t_igf'/></g>
+<g id = 'ig_s'><use xlink:href='#hf_bgs' class='t_igf'/></g>
+<g id = 'ig_f'><use xlink:href='#hf_fg' class='t_igf'/></g>
+<g id = 'ihS'><use xlink:href='#h_bg' class='t_ihs'/></g>
+<g id = 'ihS_s'><use xlink:href='#h_bgs' class='t_ihs'/></g>
+<g id = 'ihS_f'><use xlink:href='#h_fg' class='t_ihs'/></g>
+<g id = 'ih'><use xlink:href='#hf_bg' class='t_ihf'/></g>
+<g id = 'ih_s'><use xlink:href='#hf_bgs' class='t_ihf'/></g>
+<g id = 'ih_f'><use xlink:href='#hf_fg' class='t_ihf'/></g>
+<g id = 'iiS'><use xlink:href='#h_bg' class='t_iis'/></g>
+<g id = 'iiS_s'><use xlink:href='#h_bgs' class='t_iis'/></g>
+<g id = 'iiS_f'><use xlink:href='#h_fg' class='t_iis'/></g>
+<g id = 'ii'><use xlink:href='#hf_bg' class='t_iif'/></g>
+<g id = 'ii_s'><use xlink:href='#hf_bgs' class='t_iif'/></g>
+<g id = 'ii_f'><use xlink:href='#hf_fg' class='t_iif'/></g>
+<g id = 'ijS'><use xlink:href='#h_bg' class='t_ijs'/></g>
+<g id = 'ijS_s'><use xlink:href='#h_bgs' class='t_ijs'/></g>
+<g id = 'ijS_f'><use xlink:href='#h_fg' class='t_ijs'/></g>
+<g id = 'ij'><use xlink:href='#hf_bg' class='t_ijf'/></g>
+<g id = 'ij_s'><use xlink:href='#hf_bgs' class='t_ijf'/></g>
+<g id = 'ij_f'><use xlink:href='#hf_fg' class='t_ijf'/></g>
+<g id = 'ikS'><use xlink:href='#h_bg' class='t_iks'/></g>
+<g id = 'ikS_s'><use xlink:href='#h_bgs' class='t_iks'/></g>
+<g id = 'ikS_f'><use xlink:href='#h_fg' class='t_iks'/></g>
+<g id = 'ik'><use xlink:href='#hf_bg' class='t_ikf'/></g>
+<g id = 'ik_s'><use xlink:href='#hf_bgs' class='t_ikf'/></g>
+<g id = 'ik_f'><use xlink:href='#hf_fg' class='t_ikf'/></g>
+<g id = 'ilS'><use xlink:href='#h_bg' class='t_ils'/></g>
+<g id = 'ilS_s'><use xlink:href='#h_bgs' class='t_ils'/></g>
+<g id = 'ilS_f'><use xlink:href='#h_fg' class='t_ils'/></g>
+<g id = 'il'><use xlink:href='#hf_bg' class='t_ilf'/></g>
+<g id = 'il_s'><use xlink:href='#hf_bgs' class='t_ilf'/></g>
+<g id = 'il_f'><use xlink:href='#hf_fg' class='t_ilf'/></g>
+<g id = 'imS'><use xlink:href='#h_bg' class='t_ims'/></g>
+<g id = 'imS_s'><use xlink:href='#h_bgs' class='t_ims'/></g>
+<g id = 'imS_f'><use xlink:href='#h_fg' class='t_ims'/></g>
+<g id = 'im'><use xlink:href='#hf_bg' class='t_imf'/></g>
+<g id = 'im_s'><use xlink:href='#hf_bgs' class='t_imf'/></g>
+<g id = 'im_f'><use xlink:href='#hf_fg' class='t_imf'/></g>
+<g id = 'jaS'><use xlink:href='#h_bg' class='t_jas'/></g>
+<g id = 'jaS_s'><use xlink:href='#h_bgs' class='t_jas'/></g>
+<g id = 'jaS_f'><use xlink:href='#h_fg' class='t_jas'/></g>
+<g id = 'ja'><use xlink:href='#hf_bg' class='t_jaf'/></g>
+<g id = 'ja_s'><use xlink:href='#hf_bgs' class='t_jaf'/></g>
+<g id = 'ja_f'><use xlink:href='#hf_fg' class='t_jaf'/></g>
+<g id = 'jbS'><use xlink:href='#h_bg' class='t_jbs'/></g>
+<g id = 'jbS_s'><use xlink:href='#h_bgs' class='t_jbs'/></g>
+<g id = 'jbS_f'><use xlink:href='#h_fg' class='t_jbs'/></g>
+<g id = 'jb'><use xlink:href='#hf_bg' class='t_jbf'/></g>
+<g id = 'jb_s'><use xlink:href='#hf_bgs' class='t_jbf'/></g>
+<g id = 'jb_f'><use xlink:href='#hf_fg' class='t_jbf'/></g>
+<g id = 'jcS'><use xlink:href='#h_bg' class='t_jcs'/></g>
+<g id = 'jcS_s'><use xlink:href='#h_bgs' class='t_jcs'/></g>
+<g id = 'jcS_f'><use xlink:href='#h_fg' class='t_jcs'/></g>
+<g id = 'jc'><use xlink:href='#hf_bg' class='t_jcf'/></g>
+<g id = 'jc_s'><use xlink:href='#hf_bgs' class='t_jcf'/></g>
+<g id = 'jc_f'><use xlink:href='#hf_fg' class='t_jcf'/></g>
+<g id = 'jdS'><use xlink:href='#h_bg' class='t_jds'/></g>
+<g id = 'jdS_s'><use xlink:href='#h_bgs' class='t_jds'/></g>
+<g id = 'jdS_f'><use xlink:href='#h_fg' class='t_jds'/></g>
+<g id = 'jd'><use xlink:href='#hf_bg' class='t_jdf'/></g>
+<g id = 'jd_s'><use xlink:href='#hf_bgs' class='t_jdf'/></g>
+<g id = 'jd_f'><use xlink:href='#hf_fg' class='t_jdf'/></g>
+<g id = 'jeS'><use xlink:href='#h_bg' class='t_jes'/></g>
+<g id = 'jeS_s'><use xlink:href='#h_bgs' class='t_jes'/></g>
+<g id = 'jeS_f'><use xlink:href='#h_fg' class='t_jes'/></g>
+<g id = 'je'><use xlink:href='#hf_bg' class='t_jef'/></g>
+<g id = 'je_s'><use xlink:href='#hf_bgs' class='t_jef'/></g>
+<g id = 'je_f'><use xlink:href='#hf_fg' class='t_jef'/></g>
+<g id = 'jfS'><use xlink:href='#h_bg' class='t_jfs'/></g>
+<g id = 'jfS_s'><use xlink:href='#h_bgs' class='t_jfs'/></g>
+<g id = 'jfS_f'><use xlink:href='#h_fg' class='t_jfs'/></g>
+<g id = 'jf'><use xlink:href='#hf_bg' class='t_jff'/></g>
+<g id = 'jf_s'><use xlink:href='#hf_bgs' class='t_jff'/></g>
+<g id = 'jf_f'><use xlink:href='#hf_fg' class='t_jff'/></g>
+<g id = 'jgS'><use xlink:href='#h_bg' class='t_jgs'/></g>
+<g id = 'jgS_s'><use xlink:href='#h_bgs' class='t_jgs'/></g>
+<g id = 'jgS_f'><use xlink:href='#h_fg' class='t_jgs'/></g>
+<g id = 'jg'><use xlink:href='#hf_bg' class='t_jgf'/></g>
+<g id = 'jg_s'><use xlink:href='#hf_bgs' class='t_jgf'/></g>
+<g id = 'jg_f'><use xlink:href='#hf_fg' class='t_jgf'/></g>
+<g id = 'jhS'><use xlink:href='#h_bg' class='t_jhs'/></g>
+<g id = 'jhS_s'><use xlink:href='#h_bgs' class='t_jhs'/></g>
+<g id = 'jhS_f'><use xlink:href='#h_fg' class='t_jhs'/></g>
+<g id = 'jh'><use xlink:href='#hf_bg' class='t_jhf'/></g>
+<g id = 'jh_s'><use xlink:href='#hf_bgs' class='t_jhf'/></g>
+<g id = 'jh_f'><use xlink:href='#hf_fg' class='t_jhf'/></g>
+<g id = 'jiS'><use xlink:href='#h_bg' class='t_jis'/></g>
+<g id = 'jiS_s'><use xlink:href='#h_bgs' class='t_jis'/></g>
+<g id = 'jiS_f'><use xlink:href='#h_fg' class='t_jis'/></g>
+<g id = 'ji'><use xlink:href='#hf_bg' class='t_jif'/></g>
+<g id = 'ji_s'><use xlink:href='#hf_bgs' class='t_jif'/></g>
+<g id = 'ji_f'><use xlink:href='#hf_fg' class='t_jif'/></g>
+<g id = 'jjS'><use xlink:href='#h_bg' class='t_jjs'/></g>
+<g id = 'jjS_s'><use xlink:href='#h_bgs' class='t_jjs'/></g>
+<g id = 'jjS_f'><use xlink:href='#h_fg' class='t_jjs'/></g>
+<g id = 'jj'><use xlink:href='#hf_bg' class='t_jjf'/></g>
+<g id = 'jj_s'><use xlink:href='#hf_bgs' class='t_jjf'/></g>
+<g id = 'jj_f'><use xlink:href='#hf_fg' class='t_jjf'/></g>
+<g id = 'jkS'><use xlink:href='#h_bg' class='t_jks'/></g>
+<g id = 'jkS_s'><use xlink:href='#h_bgs' class='t_jks'/></g>
+<g id = 'jkS_f'><use xlink:href='#h_fg' class='t_jks'/></g>
+<g id = 'jk'><use xlink:href='#hf_bg' class='t_jkf'/></g>
+<g id = 'jk_s'><use xlink:href='#hf_bgs' class='t_jkf'/></g>
+<g id = 'jk_f'><use xlink:href='#hf_fg' class='t_jkf'/></g>
+<g id = 'jlS'><use xlink:href='#h_bg' class='t_jls'/></g>
+<g id = 'jlS_s'><use xlink:href='#h_bgs' class='t_jls'/></g>
+<g id = 'jlS_f'><use xlink:href='#h_fg' class='t_jls'/></g>
+<g id = 'jl'><use xlink:href='#hf_bg' class='t_jlf'/></g>
+<g id = 'jl_s'><use xlink:href='#hf_bgs' class='t_jlf'/></g>
+<g id = 'jl_f'><use xlink:href='#hf_fg' class='t_jlf'/></g>
+<g id = 'jmS'><use xlink:href='#h_bg' class='t_jms'/></g>
+<g id = 'jmS_s'><use xlink:href='#h_bgs' class='t_jms'/></g>
+<g id = 'jmS_f'><use xlink:href='#h_fg' class='t_jms'/></g>
+<g id = 'jm'><use xlink:href='#hf_bg' class='t_jmf'/></g>
+<g id = 'jm_s'><use xlink:href='#hf_bgs' class='t_jmf'/></g>
+<g id = 'jm_f'><use xlink:href='#hf_fg' class='t_jmf'/></g>
+<g id = 'kaS'><use xlink:href='#h_bg' class='t_kas'/></g>
+<g id = 'kaS_s'><use xlink:href='#h_bgs' class='t_kas'/></g>
+<g id = 'kaS_f'><use xlink:href='#h_fg' class='t_kas'/></g>
+<g id = 'ka'><use xlink:href='#hf_bg' class='t_kaf'/></g>
+<g id = 'ka_s'><use xlink:href='#hf_bgs' class='t_kaf'/></g>
+<g id = 'ka_f'><use xlink:href='#hf_fg' class='t_kaf'/></g>
+<g id = 'kbS'><use xlink:href='#h_bg' class='t_kbs'/></g>
+<g id = 'kbS_s'><use xlink:href='#h_bgs' class='t_kbs'/></g>
+<g id = 'kbS_f'><use xlink:href='#h_fg' class='t_kbs'/></g>
+<g id = 'kb'><use xlink:href='#hf_bg' class='t_kbf'/></g>
+<g id = 'kb_s'><use xlink:href='#hf_bgs' class='t_kbf'/></g>
+<g id = 'kb_f'><use xlink:href='#hf_fg' class='t_kbf'/></g>
+<g id = 'kcS'><use xlink:href='#h_bg' class='t_kcs'/></g>
+<g id = 'kcS_s'><use xlink:href='#h_bgs' class='t_kcs'/></g>
+<g id = 'kcS_f'><use xlink:href='#h_fg' class='t_kcs'/></g>
+<g id = 'kc'><use xlink:href='#hf_bg' class='t_kcf'/></g>
+<g id = 'kc_s'><use xlink:href='#hf_bgs' class='t_kcf'/></g>
+<g id = 'kc_f'><use xlink:href='#hf_fg' class='t_kcf'/></g>
+<g id = 'kdS'><use xlink:href='#h_bg' class='t_kds'/></g>
+<g id = 'kdS_s'><use xlink:href='#h_bgs' class='t_kds'/></g>
+<g id = 'kdS_f'><use xlink:href='#h_fg' class='t_kds'/></g>
+<g id = 'kd'><use xlink:href='#hf_bg' class='t_kdf'/></g>
+<g id = 'kd_s'><use xlink:href='#hf_bgs' class='t_kdf'/></g>
+<g id = 'kd_f'><use xlink:href='#hf_fg' class='t_kdf'/></g>
+<g id = 'keS'><use xlink:href='#h_bg' class='t_kes'/></g>
+<g id = 'keS_s'><use xlink:href='#h_bgs' class='t_kes'/></g>
+<g id = 'keS_f'><use xlink:href='#h_fg' class='t_kes'/></g>
+<g id = 'ke'><use xlink:href='#hf_bg' class='t_kef'/></g>
+<g id = 'ke_s'><use xlink:href='#hf_bgs' class='t_kef'/></g>
+<g id = 'ke_f'><use xlink:href='#hf_fg' class='t_kef'/></g>
+<g id = 'kfS'><use xlink:href='#h_bg' class='t_kfs'/></g>
+<g id = 'kfS_s'><use xlink:href='#h_bgs' class='t_kfs'/></g>
+<g id = 'kfS_f'><use xlink:href='#h_fg' class='t_kfs'/></g>
+<g id = 'kf'><use xlink:href='#hf_bg' class='t_kff'/></g>
+<g id = 'kf_s'><use xlink:href='#hf_bgs' class='t_kff'/></g>
+<g id = 'kf_f'><use xlink:href='#hf_fg' class='t_kff'/></g>
+<g id = 'kgS'><use xlink:href='#h_bg' class='t_kgs'/></g>
+<g id = 'kgS_s'><use xlink:href='#h_bgs' class='t_kgs'/></g>
+<g id = 'kgS_f'><use xlink:href='#h_fg' class='t_kgs'/></g>
+<g id = 'kg'><use xlink:href='#hf_bg' class='t_kgf'/></g>
+<g id = 'kg_s'><use xlink:href='#hf_bgs' class='t_kgf'/></g>
+<g id = 'kg_f'><use xlink:href='#hf_fg' class='t_kgf'/></g>
+<g id = 'khS'><use xlink:href='#h_bg' class='t_khs'/></g>
+<g id = 'khS_s'><use xlink:href='#h_bgs' class='t_khs'/></g>
+<g id = 'khS_f'><use xlink:href='#h_fg' class='t_khs'/></g>
+<g id = 'kh'><use xlink:href='#hf_bg' class='t_khf'/></g>
+<g id = 'kh_s'><use xlink:href='#hf_bgs' class='t_khf'/></g>
+<g id = 'kh_f'><use xlink:href='#hf_fg' class='t_khf'/></g>
+<g id = 'kiS'><use xlink:href='#h_bg' class='t_kis'/></g>
+<g id = 'kiS_s'><use xlink:href='#h_bgs' class='t_kis'/></g>
+<g id = 'kiS_f'><use xlink:href='#h_fg' class='t_kis'/></g>
+<g id = 'ki'><use xlink:href='#hf_bg' class='t_kif'/></g>
+<g id = 'ki_s'><use xlink:href='#hf_bgs' class='t_kif'/></g>
+<g id = 'ki_f'><use xlink:href='#hf_fg' class='t_kif'/></g>
+<g id = 'kjS'><use xlink:href='#h_bg' class='t_kjs'/></g>
+<g id = 'kjS_s'><use xlink:href='#h_bgs' class='t_kjs'/></g>
+<g id = 'kjS_f'><use xlink:href='#h_fg' class='t_kjs'/></g>
+<g id = 'kj'><use xlink:href='#hf_bg' class='t_kjf'/></g>
+<g id = 'kj_s'><use xlink:href='#hf_bgs' class='t_kjf'/></g>
+<g id = 'kj_f'><use xlink:href='#hf_fg' class='t_kjf'/></g>
+<g id = 'kkS'><use xlink:href='#h_bg' class='t_kks'/></g>
+<g id = 'kkS_s'><use xlink:href='#h_bgs' class='t_kks'/></g>
+<g id = 'kkS_f'><use xlink:href='#h_fg' class='t_kks'/></g>
+<g id = 'kk'><use xlink:href='#hf_bg' class='t_kkf'/></g>
+<g id = 'kk_s'><use xlink:href='#hf_bgs' class='t_kkf'/></g>
+<g id = 'kk_f'><use xlink:href='#hf_fg' class='t_kkf'/></g>
+<g id = 'klS'><use xlink:href='#h_bg' class='t_kls'/></g>
+<g id = 'klS_s'><use xlink:href='#h_bgs' class='t_kls'/></g>
+<g id = 'klS_f'><use xlink:href='#h_fg' class='t_kls'/></g>
+<g id = 'kl'><use xlink:href='#hf_bg' class='t_klf'/></g>
+<g id = 'kl_s'><use xlink:href='#hf_bgs' class='t_klf'/></g>
+<g id = 'kl_f'><use xlink:href='#hf_fg' class='t_klf'/></g>
+<g id = 'kmS'><use xlink:href='#h_bg' class='t_kms'/></g>
+<g id = 'kmS_s'><use xlink:href='#h_bgs' class='t_kms'/></g>
+<g id = 'kmS_f'><use xlink:href='#h_fg' class='t_kms'/></g>
+<g id = 'km'><use xlink:href='#hf_bg' class='t_kmf'/></g>
+<g id = 'km_s'><use xlink:href='#hf_bgs' class='t_kmf'/></g>
+<g id = 'km_f'><use xlink:href='#hf_fg' class='t_kmf'/></g>
+<g id = 'laS'><use xlink:href='#h_bg' class='t_las'/></g>
+<g id = 'laS_s'><use xlink:href='#h_bgs' class='t_las'/></g>
+<g id = 'laS_f'><use xlink:href='#h_fg' class='t_las'/></g>
+<g id = 'la'><use xlink:href='#hf_bg' class='t_laf'/></g>
+<g id = 'la_s'><use xlink:href='#hf_bgs' class='t_laf'/></g>
+<g id = 'la_f'><use xlink:href='#hf_fg' class='t_laf'/></g>
+<g id = 'lbS'><use xlink:href='#h_bg' class='t_lbs'/></g>
+<g id = 'lbS_s'><use xlink:href='#h_bgs' class='t_lbs'/></g>
+<g id = 'lbS_f'><use xlink:href='#h_fg' class='t_lbs'/></g>
+<g id = 'lb'><use xlink:href='#hf_bg' class='t_lbf'/></g>
+<g id = 'lb_s'><use xlink:href='#hf_bgs' class='t_lbf'/></g>
+<g id = 'lb_f'><use xlink:href='#hf_fg' class='t_lbf'/></g>
+<g id = 'lcS'><use xlink:href='#h_bg' class='t_lcs'/></g>
+<g id = 'lcS_s'><use xlink:href='#h_bgs' class='t_lcs'/></g>
+<g id = 'lcS_f'><use xlink:href='#h_fg' class='t_lcs'/></g>
+<g id = 'lc'><use xlink:href='#hf_bg' class='t_lcf'/></g>
+<g id = 'lc_s'><use xlink:href='#hf_bgs' class='t_lcf'/></g>
+<g id = 'lc_f'><use xlink:href='#hf_fg' class='t_lcf'/></g>
+<g id = 'ldS'><use xlink:href='#h_bg' class='t_lds'/></g>
+<g id = 'ldS_s'><use xlink:href='#h_bgs' class='t_lds'/></g>
+<g id = 'ldS_f'><use xlink:href='#h_fg' class='t_lds'/></g>
+<g id = 'ld'><use xlink:href='#hf_bg' class='t_ldf'/></g>
+<g id = 'ld_s'><use xlink:href='#hf_bgs' class='t_ldf'/></g>
+<g id = 'ld_f'><use xlink:href='#hf_fg' class='t_ldf'/></g>
+<g id = 'leS'><use xlink:href='#h_bg' class='t_les'/></g>
+<g id = 'leS_s'><use xlink:href='#h_bgs' class='t_les'/></g>
+<g id = 'leS_f'><use xlink:href='#h_fg' class='t_les'/></g>
+<g id = 'le'><use xlink:href='#hf_bg' class='t_lef'/></g>
+<g id = 'le_s'><use xlink:href='#hf_bgs' class='t_lef'/></g>
+<g id = 'le_f'><use xlink:href='#hf_fg' class='t_lef'/></g>
+<g id = 'lfS'><use xlink:href='#h_bg' class='t_lfs'/></g>
+<g id = 'lfS_s'><use xlink:href='#h_bgs' class='t_lfs'/></g>
+<g id = 'lfS_f'><use xlink:href='#h_fg' class='t_lfs'/></g>
+<g id = 'lf'><use xlink:href='#hf_bg' class='t_lff'/></g>
+<g id = 'lf_s'><use xlink:href='#hf_bgs' class='t_lff'/></g>
+<g id = 'lf_f'><use xlink:href='#hf_fg' class='t_lff'/></g>
+<g id = 'lgS'><use xlink:href='#h_bg' class='t_lgs'/></g>
+<g id = 'lgS_s'><use xlink:href='#h_bgs' class='t_lgs'/></g>
+<g id = 'lgS_f'><use xlink:href='#h_fg' class='t_lgs'/></g>
+<g id = 'lg'><use xlink:href='#hf_bg' class='t_lgf'/></g>
+<g id = 'lg_s'><use xlink:href='#hf_bgs' class='t_lgf'/></g>
+<g id = 'lg_f'><use xlink:href='#hf_fg' class='t_lgf'/></g>
+<g id = 'lhS'><use xlink:href='#h_bg' class='t_lhs'/></g>
+<g id = 'lhS_s'><use xlink:href='#h_bgs' class='t_lhs'/></g>
+<g id = 'lhS_f'><use xlink:href='#h_fg' class='t_lhs'/></g>
+<g id = 'lh'><use xlink:href='#hf_bg' class='t_lhf'/></g>
+<g id = 'lh_s'><use xlink:href='#hf_bgs' class='t_lhf'/></g>
+<g id = 'lh_f'><use xlink:href='#hf_fg' class='t_lhf'/></g>
+<g id = 'liS'><use xlink:href='#h_bg' class='t_lis'/></g>
+<g id = 'liS_s'><use xlink:href='#h_bgs' class='t_lis'/></g>
+<g id = 'liS_f'><use xlink:href='#h_fg' class='t_lis'/></g>
+<g id = 'li'><use xlink:href='#hf_bg' class='t_lif'/></g>
+<g id = 'li_s'><use xlink:href='#hf_bgs' class='t_lif'/></g>
+<g id = 'li_f'><use xlink:href='#hf_fg' class='t_lif'/></g>
+<g id = 'ljS'><use xlink:href='#h_bg' class='t_ljs'/></g>
+<g id = 'ljS_s'><use xlink:href='#h_bgs' class='t_ljs'/></g>
+<g id = 'ljS_f'><use xlink:href='#h_fg' class='t_ljs'/></g>
+<g id = 'lj'><use xlink:href='#hf_bg' class='t_ljf'/></g>
+<g id = 'lj_s'><use xlink:href='#hf_bgs' class='t_ljf'/></g>
+<g id = 'lj_f'><use xlink:href='#hf_fg' class='t_ljf'/></g>
+<g id = 'lkS'><use xlink:href='#h_bg' class='t_lks'/></g>
+<g id = 'lkS_s'><use xlink:href='#h_bgs' class='t_lks'/></g>
+<g id = 'lkS_f'><use xlink:href='#h_fg' class='t_lks'/></g>
+<g id = 'lk'><use xlink:href='#hf_bg' class='t_lkf'/></g>
+<g id = 'lk_s'><use xlink:href='#hf_bgs' class='t_lkf'/></g>
+<g id = 'lk_f'><use xlink:href='#hf_fg' class='t_lkf'/></g>
+<g id = 'llS'><use xlink:href='#h_bg' class='t_lls'/></g>
+<g id = 'llS_s'><use xlink:href='#h_bgs' class='t_lls'/></g>
+<g id = 'llS_f'><use xlink:href='#h_fg' class='t_lls'/></g>
+<g id = 'll'><use xlink:href='#hf_bg' class='t_llf'/></g>
+<g id = 'll_s'><use xlink:href='#hf_bgs' class='t_llf'/></g>
+<g id = 'll_f'><use xlink:href='#hf_fg' class='t_llf'/></g>
+<g id = 'lmS'><use xlink:href='#h_bg' class='t_lms'/></g>
+<g id = 'lmS_s'><use xlink:href='#h_bgs' class='t_lms'/></g>
+<g id = 'lmS_f'><use xlink:href='#h_fg' class='t_lms'/></g>
+<g id = 'lm'><use xlink:href='#hf_bg' class='t_lmf'/></g>
+<g id = 'lm_s'><use xlink:href='#hf_bgs' class='t_lmf'/></g>
+<g id = 'lm_f'><use xlink:href='#hf_fg' class='t_lmf'/></g>
+<g id = 'maS'><use xlink:href='#h_bg' class='t_mas'/></g>
+<g id = 'maS_s'><use xlink:href='#h_bgs' class='t_mas'/></g>
+<g id = 'maS_f'><use xlink:href='#h_fg' class='t_mas'/></g>
+<g id = 'ma'><use xlink:href='#hf_bg' class='t_maf'/></g>
+<g id = 'ma_s'><use xlink:href='#hf_bgs' class='t_maf'/></g>
+<g id = 'ma_f'><use xlink:href='#hf_fg' class='t_maf'/></g>
+<g id = 'mbS'><use xlink:href='#h_bg' class='t_mbs'/></g>
+<g id = 'mbS_s'><use xlink:href='#h_bgs' class='t_mbs'/></g>
+<g id = 'mbS_f'><use xlink:href='#h_fg' class='t_mbs'/></g>
+<g id = 'mb'><use xlink:href='#hf_bg' class='t_mbf'/></g>
+<g id = 'mb_s'><use xlink:href='#hf_bgs' class='t_mbf'/></g>
+<g id = 'mb_f'><use xlink:href='#hf_fg' class='t_mbf'/></g>
+<g id = 'mcS'><use xlink:href='#h_bg' class='t_mcs'/></g>
+<g id = 'mcS_s'><use xlink:href='#h_bgs' class='t_mcs'/></g>
+<g id = 'mcS_f'><use xlink:href='#h_fg' class='t_mcs'/></g>
+<g id = 'mc'><use xlink:href='#hf_bg' class='t_mcf'/></g>
+<g id = 'mc_s'><use xlink:href='#hf_bgs' class='t_mcf'/></g>
+<g id = 'mc_f'><use xlink:href='#hf_fg' class='t_mcf'/></g>
+<g id = 'mdS'><use xlink:href='#h_bg' class='t_mds'/></g>
+<g id = 'mdS_s'><use xlink:href='#h_bgs' class='t_mds'/></g>
+<g id = 'mdS_f'><use xlink:href='#h_fg' class='t_mds'/></g>
+<g id = 'md'><use xlink:href='#hf_bg' class='t_mdf'/></g>
+<g id = 'md_s'><use xlink:href='#hf_bgs' class='t_mdf'/></g>
+<g id = 'md_f'><use xlink:href='#hf_fg' class='t_mdf'/></g>
+<g id = 'meS'><use xlink:href='#h_bg' class='t_mes'/></g>
+<g id = 'meS_s'><use xlink:href='#h_bgs' class='t_mes'/></g>
+<g id = 'meS_f'><use xlink:href='#h_fg' class='t_mes'/></g>
+<g id = 'me'><use xlink:href='#hf_bg' class='t_mef'/></g>
+<g id = 'me_s'><use xlink:href='#hf_bgs' class='t_mef'/></g>
+<g id = 'me_f'><use xlink:href='#hf_fg' class='t_mef'/></g>
+<g id = 'mfS'><use xlink:href='#h_bg' class='t_mfs'/></g>
+<g id = 'mfS_s'><use xlink:href='#h_bgs' class='t_mfs'/></g>
+<g id = 'mfS_f'><use xlink:href='#h_fg' class='t_mfs'/></g>
+<g id = 'mf'><use xlink:href='#hf_bg' class='t_mff'/></g>
+<g id = 'mf_s'><use xlink:href='#hf_bgs' class='t_mff'/></g>
+<g id = 'mf_f'><use xlink:href='#hf_fg' class='t_mff'/></g>
+<g id = 'mgS'><use xlink:href='#h_bg' class='t_mgs'/></g>
+<g id = 'mgS_s'><use xlink:href='#h_bgs' class='t_mgs'/></g>
+<g id = 'mgS_f'><use xlink:href='#h_fg' class='t_mgs'/></g>
+<g id = 'mg'><use xlink:href='#hf_bg' class='t_mgf'/></g>
+<g id = 'mg_s'><use xlink:href='#hf_bgs' class='t_mgf'/></g>
+<g id = 'mg_f'><use xlink:href='#hf_fg' class='t_mgf'/></g>
+<g id = 'mhS'><use xlink:href='#h_bg' class='t_mhs'/></g>
+<g id = 'mhS_s'><use xlink:href='#h_bgs' class='t_mhs'/></g>
+<g id = 'mhS_f'><use xlink:href='#h_fg' class='t_mhs'/></g>
+<g id = 'mh'><use xlink:href='#hf_bg' class='t_mhf'/></g>
+<g id = 'mh_s'><use xlink:href='#hf_bgs' class='t_mhf'/></g>
+<g id = 'mh_f'><use xlink:href='#hf_fg' class='t_mhf'/></g>
+<g id = 'miS'><use xlink:href='#h_bg' class='t_mis'/></g>
+<g id = 'miS_s'><use xlink:href='#h_bgs' class='t_mis'/></g>
+<g id = 'miS_f'><use xlink:href='#h_fg' class='t_mis'/></g>
+<g id = 'mi'><use xlink:href='#hf_bg' class='t_mif'/></g>
+<g id = 'mi_s'><use xlink:href='#hf_bgs' class='t_mif'/></g>
+<g id = 'mi_f'><use xlink:href='#hf_fg' class='t_mif'/></g>
+<g id = 'mjS'><use xlink:href='#h_bg' class='t_mjs'/></g>
+<g id = 'mjS_s'><use xlink:href='#h_bgs' class='t_mjs'/></g>
+<g id = 'mjS_f'><use xlink:href='#h_fg' class='t_mjs'/></g>
+<g id = 'mj'><use xlink:href='#hf_bg' class='t_mjf'/></g>
+<g id = 'mj_s'><use xlink:href='#hf_bgs' class='t_mjf'/></g>
+<g id = 'mj_f'><use xlink:href='#hf_fg' class='t_mjf'/></g>
+<g id = 'mkS'><use xlink:href='#h_bg' class='t_mks'/></g>
+<g id = 'mkS_s'><use xlink:href='#h_bgs' class='t_mks'/></g>
+<g id = 'mkS_f'><use xlink:href='#h_fg' class='t_mks'/></g>
+<g id = 'mk'><use xlink:href='#hf_bg' class='t_mkf'/></g>
+<g id = 'mk_s'><use xlink:href='#hf_bgs' class='t_mkf'/></g>
+<g id = 'mk_f'><use xlink:href='#hf_fg' class='t_mkf'/></g>
+<g id = 'mlS'><use xlink:href='#h_bg' class='t_mls'/></g>
+<g id = 'mlS_s'><use xlink:href='#h_bgs' class='t_mls'/></g>
+<g id = 'mlS_f'><use xlink:href='#h_fg' class='t_mls'/></g>
+<g id = 'ml'><use xlink:href='#hf_bg' class='t_mlf'/></g>
+<g id = 'ml_s'><use xlink:href='#hf_bgs' class='t_mlf'/></g>
+<g id = 'ml_f'><use xlink:href='#hf_fg' class='t_mlf'/></g>
+<g id = 'mmS'><use xlink:href='#h_bg' class='t_mms'/></g>
+<g id = 'mmS_s'><use xlink:href='#h_bgs' class='t_mms'/></g>
+<g id = 'mmS_f'><use xlink:href='#h_fg' class='t_mms'/></g>
+<g id = 'mm'><use xlink:href='#hf_bg' class='t_mmf'/></g>
+<g id = 'mm_s'><use xlink:href='#hf_bgs' class='t_mmf'/></g>
+<g id = 'mm_f'><use xlink:href='#hf_fg' class='t_mmf'/></g>
+<g id='is_b_'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  ></text>
+</g>
+<g id='is_w_'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  ></text>
+</g>
+<g id='is_b_1'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >1</text>
+</g>
+<g id='is_w_1'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >1</text>
+</g>
+<g id='is_b_2'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >2</text>
+</g>
+<g id='is_w_2'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >2</text>
+</g>
+<g id='is_b_3'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >3</text>
+</g>
+<g id='is_w_3'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >3</text>
+</g>
+<g id='is_b_4'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >4</text>
+</g>
+<g id='is_w_4'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >4</text>
+</g>
+<g id='is_b_5'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >5</text>
+</g>
+<g id='is_w_5'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >5</text>
+</g>
+<g id='is_b_6'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >6</text>
+</g>
+<g id='is_w_6'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >6</text>
+</g>
+<g id='is_b_7'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >7</text>
+</g>
+<g id='is_w_7'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >7</text>
+</g>
+<g id='is_b_8'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >8</text>
+</g>
+<g id='is_w_8'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >8</text>
+</g>
+<g id='is_b_9'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneBlackText'  >9</text>
+</g>
+<g id='is_w_9'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.03125' y = '8.46875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.44px' class='inlineStoneWhiteText'  >9</text>
+</g>
+<g id='is_b_10'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >10</text>
+</g>
+<g id='is_w_10'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >10</text>
+</g>
+<g id='is_b_11'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >11</text>
+</g>
+<g id='is_w_11'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >11</text>
+</g>
+<g id='is_b_12'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >12</text>
+</g>
+<g id='is_w_12'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >12</text>
+</g>
+<g id='is_b_13'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >13</text>
+</g>
+<g id='is_w_13'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >13</text>
+</g>
+<g id='is_b_14'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >14</text>
+</g>
+<g id='is_w_14'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >14</text>
+</g>
+<g id='is_b_15'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >15</text>
+</g>
+<g id='is_w_15'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >15</text>
+</g>
+<g id='is_b_16'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >16</text>
+</g>
+<g id='is_w_16'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >16</text>
+</g>
+<g id='is_b_17'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >17</text>
+</g>
+<g id='is_w_17'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >17</text>
+</g>
+<g id='is_b_18'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >18</text>
+</g>
+<g id='is_w_18'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >18</text>
+</g>
+<g id='is_b_19'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >19</text>
+</g>
+<g id='is_w_19'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >19</text>
+</g>
+<g id='is_b_20'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >20</text>
+</g>
+<g id='is_w_20'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >20</text>
+</g>
+<g id='is_b_21'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >21</text>
+</g>
+<g id='is_w_21'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >21</text>
+</g>
+<g id='is_b_22'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >22</text>
+</g>
+<g id='is_w_22'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >22</text>
+</g>
+<g id='is_b_23'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >23</text>
+</g>
+<g id='is_w_23'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >23</text>
+</g>
+<g id='is_b_24'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >24</text>
+</g>
+<g id='is_w_24'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >24</text>
+</g>
+<g id='is_b_25'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >25</text>
+</g>
+<g id='is_w_25'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >25</text>
+</g>
+<g id='is_b_26'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >26</text>
+</g>
+<g id='is_w_26'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >26</text>
+</g>
+<g id='is_b_27'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >27</text>
+</g>
+<g id='is_w_27'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >27</text>
+</g>
+<g id='is_b_28'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >28</text>
+</g>
+<g id='is_w_28'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >28</text>
+</g>
+<g id='is_b_29'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >29</text>
+</g>
+<g id='is_w_29'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >29</text>
+</g>
+<g id='is_b_30'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >30</text>
+</g>
+<g id='is_w_30'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >30</text>
+</g>
+<g id='is_b_31'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >31</text>
+</g>
+<g id='is_w_31'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >31</text>
+</g>
+<g id='is_b_32'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >32</text>
+</g>
+<g id='is_w_32'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >32</text>
+</g>
+<g id='is_b_33'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >33</text>
+</g>
+<g id='is_w_33'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >33</text>
+</g>
+<g id='is_b_34'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >34</text>
+</g>
+<g id='is_w_34'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >34</text>
+</g>
+<g id='is_b_35'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >35</text>
+</g>
+<g id='is_w_35'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >35</text>
+</g>
+<g id='is_b_36'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >36</text>
+</g>
+<g id='is_w_36'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >36</text>
+</g>
+<g id='is_b_37'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >37</text>
+</g>
+<g id='is_w_37'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >37</text>
+</g>
+<g id='is_b_38'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >38</text>
+</g>
+<g id='is_w_38'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >38</text>
+</g>
+<g id='is_b_39'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >39</text>
+</g>
+<g id='is_w_39'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >39</text>
+</g>
+<g id='is_b_40'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >40</text>
+</g>
+<g id='is_w_40'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >40</text>
+</g>
+<g id='is_b_41'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >41</text>
+</g>
+<g id='is_w_41'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >41</text>
+</g>
+<g id='is_b_42'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >42</text>
+</g>
+<g id='is_w_42'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >42</text>
+</g>
+<g id='is_b_43'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >43</text>
+</g>
+<g id='is_w_43'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >43</text>
+</g>
+<g id='is_b_44'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >44</text>
+</g>
+<g id='is_w_44'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >44</text>
+</g>
+<g id='is_b_45'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >45</text>
+</g>
+<g id='is_w_45'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >45</text>
+</g>
+<g id='is_b_46'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >46</text>
+</g>
+<g id='is_w_46'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >46</text>
+</g>
+<g id='is_b_47'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >47</text>
+</g>
+<g id='is_w_47'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >47</text>
+</g>
+<g id='is_b_48'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >48</text>
+</g>
+<g id='is_w_48'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >48</text>
+</g>
+<g id='is_b_49'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >49</text>
+</g>
+<g id='is_w_49'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >49</text>
+</g>
+<g id='is_b_50'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >50</text>
+</g>
+<g id='is_w_50'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >50</text>
+</g>
+<g id='is_b_51'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >51</text>
+</g>
+<g id='is_w_51'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >51</text>
+</g>
+<g id='is_b_52'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >52</text>
+</g>
+<g id='is_w_52'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >52</text>
+</g>
+<g id='is_b_53'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >53</text>
+</g>
+<g id='is_w_53'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >53</text>
+</g>
+<g id='is_b_54'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >54</text>
+</g>
+<g id='is_w_54'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >54</text>
+</g>
+<g id='is_b_55'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >55</text>
+</g>
+<g id='is_w_55'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >55</text>
+</g>
+<g id='is_b_56'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >56</text>
+</g>
+<g id='is_w_56'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >56</text>
+</g>
+<g id='is_b_57'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >57</text>
+</g>
+<g id='is_w_57'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >57</text>
+</g>
+<g id='is_b_58'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >58</text>
+</g>
+<g id='is_w_58'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >58</text>
+</g>
+<g id='is_b_59'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneBlack' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneBlackText twoDigits'  >59</text>
+</g>
+<g id='is_w_59'><circle cx='8.25' cy='8.25' r='7.5' class='inlineStoneWhite' /><text x = '8.078125' y = '8.421875' text-anchor = 'middle' dominant-baseline = 'central' letter-spacing = '-0.34px' class='inlineStoneWhiteText twoDigits'  >59</text>
+</g>
+
+</svg>
+
+
+<h1 id="title">Hex:<br>A Strategy Guide</h1>
+<h4 id="author">Matthew Seymour</h4>
+<div class='hr-contain'><hr></div>
+<h2 class='chapterNum'>Appendix C</h2>
+<h2 class='chapterTitle'>Printable boards</h2>
+
+<div class="group">
+<div class="text">
+<p class="para">The following PDF file has Hex boards in the following sizes: 11&times;11, 13&times;13, 14&times;14, 15&times;15, 17&times;17, and 19&times;19. All boards are provided in two versions, with and without row and column labels.</p>
+<p class="para"><a href="boards.pdf">Click to download</a></p>
+</div>
+</div>
+
+
+<div class="nav-container">
+    <div class="nav-prev nav-link">
+        <a href="hexstrat10.html" class="nav-link-text">&larr; Previous Chapter<br>Interior Templates</a>
+	</div>
+	<div class="nav-next nav-link">
+        <a href="hexstrat12.html" class="nav-link-text">Next Chapter &rarr;<br>Bibliography and other resources</a>
+	</div>
+	<div class="nav-toc nav-link">
+		<a href="hexstrat.html" class="nav-link-text">Table of Contents</a>
+	</div>
+</div>
+</body>
+</html> 
+<div class="copyright-div" id="copyright-div">
+<p class="copyright">Copyright &copy; 2019&ndash;2020 Matthew Seymour</p>
+</div>

@@ -1,0 +1,2289 @@
+"use strict";
+
+////////////Styles:
+var Styles = {
+    HEX: 0,
+    GO: 1,
+    HEIN: 2,
+}
+var Textures = {
+    PLAIN: 0,
+    WOOD: 1,
+}
+
+var CheckmarkStates = {
+    NONE: 0,
+    CHECK: 1,
+    X: 2,
+    FADED_CHECK: 3
+}
+
+var settings = {
+    style: Styles.HEX,
+    texture: Textures.PLAIN,
+    auto_advance: true,
+    symmetric: true
+}
+
+var letters = "abcdefghijklmnopqrstuvwxyz";
+var SCALE = 1.25;
+
+var NON_MOVE = {postGame: false};
+var halo;
+var puzzles = [];
+var currentPuzzleIndex = 0;
+var board = { };
+var noInteractionDelay = false;
+
+var style_diagram = {
+    "version": 9,
+    "rows": 5,
+    "cols": 5,
+    "firstPlayer": 1,
+    "alreadyConnected": false,
+    "topLeft": true,
+    "topRight": false,
+    "bottomLeft": true,
+    "bottomRight": false,
+    "topLeftStart": 1,
+    "topLeftEnd": 4,
+    "topRightStart": 1,
+    "topRightEnd": 5,
+    "bottomLeftStart": 1,
+    "bottomLeftEnd": 4,
+    "bottomRightStart": 1,
+    "bottomRightEnd": 5,
+    "hexes": "aaabacadbabbbcbdcacbccdadb",
+    "blackstones": "bbcb",
+    "whitestones": "bcdb",
+    "arrowsUp": "",
+    "arrowsRight": "",
+    "arrowsDown": "",
+    "arrowsLeft": ""
+}
+
+
+
+
+function getCoords(str) {
+    var aCode = 97;
+    var coords = [];
+    for(var i = 0; i < str.length; i += 2) {
+        var row = str.charCodeAt(i) - aCode;
+        var col = str.charCodeAt(i + 1) - aCode;
+        coords.push({row: row, col: col});
+    }
+    return coords;
+}
+
+function getCoordsString(coords) {
+	var letters = "abcdefghijklmnopqrstuvwxyz";
+    var str = "";
+    for(var i = 0; i < coords.length; i++ ) {
+        str += letters[coords[i].row] + letters[coords[i].col];
+    }
+    return str;
+}
+
+function emptyArray(rows, cols, value) {
+    var a = [];
+    for(var row = 0; row < rows; row++ ) {
+        a[row] = [];
+        for(var col = 0; col < cols; col++) {
+            a[row][col] = value;
+        }
+    }
+    return a;
+}
+
+function clearHexArray(rows, cols, array) {
+    for(var row = 0; row < rows; row++ ) {
+        for(var col = 0; col < cols; col++) {
+            array[row][col] = false;
+        }
+    }
+}
+
+
+
+function setValues(array, coords, value) {
+    for(var i = 0; i < coords.length; i++) {
+        array[coords[i].row][coords[i].col] = value;
+    }
+}
+
+
+///////////Positions:
+
+var NO_RESPONSE = "_";
+
+var PositionHexValues = {
+    EMPTY: 0,
+    BLACK_STONE: 1,
+    WHITE_STONE: 2,
+    DONT_CARE: 3,
+    ONE_OF: 4,
+}
+
+function getEmptyPosition(rows, cols) {
+    return {
+        position: emptyArray(rows, cols, PositionHexValues.EMPTY),
+        response: NO_RESPONSE,
+    }
+}
+
+
+function loadPosition(data, rows, cols) {
+    var newPosition = getEmptyPosition(rows, cols);
+
+    if(data.response) { //Old format
+
+        setValues(newPosition.position, getCoords(data.blackStones), PositionHexValues.BLACK_STONE);
+        setValues(newPosition.position, getCoords(data.whiteStones), PositionHexValues.WHITE_STONE);
+        setValues(newPosition.position, getCoords(data.dontCares), PositionHexValues.DONT_CARE);
+        if(typeof data.oneOfs !== 'undefined') {
+            setValues(newPosition.position, getCoords(data.oneOfs), PositionHexValues.ONE_OF);
+        }
+
+        //Copy the response out because it may be transformed later:
+        newPosition.response = data.response == NO_RESPONSE ? NO_RESPONSE : {row: data.response.row, col: data.response.col};
+        
+        newPosition.loss = data.loss;
+    } else { //New format
+        var elements = data.split("/");
+        var blackStones = elements[0];
+        var whiteStones = elements[1];
+        var dontCares = elements[2];
+        var oneOfs = elements[3];
+        var response = elements[4];
+        var loss = elements[5];
+        
+        setValues(newPosition.position, getCoords(blackStones), PositionHexValues.BLACK_STONE);
+        setValues(newPosition.position, getCoords(whiteStones), PositionHexValues.WHITE_STONE);
+        setValues(newPosition.position, getCoords(dontCares), PositionHexValues.DONT_CARE);
+        setValues(newPosition.position, getCoords(oneOfs), PositionHexValues.ONE_OF);
+
+        newPosition.response = (response == NO_RESPONSE) ? NO_RESPONSE : getCoords(response)[0];
+        
+        newPosition.loss = (loss == "t");
+        
+    }
+
+    return newPosition;
+}
+
+//Boards:
+function transformBoard(board, rotation, invertBoardColor) {
+    function invertArray(array, map) {
+        var newArray = emptyArray(board.size, board.size, null); //Nulls will be overwritten
+        for(var r = 0; r < board.size; r++) {
+            for(var c = 0; c < board.size; c++) {
+                newArray[r][c] = map(array[c][r]);
+            }
+        }
+        return newArray;
+    }
+    function rotateArray(array, map) {
+        var newArray = emptyArray(board.size, board.size, null); //Nulls will be overwritten
+        for(var r = 0; r < board.size; r++) {
+            for(var c = 0; c < board.size; c++) {
+                newArray[r][c] = map(array[board.size - 1 - r][board.size - 1 - c]);
+            }
+        }
+        return newArray;
+    }
+
+    function identityMap(x) {return x;}
+    function rotateArrowsMap(x) {
+        switch(x) {
+            case Directions.UP: return Directions.DOWN;
+            case Directions.DOWN: return Directions.UP;
+            case Directions.LEFT: return Directions.RIGHT;
+            case Directions.RIGHT: return Directions.LEFT;
+            default: return x;
+        }
+    }
+    function invertArrowsMap(x) {
+        switch(x) {
+            case Directions.UP: return Directions.LEFT;
+            case Directions.LEFT: return Directions.UP;
+            case Directions.RIGHT: return Directions.DOWN;
+            case Directions.DOWN: return Directions.RIGHT;
+            default: return x;
+        }
+    }
+    function invertColorsMap(x) {
+        switch(x) {
+            case Colors.BLACK: return Colors.WHITE;
+            case Colors.WHITE: return Colors.BLACK;
+            default: return x;
+        }
+    }
+    function invertPositionValuesMap(x) {
+        switch(x) {
+            case PositionHexValues.BLACK_STONE: return PositionHexValues.WHITE_STONE;
+            case PositionHexValues.WHITE_STONE: return PositionHexValues.BLACK_STONE;
+            default:  return x;
+        }
+    }
+
+    function getEdges(board) {
+        return oldBoardEdges = {
+            topLeft: board.topLeft,
+            topRight: board.topRight,
+            bottomLeft: board.bottomLeft,
+            bottomRight: board.bottomRight,
+            topLeftStart: board.topLeftStart,
+            topLeftEnd: board.topLeftEnd,
+            topRightStart: board.topRightStart,
+            topRightEnd: board.topRightEnd,
+            bottomLeftStart: board.bottomLeftStart,
+            bottomLeftEnd: board.bottomLeftEnd,
+            bottomRightStart: board.bottomRightStart,
+            bottomRightEnd: board.bottomRightEnd,
+        };
+    }
+
+    if(invertBoardColor) {
+        var oldBoardEdges = getEdges(board);
+
+		board.topLeft = oldBoardEdges.bottomLeft;
+		board.topLeftStart = oldBoardEdges.bottomLeftStart;
+		board.topLeftEnd = oldBoardEdges.bottomLeftEnd;
+		
+		board.bottomLeft = oldBoardEdges.topLeft;
+		board.bottomLeftStart = oldBoardEdges.topLeftStart;
+		board.bottomLeftEnd = oldBoardEdges.topLeftEnd;
+		
+		board.topRight = oldBoardEdges.bottomRight;
+		board.topRightStart = oldBoardEdges.bottomRightStart;
+		board.topRightEnd = oldBoardEdges.bottomRightEnd;
+		
+		board.bottomRight = oldBoardEdges.topRight;
+		board.bottomRightStart = oldBoardEdges.topRightStart;
+        board.bottomRightEnd = oldBoardEdges.topRightEnd;
+        
+        board.hexes = invertArray(board.hexes, identityMap);
+        board.stones = invertArray(board.stones, invertColorsMap);
+        board.arrows = invertArray(board.arrows, invertArrowsMap);
+
+        board.firstPlayer = invertColor(board.firstPlayer);
+	}
+	
+	if(rotation) {
+        var oldBoardEdges = getEdges(board);
+        
+		board.topLeft = oldBoardEdges.bottomRight;
+		board.topLeftStart = board.size + 1 - oldBoardEdges.bottomRightEnd;
+		board.topLeftEnd = board.size + 1 - oldBoardEdges.bottomRightStart;
+		
+		board.topRight = oldBoardEdges.bottomLeft;
+		board.topRightStart = board.size + 1 - oldBoardEdges.bottomLeftEnd;
+		board.topRightEnd = board.size + 1 - oldBoardEdges.bottomLeftStart;
+		
+		board.bottomRight = oldBoardEdges.topLeft;
+		board.bottomRightStart = board.size + 1 - oldBoardEdges.topLeftEnd;
+		board.bottomRightEnd = board.size + 1 - oldBoardEdges.topLeftStart;
+		
+		board.bottomLeft = oldBoardEdges.topRight;
+		board.bottomLeftStart = board.size + 1 - oldBoardEdges.topRightEnd;
+        board.bottomLeftEnd = board.size + 1 - oldBoardEdges.topRightStart;
+
+        board.hexes = rotateArray(board.hexes, identityMap);
+        board.stones = rotateArray(board.stones, identityMap);
+        board.arrows = rotateArray(board.arrows, rotateArrowsMap);
+    }
+    
+
+    for(var i = 0; i < board.positions.length; i++) {
+        if(invertBoardColor) {
+            board.positions[i].position = invertArray(board.positions[i].position, invertPositionValuesMap);
+            if(board.positions[i].response != NO_RESPONSE) {
+                var temp = board.positions[i].response.row;
+                board.positions[i].response.row = board.positions[i].response.col;
+                board.positions[i].response.col = temp;
+            }
+        }
+        
+        if(rotation) {
+            board.positions[i].position = rotateArray(board.positions[i].position, identityMap);
+            if(board.positions[i].response != NO_RESPONSE) {
+                board.positions[i].response.row = board.size - 1 - board.positions[i].response.row;
+                board.positions[i].response.col = board.size - 1 - board.positions[i].response.col;
+            }
+        }
+    }
+
+}
+
+var board_id = 0; //used to keep the clip paths unique
+function loadNewBoard(data) {
+    var board = {
+        size: data.rows, //Rows = cols always
+        topLeft: data.topLeft,
+		topRight: data.topRight,
+		bottomLeft: data.bottomLeft,
+		bottomRight: data.bottomRight,
+		topLeftStart: data.topLeftStart,
+		topLeftEnd: data.topLeftEnd,
+		topRightStart: data.topRightStart,
+		topRightEnd: data.topRightEnd,
+		bottomLeftStart: data.bottomLeftStart,
+		bottomLeftEnd: data.bottomLeftEnd,
+		bottomRightStart: data.bottomRightStart,
+        bottomRightEnd: data.bottomRightEnd,
+        hexes: emptyArray(data.rows, data.cols, true),
+        stones: emptyArray(data.rows, data.cols, Colors.NONE),
+        arrows: emptyArray(data.rows, data.cols, Directions.NONE),
+        firstPlayer: data.firstPlayer,
+        alreadyConnected: data.alreadyConnected,
+        noPass: data.nopass ? true : false,
+        playerSequence: [],
+        positions: [],
+        gameOver: false,
+        boardId: board_id++
+    }
+
+    var hexCoords = getCoords(data.hexes);
+    var bsCoords = getCoords(data.blackstones);
+    var wsCoords = getCoords(data.whitestones);
+
+	
+	var arrowsUp = getCoords(data.arrowsUp);
+    var arrowsRight = getCoords(data.arrowsRight);
+    var arrowsDown = getCoords(data.arrowsDown);
+    var arrowsLeft = getCoords(data.arrowsLeft);
+	
+	clearHexArray(board.size, board.size, board.hexes);
+    
+    setValues(board.hexes, hexCoords, true);
+    setValues(board.stones, bsCoords, Colors.BLACK);
+    setValues(board.stones, wsCoords, Colors.WHITE);
+    
+    setValues(board.arrows, arrowsUp, Directions.UP);
+    setValues(board.arrows, arrowsRight, Directions.RIGHT);
+    setValues(board.arrows, arrowsDown, Directions.DOWN);
+    setValues(board.arrows, arrowsLeft, Directions.LEFT);
+
+    return board;
+}
+
+function loadNewPuzzle(puzzle) {
+    if(settings.symmetric) {
+        ROTATE = false;
+    } else {
+        ROTATE = true;
+    }
+
+    if(puzzle.complete) {
+        setCheckMark(CheckmarkStates.FADED_CHECK, true);
+    } else {
+        setCheckMark(CheckmarkStates.NONE, true);
+    }
+    
+    //Set this puzzle as current in the main puzzle list (and remove it from the previous puzzle):
+    if(board.puzzle) {
+        board.puzzle.puzzleLineDiv.classList.remove("puzzle-list-line-current");
+    }
+    puzzle.puzzleLineDiv.classList.add("puzzle-list-line-current");
+
+    setLastPuzzle(puzzle.identifier);
+    
+    if(!puzzle.tutorial) {
+        board = loadNewBoard(puzzle);
+        board.tutorial = false;
+        board.puzzle = puzzle;
+        
+        var loadedPositions = puzzle.positions;
+        loadedPositions.forEach(function(pos) {
+            board.positions.push(loadPosition(pos, puzzle.rows, puzzle.cols));
+        });
+
+        transformBoard(board, puzzle.rotation, puzzle.invertBoardColor);
+        boardUpdate(board);
+        setButtons(board);
+        setPuzzleInfo((board.firstPlayer == Colors.BLACK ? "Black" : "White") + " to move");
+        
+    } else {
+        board = {
+            puzzle: puzzle,
+            tutorial: true,
+            sections: []
+        }
+        for(var i = 0; i < puzzle.sections.length; i++) {
+            if(puzzle.sections[i].paragraph) {
+                var paragraphSection = {
+                    paragraph: true,
+                    text: puzzle.sections[i].text
+                }
+                board.sections.push(paragraphSection);
+            } else {
+                var boardSection = loadNewBoard(puzzle.sections[i]);
+                boardSection.paragraph = false;
+                board.sections.push(boardSection);
+            }
+        }
+        boardUpdateTutorial(board);
+        setButtons(board)
+        setPuzzleInfo("");
+    }
+}
+
+function setButtons(board) {
+    var prevButton = document.getElementById("button-puzzle-prev");
+    var nextButton = document.getElementById("button-puzzle-next");
+    var passButton = document.getElementById("button-puzzle-pass");
+    var resetButton = document.getElementById("button-puzzle-reset");
+    var undoButton = document.getElementById("button-puzzle-undo");
+    if(board.tutorial || board.noPass) {
+        passButton.style.display = "none";
+    } else {
+        passButton.style.removeProperty("display");
+    }
+
+    if(board.tutorial) {
+        resetButton.style.display = "none";
+        undoButton.style.display = "none";
+    } else {
+        resetButton.style.removeProperty("display");
+        undoButton.style.removeProperty("display");
+    }
+
+    if(currentPuzzleIndex == 0) {
+        prevButton.style.display = "none";
+    } else {
+        prevButton.style.removeProperty("display");
+    }
+
+    if(currentPuzzleIndex == puzzles.length - 1) {
+        nextButton.style.display = "none";
+    } else {
+        nextButton.style.removeProperty("display");
+    }
+
+    updateIcons(board);
+}
+
+function boardUpdate(board) {
+    document.getElementById("container").appendChild(document.getElementById("actions"));
+
+    clonePrevNextButtons();
+
+    var puzzle_div = document.getElementById("puzzle-wrapper");
+    puzzle_div.classList = "";
+    puzzle_div.removeAttribute("style");
+    puzzle_div.classList.add("puzzle-wrapper");
+    puzzle_div.textContent = "";
+    
+    
+    var puzzle_element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    puzzle_element.addEventListener('touchstart', boardTouchStart);
+    puzzle_element.addEventListener('touchmove', boardTouchMove);
+    puzzle_element.addEventListener('touchend', boardTouchEnd);
+    puzzle_element.addEventListener('touchcancel', boardTouchCancel);
+    puzzle_div.appendChild(puzzle_element);
+    
+    var boundingBox = redrawBoard(board, puzzle_element, true, settings.style, settings.texture);
+
+    var width = (boundingBox.right - boundingBox.left);
+    var height = (boundingBox.bottom - boundingBox.top);
+    var expandFactor = 100;
+    
+    puzzle_element.setAttribute("style", "position: absolute; top: 0px; left: 0px; width:100%; height: 100%;z-index:0;touch-action:none;");
+    puzzle_element.setAttribute("viewBox",  boundingBox.left.toString() + " " + boundingBox.top.toString() + " " + width.toString() + " " + height.toString() );
+
+    puzzle_div.setAttribute("style", "width:100%; height: 100%; max-width: " + (SCALE * width).toString() + "px; max-height: " + (SCALE * height).toString() + "px;");
+    
+    expandBoundingBox(boundingBox, expandFactor);
+    
+    var overlay_width = (boundingBox.right - boundingBox.left);
+    var overlay_height = (boundingBox.bottom - boundingBox.top);
+
+    var width_per = (100 * overlay_width / width);
+    var height_per = (100 * overlay_height / height);
+    
+    var halo_element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    halo_element.innerHTML = "<g id='halo' style='display: none;'><circle class='halo' cx='0' cy='0' r='50' fill='rgba(0,0,0,0.25)'/></g>";
+    halo_element.setAttribute("style", "position: absolute; left:-"+((width_per - 100) / 2).toString()+"%; top:-"+((height_per - 100) / 2).toString()+"%; width:" + width_per + "%; height: " + height_per + "%;z-index:1;pointer-events:none;touch-action:none;");
+    halo_element.setAttribute("viewBox",  boundingBox.left.toString() + " " + boundingBox.top.toString() + " " + overlay_width.toString() + " " + overlay_height.toString() );
+    puzzle_div.appendChild(halo_element);
+    
+
+    halo = document.getElementById("halo");
+}
+
+
+function boardUpdateTutorial(board) {
+    var actions = document.getElementById("actions");
+    var puzzle_div = document.getElementById("puzzle-wrapper");
+    puzzle_div.classList = "";
+    puzzle_div.removeAttribute("style");
+    puzzle_div.classList.add("puzzle-wrapper-tutorial");
+    puzzle_div.textContent = "";
+
+    var firstElement = null;
+    for(var i = 0; i < board.sections.length; i++) {
+        if(board.sections[i].paragraph) {
+            var puzzle_text_element = document.createElement("div");
+            puzzle_text_element.classList.add("info-text");
+            puzzle_text_element.innerHTML = board.sections[i].text;
+            puzzle_div.appendChild(puzzle_text_element);
+
+            if(firstElement == null) {
+                firstElement = puzzle_text_element;
+            }
+        } else {
+            var puzzle_element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var boundingBox = redrawBoard(board.sections[i], puzzle_element, false, settings.style, settings.texture);
+            
+            var width = (boundingBox.right - boundingBox.left);
+            var height = (boundingBox.bottom - boundingBox.top);
+
+            var element_width = Math.min(350, SCALE * width);
+            var element_height = height * (element_width / width);
+
+            puzzle_element.setAttribute("style", "width: " + element_width.toString() +  "px; height: " + element_height.toString() +  "px; flex-shrink: 0; align-self: center;");
+            puzzle_element.setAttribute("viewBox",  boundingBox.left.toString() + " " + boundingBox.top.toString() + " " + width.toString() + " " + height.toString() );
+
+            puzzle_div.appendChild(puzzle_element);
+            if(firstElement == null) {  
+                firstElement = puzzle_element;
+            }
+        }
+    }
+    var spacer_element = document.createElement("div");
+    spacer_element.classList.add("info-spacer");
+    puzzle_div.appendChild(spacer_element);
+    
+    puzzle_div.appendChild(actions);
+    clonePrevNextButtons();
+
+    firstElement.scrollIntoView();
+}
+
+function updateStones(board, rewind) {
+    var nextMoveColor = board.firstPlayer;
+    if(board.playerSequence && board.playerSequence.length % 2 == 1) {
+        nextMoveColor = invertColor(nextMoveColor);
+    }
+    if(nextMoveColor == Colors.BLACK) {
+        document.getElementById("hover_black").style.removeProperty("display");
+        document.getElementById("hover_white").style.display = "none";
+    } else {
+        document.getElementById("hover_white").style.removeProperty("display");
+        document.getElementById("hover_black").style.display = "none";
+    }
+
+    if(rewind) { //If we could have removed stones, we have to reset them:
+        for(var row = 0; row < board.size; row++ ) {
+            for(var col = 0; col < board.size; col++) {
+                if(board.hexes[row][col]) {
+                    var id = getId(row, col);
+                    var stone = document.getElementById(id);
+                    if(board.stones[row][col] == Colors.BLACK) {
+                    } else if (board.stones[row][col] == Colors.WHITE) {
+                    } else {
+                        //stone.className.baseVal = "noStone";
+                        stone.setAttribute("class", "noStone");
+                        for(var suffix of ["black", "white"]) {
+                            var hoverStone = document.getElementById(id + "_hover_" + suffix);
+                        hoverStone.style.removeProperty("display");
+                    }
+                    }
+                }
+            }
+        }
+    }
+
+    if(board.playerSequence) {
+        var color = board.firstPlayer;
+        for(var seqElem of board.playerSequence) {
+            if(seqElem != NON_MOVE) {
+                var id = getId(seqElem.row, seqElem.col);
+                var stone = document.getElementById(id);
+                for(var suffix of ["black", "white"]) {
+                    var hoverStone = document.getElementById(id + "_hover_" + suffix);
+                hoverStone.style.display = "none";
+                }
+                
+                var parent = stone.parentElement;
+                var stoneClass = color == Colors.BLACK ? "blackStone" : "whiteStone";
+                replaceStone(parent, id, stoneClass);
+            }
+            color = invertColor(color);
+        }
+    }
+}
+
+function updateIcons(board) {
+    var passButton = document.getElementById("button-puzzle-pass");
+    var resetButton = document.getElementById("button-puzzle-reset");
+    var undoButton = document.getElementById("button-puzzle-undo");
+    
+    passButton.classList.remove("icon-button-deactivated");
+    resetButton.classList.remove("icon-button-deactivated");
+    undoButton.classList.remove("icon-button-deactivated");
+            
+    if(board.playerSequence) {
+        if(board.playerSequence.length == 0) {
+            resetButton.classList.add("icon-button-deactivated");
+            undoButton.classList.add("icon-button-deactivated");
+        } else {
+            passButton.classList.add("icon-button-deactivated");
+        }
+    }
+}
+
+    
+function getClipPoints(board, style) { 
+    var clipPoints = [];
+    var clipPointsTopLeft = [];
+    var clipPointsTopRight = [];
+    var clipPointsBottomLeft = [];
+    var clipPointsBottomRight = [];
+
+    if(style == Styles.HEIN) {
+        var EDGE_RATIO = 2.1;
+    } else if(style == Styles.GO) {
+        var EDGE_RATIO = 1;
+    } else {
+        var EDGE_RATIO = 1;
+    }
+    
+    var startingPoint = (function() {
+        for(var row = 0; row < board.size; row++) {
+            for(var col = 0; col < board.size; col++) {
+                if(board.hexes[row][col])
+                    return {row: row, col: col};
+            }
+        }
+    })();
+    var currentPoint = {row: startingPoint.row, col: startingPoint.col};
+
+    
+    do {
+        //Find next point
+        currentPoint = (function() {
+            var rowOffsets = [-1, -1, 0, 1, 1, 0];
+            var colOffsets = [0, 1, 1, 0, -1, -1];
+            function isValidHex(i) {
+                var row = currentPoint.row + rowOffsets[i % 6];
+                var col = currentPoint.col + colOffsets[i % 6];
+                return (row >= 0 && col >= 0 && row < board.size && col < board.size && board.hexes[row][col]);
+
+            }
+
+            //First pass, find the starting point (part in the rotation where we're in valid hexes):
+            var takeNext = false;
+            for(var i = 0; i < 12; i++) {
+                if(!isValidHex(i) && !takeNext) {
+                    takeNext = true;
+                }
+                
+                if(isValidHex(i) && takeNext) {
+                    i = i % 6;
+                    break;
+                }
+            }
+            //Second pass, add the clip points, and find the next step:
+            takeNext = false;
+            for(; i < 12; i++) {
+                if(!isValidHex(i) && !takeNext) {
+                    takeNext = true;
+                }
+                if(!isValidHex(i) && takeNext) {
+                    var newRow = currentPoint.row + rowOffsets[i % 6];
+                    var newCol = currentPoint.col + colOffsets[i % 6];
+                    
+                    var ratio = .6;
+
+                    clipPointsTopLeft.push(false);
+                    clipPointsTopRight.push(false);
+                    clipPointsBottomLeft.push(false);
+                    clipPointsBottomRight.push(false);
+                    var clipPointIndex = clipPointsBottomLeft.length - 1;
+        
+                    if(board.topLeft && currentPoint.row == 0 && rowOffsets[ i % 6] < 0) {
+                        ratio = EDGE_RATIO;
+                        clipPointsTopLeft[clipPointIndex] = true;
+                    } else if (board.topRight && currentPoint.col == board.size - 1 && colOffsets[ i % 6] > 0) {
+                        ratio = EDGE_RATIO;
+                        clipPointsTopRight[clipPointIndex] = true;
+                    } else if(board.bottomLeft && currentPoint.col == 0 && colOffsets[i % 6] < 0) {
+                        ratio = EDGE_RATIO;
+                        clipPointsBottomLeft[clipPointIndex] = true;
+                    } else if (board.bottomRight && currentPoint.row == board.size - 1 && rowOffsets[i % 6] > 0) {
+                        ratio = EDGE_RATIO;
+                        clipPointsBottomRight[clipPointIndex] = true;
+                    } 
+
+                    var newPoint = {
+                        x: (1 - ratio) * getX(currentPoint.row, currentPoint.col) + ratio * getX(newRow, newCol), 
+                        y: (1 - ratio) * getY(currentPoint.row, currentPoint.col) + ratio * getY(newRow, newCol)
+                    };
+                    
+                    clipPoints.push(newPoint);
+
+                    //Acute corners:
+                    //We add a pont between the current point and the next point:
+                    var addAcuteCornerPoint = false;
+                    if(board.topLeft && board.bottomLeft && currentPoint.row == 0 && currentPoint.col == 0 && i % 6 == 5) {
+                        addAcuteCornerPoint = true;
+                        clipPointsTopLeft.push(true);
+                        clipPointsBottomLeft.push(true);
+                        clipPointsTopRight.push(false);
+                        clipPointsBottomRight.push(false);
+                        newRow = currentPoint.row - 1;
+                        newCol = currentPoint.col - 1;
+                    }
+                    if(board.topRight && board.bottomRight && currentPoint.row == board.size - 1 && currentPoint.col == board.size - 1 && i % 6 == 2) {
+                        addAcuteCornerPoint = true;
+                        clipPointsTopRight.push(true);
+                        clipPointsBottomRight.push(true);
+                        clipPointsTopLeft.push(false);
+                        clipPointsBottomLeft.push(false);
+                        newRow = currentPoint.row + 1;
+                        newCol = currentPoint.col + 1;
+                    }
+
+                    if(addAcuteCornerPoint) {
+                        var newPoint = {
+                            x: (1 - ratio) * getX(currentPoint.row, currentPoint.col) + ratio * getX(newRow, newCol), 
+                            y: (1 - ratio) * getY(currentPoint.row, currentPoint.col) + ratio * getY(newRow, newCol)
+                        };
+                        
+                        clipPoints.push(newPoint);
+                        
+                    }
+
+                }
+                if(isValidHex(i) && takeNext) {
+                    return {row: currentPoint.row + rowOffsets[i % 6], col:currentPoint.col + colOffsets[i % 6]};
+                }
+            }
+        })();
+    } while(!(currentPoint.row == startingPoint.row && currentPoint.col == startingPoint.col));
+
+
+    //Here we add additional points to make sure the line of clipPoints extends outwards through the board edge
+    function clipPointNotEdge(index) {
+        return !(clipPointsTopLeft[i] || clipPointsTopRight[i] || clipPointsBottomLeft[i] || clipPointsBottomRight[i]);
+    }
+
+    function intersection(l1, l2) {
+        var x1 = l1.p1.x;
+        var y1 = l1.p1.y;
+        var x2 = l1.p2.x; 
+        var y2 = l1.p2.y; 
+        var x3 = l2.p1.x; 
+        var y3 = l2.p1.y; 
+        var x4 = l2.p2.x; 
+        var y4 = l2.p2.y; 
+        var det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        return {
+            x: ((x1*y2 - y1*x2) * (x3 - x4) - (x1 - x2) * (x3*y4 - y3*x4)) / det,
+            y: ((x1*y2 - y1*x2) * (y3 - y4) - (y1 - y2) * (x3*y4 - y3*x4)) / det
+        }
+    }
+
+    var topLeftLine = {
+        p1: { x: getX(-EDGE_RATIO, 0), y: getY(-EDGE_RATIO, 0) },
+        p2: { x: getX(-EDGE_RATIO, board.size), y: getY(-EDGE_RATIO, board.size) }
+    }
+    var bottomLeftLine = {
+        p1: { x: getX(0, -EDGE_RATIO), y: getY(0, -EDGE_RATIO) },
+        p2: { x: getX(board.size, -EDGE_RATIO), y: getY(board.size, -EDGE_RATIO) }
+    }
+    var topRightLine = {
+        p1: { x: getX(0, board.size - 1 + EDGE_RATIO), y: getY(0, board.size - 1 + EDGE_RATIO) },
+        p2: { x: getX(board.size, board.size - 1 + EDGE_RATIO), y: getY(board.size, board.size - 1 + EDGE_RATIO) }
+    }
+    var bottomRightLine = {
+        p1: { x: getX(board.size - 1 + EDGE_RATIO, 0), y: getY(board.size - 1 + EDGE_RATIO, 0) },
+        p2: { x: getX(board.size - 1 + EDGE_RATIO, board.size), y: getY(board.size - 1 + EDGE_RATIO, board.size) }
+    }
+    
+    for(var i = 0; i < clipPoints.length; i++) {
+        var index = i % clipPoints.length;
+        var indexNext = (i + 1) % clipPoints.length;
+        var indexPrev = (i + clipPoints.length - 1) % clipPoints.length;
+
+        if(clipPointsTopLeft[indexNext] && clipPointNotEdge(index)) {
+            var newPoint = intersection(topLeftLine, {p1: clipPoints[index], p2: clipPoints[indexPrev]});
+            clipPoints.splice(indexNext, 0, newPoint);
+            clipPointsTopLeft.splice(indexNext, 0, true);
+            clipPointsTopRight.splice(indexNext, 0, false);
+            clipPointsBottomLeft.splice(indexNext, 0, false);
+            clipPointsBottomRight.splice(indexNext, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsTopLeft[indexPrev] && clipPointNotEdge(index)) {
+            var newPoint = intersection(topLeftLine, {p1: clipPoints[index], p2: clipPoints[indexNext]});
+            clipPoints.splice(index, 0, newPoint);
+            clipPointsTopLeft.splice(index, 0, true);
+            clipPointsTopRight.splice(index, 0, false);
+            clipPointsBottomLeft.splice(index, 0, false);
+            clipPointsBottomRight.splice(index, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsTopRight[indexNext] && clipPointNotEdge(index)) {
+            var newPoint = intersection(topRightLine, {p1: clipPoints[index], p2: clipPoints[indexPrev]});
+            clipPoints.splice(indexNext, 0, newPoint);
+            clipPointsTopLeft.splice(indexNext, 0, false);
+            clipPointsTopRight.splice(indexNext, 0, true);
+            clipPointsBottomLeft.splice(indexNext, 0, false);
+            clipPointsBottomRight.splice(indexNext, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsTopRight[indexPrev] && clipPointNotEdge(index)) {
+            var newPoint = intersection(topRightLine, {p1: clipPoints[index], p2: clipPoints[indexNext]});
+            clipPoints.splice(index, 0, newPoint);
+            clipPointsTopLeft.splice(index, 0, false);
+            clipPointsTopRight.splice(index, 0, true);
+            clipPointsBottomLeft.splice(index, 0, false);
+            clipPointsBottomRight.splice(index, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsBottomLeft[indexNext] && clipPointNotEdge(index)) {
+            var newPoint = intersection(bottomLeftLine, {p1: clipPoints[index], p2: clipPoints[indexPrev]});
+            clipPoints.splice(indexNext, 0, newPoint);
+            clipPointsTopLeft.splice(indexNext, 0, false);
+            clipPointsTopRight.splice(indexNext, 0, false);
+            clipPointsBottomLeft.splice(indexNext, 0, true);
+            clipPointsBottomRight.splice(indexNext, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsBottomLeft[indexPrev] && clipPointNotEdge(index)) {
+            var newPoint = intersection(bottomLeftLine, {p1: clipPoints[index], p2: clipPoints[indexNext]});
+            clipPoints.splice(index, 0, newPoint);
+            clipPointsTopLeft.splice(index, 0, false);
+            clipPointsTopRight.splice(index, 0, false);
+            clipPointsBottomLeft.splice(index, 0, true);
+            clipPointsBottomRight.splice(index, 0, false);
+            i += 1;//Jump over new point
+        } else if(clipPointsBottomRight[indexNext] && clipPointNotEdge(index)) {
+            var newPoint = intersection(bottomRightLine, {p1: clipPoints[index], p2: clipPoints[indexPrev]});
+            clipPoints.splice(indexNext, 0, newPoint);
+            clipPointsTopLeft.splice(indexNext, 0, false);
+            clipPointsTopRight.splice(indexNext, 0, false);
+            clipPointsBottomLeft.splice(indexNext, 0, false);
+            clipPointsBottomRight.splice(indexNext, 0, true);
+            i += 1;//Jump over new point
+        } else if(clipPointsBottomRight[indexPrev] && clipPointNotEdge(index)) {
+            var newPoint = intersection(bottomRightLine, {p1: clipPoints[index], p2: clipPoints[indexNext]});
+            clipPoints.splice(index, 0, newPoint);
+            clipPointsTopLeft.splice(index, 0, false);
+            clipPointsTopRight.splice(index, 0, false);
+            clipPointsBottomLeft.splice(index, 0, false);
+            clipPointsBottomRight.splice(index, 0, true);
+            i += 1;//Jump over new point
+        }
+
+    }
+
+    return clipPoints;
+}
+
+function redrawBoard(board, puzzle_element, interactive, style, texture) {
+    var boundingBox = getInitBoundingBox();
+    
+    var styleSuffix = "";
+    var textureFilter = "";
+    var textureFilterSide = "";
+    var clipPathName = "boardClipPath" + board.boardId.toString();
+    if(style == Styles.GO) {
+        styleSuffix = "Go";
+    } else if(style == Styles.HEIN) {
+        styleSuffix = "Hein";
+    }
+
+    if(texture == Textures.WOOD) {
+        textureFilter = "url(#woodTexture)";
+        textureFilterSide = "url(#woodTextureSide)";
+    }
+
+    var builder = getBuilder(puzzle_element);
+    
+    //Here we make the clip points:
+    var clipPoints = getClipPoints(board, style);
+
+	updateBoundingBoxPoints(boundingBox, clipPoints);
+    builder.clipPoints(clipPoints, clipPathName);
+
+    builder.startGroup({"id": "puzzle-group"});
+    if(style == Styles.HEIN) {
+        var rowStart = board.topLeft ? 0 : -1;
+        var colStart = board.bottomLeft ? 0 : -1;
+        var rowEnd = board.bottomRight ? board.size: board.size + 1;
+        var colEnd = board.topRight ? board.size: board.size + 1;
+
+        var BOARD_OFFSET = 0.5;
+        var rowLeft = rowStart -  1 - BOARD_OFFSET;
+        var colLeft = colStart - 1 - BOARD_OFFSET;
+        var rowTop = rowStart - 1 - BOARD_OFFSET;
+        var colTop = colEnd + BOARD_OFFSET;
+        var rowRight = rowEnd + BOARD_OFFSET;
+        var colRight = colEnd + BOARD_OFFSET;
+        var rowBottom = rowEnd + BOARD_OFFSET;
+        var colBottom = colStart - 1 - BOARD_OFFSET;
+        
+        var OUTER_OFFSET = 1;
+        var rowOuterLeft = rowStart - 1 - OUTER_OFFSET;
+        var colOuterLeft = colStart - 1 - OUTER_OFFSET;
+        var rowOuterTop = rowStart - 1 - OUTER_OFFSET;
+        var colOuterTop = colEnd + OUTER_OFFSET;
+        var rowOuterRight = rowEnd + OUTER_OFFSET;
+        var colOuterRight = colEnd + OUTER_OFFSET;
+        var rowOuterBottom = rowEnd + OUTER_OFFSET;
+        var colOuterBottom = colStart - 1 - OUTER_OFFSET;
+        
+        var boardPoints = [
+            {x: getX(rowLeft, colLeft), y: getY(rowLeft, colLeft)},
+            {x: getX(rowTop, colTop), y: getY(rowTop, colTop)},
+            {x: getX(rowRight, colRight), y: getY(rowRight, colRight)},
+            {x: getX(rowBottom, colBottom), y: getY(rowBottom, colBottom)}
+        ];
+
+        //This still results in some seams, maybe have the bottom left actually be the whole board, then draw the other three on top?
+        var boardOuterPointsTopLeft = [
+            {x: getX(rowOuterLeft, colOuterLeft), y: getY(rowOuterLeft, colOuterLeft)},
+            {x: getX(rowOuterTop, colOuterTop), y: getY(rowOuterTop, colOuterTop)},
+            {x: getX((rowLeft + rowRight) / 2, (colLeft + colRight) / 2), y: getY((rowLeft + rowRight) / 2, (colLeft + colRight) / 2)} //center
+        ];
+
+        var boardOuterPointsTopRight = [
+            {x: getX(rowOuterTop, colOuterTop), y: getY(rowOuterTop, colOuterTop)},
+            {x: getX(rowOuterRight, colOuterRight), y: getY(rowOuterRight, colOuterRight)},
+            {x: getX((rowLeft + rowRight) / 2, (colLeft + colRight) / 2), y: getY((rowLeft + rowRight) / 2, (colLeft + colRight) / 2)} //center
+        ];
+
+        var boardOuterPointsBottomRight = [
+            {x: getX(rowOuterRight, colOuterRight), y: getY(rowOuterRight, colOuterRight)},
+            {x: getX(rowOuterBottom, colOuterBottom), y: getY(rowOuterBottom, colOuterBottom)},
+            {x: getX(.55 * rowLeft + .45 * rowRight, .55 * colLeft + .45 * colRight), y: getY(.55 * rowLeft + .45 * rowRight, .55 * colLeft + .45 * colRight)} //"center"
+        ];
+
+        var boardOuterPointsBottomLeft = [
+            {x: getX(rowOuterLeft, colOuterLeft), y: getY(rowOuterLeft, colOuterLeft)},
+            {x: getX(rowOuterBottom, colOuterBottom), y: getY(rowOuterBottom, colOuterBottom)},
+            {x: getX((rowLeft + rowRight) / 2, (colLeft + colRight) / 2), y: getY((rowLeft + rowRight) / 2, (colLeft + colRight) / 2)} //center
+        ];
+
+
+        builder.startGroup({"style": "clip-path: url(#" + clipPathName + ");"});
+
+        builder.polygon(
+            boardOuterPointsTopLeft, 
+            {"class": "hexagonFgTopLeft" + styleSuffix, 
+            "filter": textureFilterSide}
+        );
+        builder.polygon(
+            boardOuterPointsTopRight, 
+            {"class": "hexagonFgTopRight" + styleSuffix, 
+            "filter": textureFilterSide}
+        );
+        builder.polygon(
+            boardOuterPointsBottomRight, 
+            {"class": "hexagonFgBottomRight" + styleSuffix, 
+            "filter": textureFilterSide}
+        );
+        builder.polygon(
+            boardOuterPointsBottomLeft, 
+            {"class": "hexagonFgBottomLeft" + styleSuffix, 
+            "filter": textureFilterSide}
+        );
+        builder.polygon(
+            boardPoints, 
+            {"class": "hexagonFg" + styleSuffix, 
+            "filter": textureFilter}
+        );
+
+        //Now  draw the inlays:
+        for(var col = colStart + 1; col < colEnd; col += 1) {
+            builder.circle(rowStart - 1, col, STONE_SIZE * .35, {"class": "blackInlay"});
+            builder.circle(rowEnd, col - 1, STONE_SIZE * .35, {"class": "blackInlay"});
+        }
+
+        for(var row = rowStart + 1; row < rowEnd; row += 1) {
+            builder.circle(row, colStart - 1, STONE_SIZE * .35, {"class": "whiteInlay"});
+            builder.circle(row - 1, colEnd, STONE_SIZE * .35, {"class": "whiteInlay"});
+        }
+
+        builder.endGroup();
+       
+    }
+
+
+
+    for(var row = 0; row < board.size; row++ ) {
+        for(var col = 0; col < board.size; col++) {
+            if(board.hexes[row][col]) {
+                if(style == Styles.HEX) {
+                    builder.hex(row, col, {"class": "hexagonBackground", "filter": textureFilter});
+                } else if(style == Styles.HEIN) {
+                    builder.circle(row, col, STONE_SIZE * .65, {"class": "holeHein", "filter": textureFilter});
+                }
+            }
+        }
+    }
+
+    if(style == Styles.HEX) {
+        for(var row = 0; row < board.size; row++ ) {
+            for(var col = 0; col < board.size; col++) {
+                if(board.hexes[row][col]) {
+                    builder.hex(row, col, {"class": "hexagonOutline"});
+                }
+            }
+        }
+    }
+
+    
+    
+    if(style == Styles.GO) {
+        //Extend by two, so that there's no evidence of edges that aren't visible.
+        var rowStart = board.topLeft ? 0 : -2;
+        var colStart = board.bottomLeft ? 0 : -2;
+        var rowEnd = board.bottomRight ? board.size: board.size + 2;
+        var colEnd = board.topRight ? board.size: board.size + 2;
+
+        var boardPoints = [
+            {x: getX(rowStart - 1, colStart - 1), y: getY(rowStart - 1, colStart - 1)},
+            {x: getX(rowStart - 1, colEnd), y: getY(rowStart - 1, colEnd)},
+            {x: getX(rowEnd, colEnd), y: getY(rowEnd, colEnd)},
+            {x: getX(rowEnd, colStart - 1), y: getY(rowEnd, colStart - 1)}
+        ];
+
+        builder.startGroup({"style": "clip-path: url(#" + clipPathName + ");"});
+
+        builder.polygon(boardPoints, {"class": "hexagonFg" + styleSuffix, "filter": textureFilter});
+
+        for(var row = rowStart; row < rowEnd; row++ ) {
+            builder.line(row, colStart, row, colEnd - 1, {"class": "lines" + styleSuffix});
+        }
+        for(var col = colStart; col < colEnd; col++ ) {
+            builder.line(rowStart, col, rowEnd - 1, col, {"class": "lines" + styleSuffix});
+        }
+
+        for(var i = 0; i <= (rowEnd - rowStart - 1) + (colEnd - colStart - 1); i++) {
+            if(i <= (colEnd - colStart - 1) ) {
+                var rowStartDiagonal = rowStart;
+                var colStartDiagonal = i + colStart;
+            } else {
+                var i_diff = i - (colEnd - colStart - 1);
+                var rowStartDiagonal = rowStart + i_diff;
+                var colStartDiagonal = colEnd - 1;
+            }
+
+            if(i <= (rowEnd - rowStart - 1) ) {
+                var rowEndDiagonal = i + rowStart;
+                var colEndDiagonal = colStart;
+            } else {
+                var i_diff = i - (rowEnd - rowStart - 1);
+                var rowEndDiagonal = rowEnd - 1;
+                var colEndDiagonal = colStart + i_diff;
+            }
+            builder.line(rowStartDiagonal, colStartDiagonal, rowEndDiagonal, colEndDiagonal, {"class": "lines" + styleSuffix});
+        }
+
+        var EDGE_OFFSET = .7;
+        if(board.topLeft) {
+            builder.line(-EDGE_OFFSET, colStart, -EDGE_OFFSET, colEnd - 1, {"class": "edgeBlackGo", "stroke-linecap": "round"});
+        }
+        if(board.bottomRight) {
+            builder.line(board.size - 1 + EDGE_OFFSET, colStart, board.size - 1 + EDGE_OFFSET, colEnd - 1, {"class": "edgeBlackGo", "stroke-linecap": "round"});
+        }
+        if(board.bottomLeft) {
+            builder.line(rowStart, -EDGE_OFFSET, rowEnd - 1, -EDGE_OFFSET, {"class": "edgeWhiteGo", "stroke-linecap": "round"});
+        }
+        if(board.topRight) {
+            builder.line(rowStart, board.size - 1 + EDGE_OFFSET, rowEnd - 1, board.size - 1 + EDGE_OFFSET, {"class": "edgeWhiteGo", "stroke-linecap": "round"});
+        }
+        builder.endGroup();
+
+    }
+
+    
+    
+
+    for(var row = 0; row < board.size; row++ ) {
+        for(var col = 0; col < board.size; col++) {
+            if(board.hexes[row][col]) {
+                var id_suffix = interactive ? "" : "_no_interact"; //Hack to prevent the stones in the settings page from being turned on/off
+                var id = getId(row, col) + id_suffix;
+
+                if(board.stones[row][col] == Colors.BLACK) {
+                    builder.stone(row, col, {"class": "blackStone", "id": id});
+                    if(board.arrows[row][col] != Directions.NONE) {
+                        builder.stoneArrow(row, col, "rgba(255, 255, 255, .75)", board.arrows[row][col], {});
+                    }
+                } else if (board.stones[row][col] == Colors.WHITE) {
+                    builder.stone(row, col, {"class": "whiteStone", "id": id});
+                    if(board.arrows[row][col] != Directions.NONE) {
+                        builder.stoneArrow(row, col, "rgba(0, 0, 0, .55)", board.arrows[row][col], {});
+                    }
+                } else {
+                    builder.stone(row, col, {"class": "noStone", "id": id}); //May want to get rid of this eventually...
+                }
+            }
+        }
+    }
+    
+    if(style == Styles.HEX) {    
+        if(board.topLeft) {
+            var edgeStart = (board.topLeftStart == 1 && board.bottomLeftStart == 1 && board.bottomLeft) ? EdgeEnds.ACUTE : EdgeEnds.PERPENDICULAR;
+            var edgeEnd = (board.topLeftEnd == board.size && board.topRightStart == 1 && board.topRight) ? EdgeEnds.OBTUSE : EdgeEnds.PERPENDICULAR;
+            var startRow = 0;
+            var startCol = board.topLeftStart - 1;
+            builder.edge(0, startRow, startCol, 1 + board.topLeftEnd - board.topLeftStart, Colors.BLACK, edgeStart, edgeEnd, {"filter": "textureFilter"});
+        }
+        if(board.topRight) {
+            var edgeStart = (board.topLeftEnd == board.size && board.topRightStart == 1 && board.topLeft) ? EdgeEnds.OBTUSE : EdgeEnds.PERPENDICULAR;
+            var edgeEnd = (board.topRightEnd == board.size && board.bottomRightEnd == board.size && board.bottomRight) ? EdgeEnds.ACUTE : EdgeEnds.PERPENDICULAR;
+            var startRow = board.topRightStart - 1;
+            var startCol = board.size - 1;
+            builder.edge(1, startRow, startCol, 1 + board.topRightEnd - board.topRightStart, Colors.WHITE, edgeStart, edgeEnd, {"filter": "textureFilter"});
+        }
+        if(board.bottomRight) {
+            var edgeStart = (board.topRightEnd == board.size && board.bottomRightEnd == board.size && board.topRight) ? EdgeEnds.ACUTE : EdgeEnds.PERPENDICULAR;
+            var edgeEnd = (board.bottomRightStart == 1 && board.bottomLeftEnd == board.size && board.bottomLeft) ? EdgeEnds.OBTUSE : EdgeEnds.PERPENDICULAR;
+            var startRow = board.size - 1;
+            var startCol = -1 + board.bottomRightEnd;
+            builder.edge(3, startRow, startCol, 1 + board.bottomRightEnd - board.bottomRightStart, Colors.BLACK, edgeStart, edgeEnd, {"filter": "textureFilter"});
+        }
+        if(board.bottomLeft) {
+            var edgeStart = (board.bottomRightStart == 1 && board.bottomLeftEnd == board.size && board.bottomRight) ? EdgeEnds.OBTUSE : EdgeEnds.PERPENDICULAR;
+            var edgeEnd = (board.topLeftStart == 1 && board.bottomLeftStart == 1 && board.topLeft) ? EdgeEnds.ACUTE : EdgeEnds.PERPENDICULAR;
+            var startRow = -1 + board.bottomLeftEnd;
+            var startCol = 0;
+            builder.edge(4, startRow, startCol, 1 + board.bottomLeftEnd - board.bottomLeftStart, Colors.WHITE, edgeStart, edgeEnd, {"filter": "textureFilter"});
+        }
+    }
+
+    if(interactive) {
+        function getClickHandler(row, col) {
+            return function() {hexClicked(row, col)};
+        }
+        for(var color of [Colors.BLACK, Colors.WHITE]) {
+            var colorSuffix = color == Colors.BLACK ? "black": "white";
+            var groupProps = {"id": "hover_" + colorSuffix};
+            if(color != board.firstPlayer) {
+                groupProps["style"] = "display: none";
+            }
+            builder.startGroup(groupProps);
+        for(var row = 0; row < board.size; row++ ) {
+            for(var col = 0; col < board.size; col++) {
+                if(board.hexes[row][col]) {
+                    if(board.stones[row][col] == Colors.NONE) {
+                            //var stoneClass = (board.firstPlayer == Colors.BLACK) ? "blackStone" : "whiteStone";
+                            var stoneClass = (color == Colors.BLACK) ? "blackStone" : "whiteStone";
+                        builder.startGroup({"class": "onhover"});
+                            builder.stone(row, col, {"class": stoneClass, "id": getId(row, col) + "_hover_" + colorSuffix});
+                        builder.hex(row, col, {"class": "hexagonMouseOver", "id": getId(row, col)}, {"click": getClickHandler(row, col)});
+                        builder.endGroup();
+                    }
+                }
+            }
+        }
+            builder.endGroup();
+        }
+    }
+    
+
+    builder.endGroup();
+    
+    expandBoundingBox(boundingBox, 10);
+    
+    return boundingBox;
+}
+
+
+function setPuzzleInfo(info) {
+    var puzzle_info_div = document.getElementById("puzzle-info");
+    puzzle_info_div.innerHTML = info;
+}
+
+//storage stuff
+function saveSettings() {
+    try {
+        localStorage["settings"] = JSON.stringify(settings);
+    } catch(e) {
+        return;
+    }
+}
+
+function loadSettings() {
+    try {
+        if(localStorage["settings"]) {
+            settings = JSON.parse(localStorage["settings"]);
+            if(settings.style === undefined) {
+                settings.style = Styles.HEX;
+            }
+            if(settings.texture === undefined) {
+                settings.texture = Textures.PLAIN;
+            }
+            if(settings.auto_advance === undefined) {
+                settings.auto_advance = true;
+            }
+            if(settings.delay_response === undefined) {
+                settings.delay_response = false;
+            }
+            if(settings.symmetric === undefined) {
+                settings.symmetric = true;
+            }
+        }
+    } catch(e) {
+        return;
+    }
+}
+
+
+function setLastPuzzle(puzzle_id) {
+    try { 
+        localStorage["last-puzzle"] = puzzle_id;
+    } catch(e) {
+        return;
+    }
+}
+
+function findLastPuzzleIndex() {
+    try { 
+        var puzzle_id = localStorage["last-puzzle"];
+    } catch(e) {
+        return 0;
+    }
+    for(var i = 0; i < puzzles.length; i++) {
+        if(puzzles[i].identifier == puzzle_id) {
+            return i;
+        }
+    }
+    return 0;
+}
+
+function updatePuzzleInfoLocalStorage(puzzle) {
+    try { 
+        var progress = JSON.parse(localStorage["progress"]);
+        updateSave(progress);
+        if(progress) {
+            if(progress[puzzle.identifier]) {
+                puzzle.complete = true;
+            }
+        }
+    } catch(e) {
+        return;
+    }
+}
+
+
+function setPuzzleWin(puzzle) {
+    try {
+        var progress = {};
+        if(localStorage["progress"]) {
+            progress = JSON.parse(localStorage["progress"]);
+            if(!progress) {
+                progress = {};
+            }
+        }
+        
+        progress[puzzle.identifier] = true;
+        
+        updateSave(progress);
+
+        localStorage["progress"] = JSON.stringify(progress);
+    } catch(e) {
+        //Do nothing
+    }
+    puzzle.puzzleLineCheckmarkSpan.style.removeProperty("display");
+    puzzle.puzzleLineGreymarkSpan.style.display = "none";
+    
+    puzzle.complete = true;
+
+    updateProgress();
+}
+
+function clearAllPuzzleWin() {
+    try {
+        if(localStorage["progress"]) {
+            localStorage["progress"] = JSON.stringify({});
+        }
+    } catch(e) {
+        //Do nothing
+    }
+
+    for(var i = 0; i < puzzles.length; i++) {
+        if(!puzzles[i].tutorial) {
+            puzzles[i].puzzleLineGreymarkSpan.style.removeProperty("display");
+            puzzles[i].puzzleLineCheckmarkSpan.style.display = "none";
+    
+            puzzles[i].complete = false;
+        }
+    }
+}
+
+var setCheckMark = (function() {
+    var state = CheckmarkStates.NONE;
+
+    function flipInNewMark() {
+        switch(state) {
+            case CheckmarkStates.CHECK:
+                document.getElementById("checkmark").style.removeProperty("display");
+                break;
+            case CheckmarkStates.FADED_CHECK:
+                document.getElementById("checkmarkFaded").style.removeProperty("display");
+                break;
+            case CheckmarkStates.X:
+                document.getElementById("xmark").style.removeProperty("display");
+                break;
+        }
+    }
+
+    function endFlipOut(event) {
+        if(event.animationName == "flip-out") {
+            requestAnimationFrame(function() {
+                event.target.style.display = "none";
+                event.target.classList.remove("mark-flip-out");
+                flipInNewMark();
+            });
+        }
+    }
+
+    window.addEventListener("load", function() {
+        document.getElementById("checkmark").addEventListener("animationend", endFlipOut);;
+        document.getElementById("checkmarkFaded").addEventListener("animationend", endFlipOut);;
+        document.getElementById("xmark").addEventListener("animationend", endFlipOut);;
+    });    
+    
+
+
+    return (function (newState, noflipOut) {
+        if(newState == state) {
+            return;
+        }
+        if(state == CheckmarkStates.NONE) {
+            //Easy, flip in the new mark:
+            requestAnimationFrame(flipInNewMark);
+        } else {
+            if(noflipOut) {
+                switch(state) {
+                    case CheckmarkStates.CHECK:
+                        requestAnimationFrame(function() {document.getElementById("checkmark").style.display = "none";});
+                        break;
+                    case CheckmarkStates.FADED_CHECK:
+                        requestAnimationFrame(function() {document.getElementById("checkmarkFaded").style.display = "none";});
+                        break;
+                    case CheckmarkStates.X:
+                        requestAnimationFrame(function() {document.getElementById("xmark").style.display = "none";});
+                        break;
+                }
+                requestAnimationFrame(flipInNewMark);
+            } else {
+                //Start by fliping the current mark out (the endFlipOut listener will finish the rest):
+                switch(state) {
+                    case CheckmarkStates.CHECK:
+                        requestAnimationFrame(function() {document.getElementById("checkmark").classList.add("mark-flip-out");});
+                        break;
+                    case CheckmarkStates.FADED_CHECK:
+                        requestAnimationFrame(function() {document.getElementById("checkmarkFaded").classList.add("mark-flip-out");});
+                        break;
+                    case CheckmarkStates.X:
+                        requestAnimationFrame(function() {document.getElementById("xmark").classList.add("mark-flip-out");});
+                        break;
+                }
+            }
+        }
+        state = newState;
+    });
+})();
+
+//BOARD CHANGES:
+function playerWins() {
+    setCheckMark(CheckmarkStates.CHECK, false);
+
+    requestAnimationFrame(function() {
+        if(settings.auto_advance) {
+            setPuzzleInfo("Correct!");
+        } else {
+            setPuzzleInfo("Correct! Press NEXT to continue.");
+        }
+    });
+
+
+    board.gameOver = true;
+    setPuzzleWin(board.puzzle);
+    
+    if(settings.auto_advance) {
+        setTimeout(loadNextBoard, 1000);
+    }
+}
+
+function playerLoses(wasAlreadyConnected) {
+    setCheckMark(CheckmarkStates.X, false);
+    requestAnimationFrame(function() {
+        if(!wasAlreadyConnected) {
+            setPuzzleInfo("Wrong. Press RESET to try again.");
+        } else {
+            setPuzzleInfo("You should pass when already connected. Press RESET to try again.");
+        }
+
+    });
+    board.gameOver = true;
+
+}
+
+function appendToSequence(seq, row, col, postGame) {
+    var nextNum = (seq.length + 1).toString();
+    var newElem = {
+        row: row,
+        col: col,
+        text: nextNum,
+        postGame: postGame
+    }
+
+    seq.push(newElem);
+}
+
+function appendNonMoveToSequence(seq) {
+    seq.push(NON_MOVE);
+}
+
+function checkPlayerMove(seq, board) {
+    var playerPosition = emptyArray(board.size, board.size, PositionHexValues.EMPTY);
+    var blackMoves = [], whiteMoves = [];
+    for(var i = 0; i < seq.length; i++) {
+        if(seq[i] == NON_MOVE) {
+            continue;
+        }
+        if((i % 2 == 0) ^ (board.firstPlayer == Colors.WHITE)) { //Black move
+            blackMoves.push(seq[i]);
+        } else {
+            whiteMoves.push(seq[i]);
+        }
+    }
+    setValues(playerPosition, blackMoves, PositionHexValues.BLACK_STONE);
+    setValues(playerPosition, whiteMoves, PositionHexValues.WHITE_STONE);
+    var firstPlayerPos = board.firstPlayer == Colors.BLACK ? PositionHexValues.BLACK_STONE : PositionHexValues.WHITE_STONE;
+
+    function positionMatch(pos, playerPos) {
+        var lastMove = seq[seq.length - 1];
+        if(lastMove != NON_MOVE && pos[lastMove.row][lastMove.col] == PositionHexValues.DONT_CARE) {
+            return false;
+        }
+        
+        var totalOneOfs = 0;
+        var oneOfFound = false;
+        for(var row = 0; row < board.size; row++) {
+            for(var col = 0; col < board.size; col++) {
+                if(!(
+                    pos[row][col] == PositionHexValues.DONT_CARE || 
+                    (pos[row][col] == PositionHexValues.ONE_OF && (playerPos[row][col] == firstPlayerPos || playerPos[row][col] == PositionHexValues.EMPTY)) ||
+                    pos[row][col] == playerPos[row][col])) {
+                        return false;
+                }
+                if(pos[row][col] == PositionHexValues.ONE_OF) {
+                    totalOneOfs++;
+                }
+                if(pos[row][col] == PositionHexValues.ONE_OF && playerPos[row][col] == firstPlayerPos) {
+                    if(oneOfFound) {
+                        return false; //We shouldn't find two ONE_OFs
+                    }
+                    oneOfFound = true;
+                }
+            }
+        }
+        if(totalOneOfs > 0 && !oneOfFound) {
+            return false;
+        }
+
+        return true;
+    }
+    for(var i = 0; i < board.positions.length; i++) {
+        if(positionMatch(board.positions[i].position, playerPosition)) {
+            console.log("Position " + i.toString() + " applied")
+            if(board.positions[i].response == NO_RESPONSE) {
+                playerWins();
+                return;
+            } else {
+                var addComputerResponse = function() {
+                    noInteractionDelay = false;
+                    var response = {
+                        row: board.positions[i].response.row,
+                        col: board.positions[i].response.col,
+                        postGame: false
+                    }
+                    seq.push(response);
+                    if(board.positions[i].loss) {
+                        playerLoses(false);
+                    }
+                    requestAnimationFrame(function() {
+                        updateStones(board, false);
+                        updateIcons(board);
+                    });
+                }
+                if(settings.delay_response) {
+                    noInteractionDelay = true;
+                    setTimeout(addComputerResponse, 100);
+                } else {
+                    addComputerResponse();
+                }
+                return;
+            }
+        } 
+    }
+    //There was no match:
+    playerLoses(board.alreadyConnected && seq.length == 1);
+}
+
+function pointOccupied(seq, row, col) {
+    if(board.stones[row][col] != Colors.NONE) {
+        return true;
+    }
+    for(var i = 0; i < seq.length; i++) {
+        if(seq[i] == NON_MOVE) {
+            continue;
+        }
+        if(row == seq[i].row && col == seq[i].col) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function extendBoardSequence(board, row, col) {
+    //bail if the point is occupied
+    if(pointOccupied(board.playerSequence, row, col)) {
+        return;
+    }
+    
+    appendToSequence(board.playerSequence, row, col, board.gameOver);
+    if(!board.gameOver) {
+        checkPlayerMove(board.playerSequence, board);
+    }
+    requestAnimationFrame(function() {
+        updateStones(board, false);
+        updateIcons(board);
+    });
+}
+
+//EVENTS
+function autoAdvanceCheckboxChange(event) {
+    if (event.target.checked) {
+        settings.auto_advance = true;
+    } else {
+        settings.auto_advance = false;
+    }
+    saveSettings();
+}
+
+function delayResponseCheckboxChange(event) {
+    if (event.target.checked) {
+        settings.delay_response = true;
+    } else {
+        settings.delay_response = false;
+    }
+    saveSettings();
+}
+
+function symmCheckboxChange(event) {
+    if (event.target.checked) {
+        settings.symmetric = true;
+    } else {
+        settings.symmetric = false;
+    }
+    saveSettings();
+    loadBoard(currentPuzzleIndex);
+}
+
+function findHexTouched(touch) {
+    var element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if(element && element.classList.contains("hexagonMouseOver")) {
+        var parts = element.id.split("_");
+        return {row: parseInt(parts[1]), col: parseInt(parts[2])};
+    }
+    return null;
+}
+
+var haloLast = {row: 0, col: 0, hidden: true};
+function moveHalo(touch) {
+    var hexTouched = findHexTouched(touch);
+    requestAnimationFrame(function() {
+        if(hexTouched != null) {
+            if(hexTouched.row != haloLast.row || hexTouched.col != haloLast.col || hexTouched.hidden) {
+                haloLast.row = hexTouched.row;
+                haloLast.col = hexTouched.col;
+                haloLast.hidden = false;
+
+                var translateX = getX(hexTouched.row, hexTouched.col);
+                var translateY = getY(hexTouched.row, hexTouched.col);
+                
+                halo.style.removeProperty("display");
+                halo.setAttribute("transform", "translate(" + translateX + ", " + translateY + ")");
+            }
+        } else {
+            hideHalo();
+        }
+    });
+}
+
+function hideHalo() {
+    var halo = document.getElementById("halo");
+    halo.style.display = "none";
+    haloLast.hidden = true;
+}
+
+function boardTouchStart(e) {
+    if(e.touches.length == 1) {
+        e.preventDefault();
+        moveHalo(e.touches[0]);
+    }
+}
+function boardTouchMove(e) {
+    if(e.touches.length == 1) {
+        e.preventDefault();
+        moveHalo(e.touches[0]);
+    }
+    
+}
+function boardTouchEnd(e) {
+    e.preventDefault();
+    var hexTouched = findHexTouched(e.changedTouches[0]);
+    requestAnimationFrame(function() {
+        if(e.changedTouches.length == 1) {
+            if(hexTouched != null) {
+                hexClicked(hexTouched.row, hexTouched.col);
+            }
+        }
+        hideHalo();
+    });
+}
+function boardTouchCancel(e) {
+    console.log(e);
+    hideHalo();
+    e.preventDefault();
+}
+
+function hexClicked(row, col) {
+    if(noInteractionDelay) {
+        return;
+    }
+    if(row < 0 || col < 0 || row >= board.size || col >= board.size) {
+        return;
+    }
+    console.log("Clicked! " + row + ", " + col);
+
+    extendBoardSequence(board, row, col);
+}
+
+function passMove(event) {
+    if(board.gameOver || (board.playerSequence && board.playerSequence.length > 0)) {
+        return;
+    }
+    appendNonMoveToSequence(board.playerSequence);
+    checkPlayerMove(board.playerSequence, board);
+    
+    requestAnimationFrame(function() {
+        updateStones(board, false);
+        updateIcons(board);
+    });
+
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+
+function movesUndoneUpdate(resetGame) {
+    if(resetGame) {
+        board.gameOver = false;
+    
+        if(board.puzzle.complete) {
+            setCheckMark(CheckmarkStates.FADED_CHECK, false);
+        } else {
+            setCheckMark(CheckmarkStates.NONE, false);
+        }
+
+        setPuzzleInfo((board.firstPlayer == Colors.BLACK ? "Black" : "White") + " to move");
+    }
+
+    requestAnimationFrame(function() {
+        updateStones(board, true);
+        updateIcons(board);
+    });
+}
+
+function undoMove(event) {
+    var lastMovePostGame = board.playerSequence.length > 0 && board.playerSequence[board.playerSequence.length - 1].postGame;
+    //Rewind the player sequence until the player is to move (when number of moves in the sequence is even):
+    //Unless we're in the "post game" era
+    if(board.playerSequence.length > 0) {
+        board.playerSequence.pop();
+        if(board.playerSequence.length % 2 != 0 && !lastMovePostGame) {
+            board.playerSequence.pop();
+        }
+    }
+    
+    movesUndoneUpdate(!lastMovePostGame);
+
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+function resetPuzzle(event) {
+    board.playerSequence = [];
+
+    movesUndoneUpdate(true);
+
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+function nextPuzzle(event) {
+    loadNextBoard();
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+function prevPuzzle(event) {
+    loadPrevBoard();
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+
+
+function loadBoard(index) {
+    var problemName = document.getElementById("problem-name");
+    problemName.innerHTML = puzzles[index].name;
+
+    currentPuzzleIndex = index;
+
+    loadNewPuzzle(puzzles[index]);
+}
+
+function loadNextBoard() {
+    if(currentPuzzleIndex < puzzles.length - 1) {
+        loadBoard(currentPuzzleIndex + 1);
+    }
+}
+
+function loadPrevBoard() {
+    if(currentPuzzleIndex > 0) {
+        loadBoard(currentPuzzleIndex - 1);
+    }
+}
+
+function scrollPuzzleIntoView(puzzle) {
+    puzzle.puzzleLineDiv.scrollIntoView({block: "nearest"});
+}
+
+function loadPuzzleData(jsonData) {
+    var puzzle_num = 1;
+    var tutorial_num = 1;
+    function addNewPuzzle(newPuzzle) {
+        newPuzzle.rotation = (Math.random() > 0.5);
+        newPuzzle.invertBoardColor = (Math.random() > 0.5);
+        newPuzzle.complete = false;
+        if(newPuzzle.tutorial) {
+            newPuzzle.name = "Info " + tutorial_num.toString();
+            tutorial_num++;
+        } else {
+            newPuzzle.name = "Problem " + puzzle_num.toString();
+            puzzle_num++;
+        }
+        updatePuzzleInfoLocalStorage(newPuzzle);
+        puzzles.push(newPuzzle);
+    }
+    var data = JSON.parse(jsonData);
+    if(Array.isArray(data)) {
+        for(var i = 0; i < data.length; i++) {
+            addNewPuzzle(data[i]);
+        }
+    } else {
+        addNewPuzzle(data);
+    }
+
+    populatePuzzleList(puzzles);
+}
+/*
+function openfileChange(event) {
+    var numToLoad = 0;
+    function getLoadHandler(index) {
+        return function(event) {
+            loadPuzzleData(event.target.result);
+            numToLoad--;
+
+            if(numToLoad == 0) {
+                currentPuzzleIndex = 0;
+                loadBoard(0);
+            }
+        }
+    }
+
+    puzzles = [];
+
+    var files = document.getElementById("openfilecontrol").files;
+    numToLoad = files.length;
+    
+    for(var i = 0; i < files.length; i++) {
+        var reader = new FileReader();
+        reader.onload = getLoadHandler(i);
+        console.log(files[i].name);
+        reader.readAsText(files[i]);
+    }
+
+}
+*/
+function populatePuzzleList(puzzles) {
+    function getPuzzleSelectCallback(index) {
+        return function(event) {
+            openPuzzle();
+            loadBoard(index);
+        }
+    }
+
+    function insertHeader(text) {
+        var headerLineDiv = document.createElement('div');
+        headerLineDiv.innerHTML = text;
+        headerLineDiv.classList.add("puzzle-list-line-header");
+        
+        puzzleListContainer.insertAdjacentElement('beforeend', headerLineDiv);
+    }
+
+    var puzzleListContainer = document.getElementById("puzzle-list-container");
+    puzzleListContainer.textContent = ""; //Clear all existing childern
+    for(var i = 0; i < puzzles.length; i++) {
+        if(i == 0) {
+            insertHeader("Tutorial");
+        } else if(i == 14) {
+            insertHeader("Beginner problems");
+        } else if(i == 104) {
+            insertHeader("Basic problems");
+        } else if(i == 204) {
+            insertHeader("Intermediate problems");
+        } else if(i == 304) {
+            insertHeader("Advanced problems");
+        } else if(i == 404) {
+            insertHeader("Expert problems");
+        }
+
+        var puzzleLineDiv = document.createElement('div');
+        puzzleLineDiv.innerHTML = puzzles[i].name;
+        puzzleLineDiv.classList.add("puzzle-list-line");
+        puzzleLineDiv.onclick = getPuzzleSelectCallback(i);
+
+        puzzleListContainer.insertAdjacentElement('beforeend', puzzleLineDiv);
+
+        if(puzzles[i].tutorial) {
+            var puzzleLineCheckmarkSpan = document.createElement('span');
+            puzzleLineCheckmarkSpan.classList.add("puzzle-list-checkmark");
+            puzzleLineCheckmarkSpan.innerHTML = makeSmallInfoCircle();
+            puzzleLineDiv.insertAdjacentElement('afterbegin', puzzleLineCheckmarkSpan);
+        } else {
+            var puzzleLineCheckmarkSpan = document.createElement('span');
+            puzzleLineCheckmarkSpan.classList.add("puzzle-list-checkmark");
+            puzzleLineCheckmarkSpan.innerHTML = makeSmallCheckMark();
+            if(!puzzles[i].complete) {
+                puzzleLineCheckmarkSpan.style.display = "none";
+            }
+            
+            puzzleLineDiv.insertAdjacentElement('afterbegin', puzzleLineCheckmarkSpan);
+
+            var puzzleLineGreymarkSpan = document.createElement('span');
+            puzzleLineGreymarkSpan.classList.add("puzzle-list-checkmark");
+            puzzleLineGreymarkSpan.innerHTML = makeSmallGreyCircle();
+            if(puzzles[i].complete) {
+                puzzleLineGreymarkSpan.style.display = "none";
+            }
+            
+            puzzleLineDiv.insertAdjacentElement('afterbegin', puzzleLineGreymarkSpan);
+            
+            puzzles[i].puzzleLineCheckmarkSpan = puzzleLineCheckmarkSpan;
+            puzzles[i].puzzleLineGreymarkSpan = puzzleLineGreymarkSpan;
+        }
+        
+        puzzles[i].puzzleLineDiv = puzzleLineDiv;
+    }
+
+    updateProgress();
+}
+
+function updateProgress() {
+    var total_complete = 0;
+    var total = 0;
+    for(var i = 0; i < puzzles.length; i++) {
+        if(puzzles[i].complete) {
+            total_complete++;
+        }
+        if(!puzzles[i].tutorial) {
+            total++;
+        }
+    }
+    var progress_span = document.getElementById("progress");
+    progress_span.innerHTML = total_complete.toString() + "/" + total.toString() + "";
+}
+
+function clearProgress() {
+    var modalContainer = document.getElementById("modal-container");
+    var modalCancel = document.getElementById("clear-progress-cancel");
+    var modalAccept = document.getElementById("clear-progress-accept");
+    var modalClose = document.getElementById("clear-progress-close");
+
+    function closeModal() {
+        modalContainer.style.display = "none";
+    }
+
+    modalContainer.style.removeProperty("display");
+
+    modalAccept.onclick = function() {
+        clearAllPuzzleWin();
+        updateProgress();
+        closeModal();
+    }
+
+    modalCancel.onclick = closeModal;
+    modalClose.onclick = closeModal;
+    modalContainer.onclick = function(event) { 
+        if(event.target == modalContainer) {
+            closeModal();
+        }
+    }
+}
+
+function addSettingsStyleExamples() {
+    var style_picker_div = document.getElementById("style-picker");
+    
+    function setSelected() {
+        for(var i = 0; i < styles.length; i++) {
+            for(var j = 0; j < textures.length; j++) {
+                if(styles[i] == settings.style && textures[j] == settings.texture) {
+                    puzzle_elements[i][j].classList.add("style-picker-selected");
+                } else {
+                    puzzle_elements[i][j].classList.remove("style-picker-selected");
+                }
+            }
+        }
+    }
+
+    function getSetterCallback(s, t) {
+        return function() {
+            settings.style = s;
+            settings.texture = t;
+            loadBoard(currentPuzzleIndex);
+            saveSettings();
+            setSelected();
+        }
+    }
+
+    var styles = [
+        Styles.HEX, 
+        Styles.GO, 
+        Styles.HEIN
+    ];
+
+    var textures = [
+        Textures.PLAIN,
+        Textures.WOOD
+    ];
+
+    var puzzle_elements = [];
+    for(var i = 0; i < styles.length; i++) {
+        puzzle_elements[i] = [];
+        for(var j = 0; j < textures.length; j++) {
+            var style_board = loadNewBoard(style_diagram);
+
+            var puzzle_element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var boundingBox = redrawBoard(style_board, puzzle_element, false, styles[i], textures[j]);
+            
+            var width = (boundingBox.right - boundingBox.left);
+            var height = (boundingBox.bottom - boundingBox.top);
+
+            var style_attr = "height: 100%; ";
+            style_attr += "grid-column-start: " + (j + 2).toString() + ";";
+            style_attr += "grid-column-end: " + (j + 3).toString() + ";";
+            style_attr += "grid-row-start: " + (i + 1).toString() + ";";
+            style_attr += "grid-row-end: " + (i + 2).toString() + ";";
+            
+            puzzle_element.setAttribute("style", style_attr);
+            puzzle_element.setAttribute("viewBox",  boundingBox.left.toString() + " " + boundingBox.top.toString() + " " + width.toString() + " " + height.toString() );
+            puzzle_element.addEventListener("click", getSetterCallback(styles[i], textures[j]));
+
+            style_picker_div.appendChild(puzzle_element);
+            puzzle_elements[i][j] = puzzle_element;
+        }
+    }
+    setSelected();
+}
+
+function loadHelp() {
+    var help_div = document.getElementById("help-info");
+    help_div.textContent = "";
+
+
+    for(var i = 0; i < help_data.length; i++) {
+        if(help_data[i].header) {
+            var help_header_element = document.createElement("div");
+            help_header_element.classList.add("info-header");
+            help_header_element.innerHTML = help_data[i].text;
+            help_div.appendChild(help_header_element);
+        } else if(help_data[i].paragraph) {
+            var help_text_element = document.createElement("div");
+            help_text_element.classList.add("info-text");
+            if(i < help_data.length - 1 && help_data[i + 1].header) {
+                help_text_element.classList.add("info-text-last");
+            } 
+            
+            help_text_element.innerHTML = help_data[i].text;
+            help_div.appendChild(help_text_element);
+        } else {
+            var board = loadNewBoard(help_data[i]);;
+            var diagram_element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            var boundingBox = redrawBoard(board, diagram_element, false, settings.style, settings.texture);
+            
+            var width = (boundingBox.right - boundingBox.left);
+            var height = (boundingBox.bottom - boundingBox.top);
+
+            var element_width = Math.min(350, SCALE * width);
+            var element_height = height * (element_width / width);
+
+            diagram_element.setAttribute("style", "width: " + element_width.toString() +  "px; height: " + element_height.toString() +  "px; flex-shrink: 0; align-self: center;");
+            diagram_element.setAttribute("viewBox",  boundingBox.left.toString() + " " + boundingBox.top.toString() + " " + width.toString() + " " + height.toString() );
+
+            help_div.appendChild(diagram_element);
+            
+        }
+        
+        
+    }
+    
+}
+
+function openfileProgressChange(e) {
+    var files = document.getElementById("openprogressfilecontrol").files[0];
+    
+    function onLoadHandler(event) {
+        try{
+            //Parse everything before clearing wins, so any errors will be caught
+            var parsed = JSON.parse(event.target.result);
+            var newWinners = [];
+            for(var key in parsed) {
+                if(parsed[key]) {
+                    for(var i = 0; i < puzzles.length; i++) {
+                        if(puzzles[i].identifier == key) {
+                            newWinners.push(puzzles[i]);
+                            break;
+                        }
+                    }
+                    
+                }
+            }
+            if(newWinners.length > 0) {
+                clearAllPuzzleWin();
+                
+                for(var i = 0; i < newWinners.length; i++) {
+                    setPuzzleWin(newWinners[i]);
+                }
+            }
+            alert("Progress restored");
+        } catch(e) {
+            console.log(e);
+            alert("Couldn't read file");
+        }
+    }
+    
+    
+    var reader = new FileReader();
+    reader.onload = onLoadHandler;
+    if(files) {
+        reader.readAsText(files);
+    }
+
+    document.getElementById("openprogressfilecontrol").value = null;
+
+}
+
+var updateSave = (function() {
+    var textFile = null;
+    var updateSaveInner = function(data) {
+        var dataString = JSON.stringify(data);
+        var file = new Blob([dataString], {type: "application/octet-stream;charset=utf-8"});
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+        textFile = window.URL.createObjectURL(file);
+
+        var link = document.getElementById('downloadprogress');
+        link.href = textFile;
+    };
+    return updateSaveInner;
+})();
+
+
+function clonePrevNextButtons() {
+    var actions_div = document.getElementById("actions");
+
+    var button_prev = document.getElementById("button-puzzle-prev");
+    var button_next = document.getElementById("button-puzzle-next");
+
+    var new_button_prev = button_prev.cloneNode(true);
+    var new_button_next = button_next.cloneNode(true);
+
+    button_prev.remove();
+    button_next.remove();
+
+    actions_div.insertAdjacentElement("afterbegin", new_button_prev);
+    actions_div.insertAdjacentElement("beforeend", new_button_next);
+
+    new_button_prev.addEventListener("click", prevPuzzle);
+    new_button_next.addEventListener("click", nextPuzzle);
+    new_button_prev.addEventListener("touchend", prevPuzzle);
+    new_button_next.addEventListener("touchend", nextPuzzle);
+
+}
+
+var openPuzzle;
+
+function setButtonEventHandlers() {
+    function hideAll() {
+        var container = document.getElementById("container");
+        container.style.display = "none";
+
+        var mainMenuContainer = document.getElementById("main-menu-container");
+        mainMenuContainer.style.display = "none";
+        
+        var settingsContainer = document.getElementById("settings-container");
+        settingsContainer.style.display = "none";
+
+        var aboutContainer = document.getElementById("about-container");
+        aboutContainer.style.display = "none";
+
+        var helpContainer = document.getElementById("help-container");
+        helpContainer.style.display = "none";
+    }
+
+    //The only one of these accessible from outside the closure:
+    openPuzzle = function() {
+        hideAll();
+
+        var container = document.getElementById("container");
+        container.style.removeProperty("display");
+    }
+
+    function openMainMenu() {
+        hideAll();
+
+        var mainMenuContainer = document.getElementById("main-menu-container");
+        mainMenuContainer.style.removeProperty("display");
+
+        scrollPuzzleIntoView(puzzles[currentPuzzleIndex]);
+    }
+
+    function openSettings() {
+        hideAll();
+
+        var settingsContainer = document.getElementById("settings-container");
+        settingsContainer.style.removeProperty("display");
+    }
+
+    function openHelp() {
+        hideAll();
+
+        var helpContainer = document.getElementById("help-container");
+        helpContainer.style.removeProperty("display");
+
+        loadHelp();//Has to be repopulated in case the user changed the appearance settings
+    }
+
+    function openAbout() {
+        hideAll();
+
+        var aboutContainer = document.getElementById("about-container");
+        aboutContainer.style.removeProperty("display");
+
+    }
+
+    document.getElementById("button-main-menu-puzzle").addEventListener("click", openPuzzle);
+    document.getElementById("button-main-menu-settings").addEventListener("click", openSettings);
+    document.getElementById("button-main-menu-help").addEventListener("click", openHelp);
+    document.getElementById("button-main-menu-about").addEventListener("click", openAbout);
+    
+    document.getElementById("button-settings-puzzle").addEventListener("click", openPuzzle);
+    document.getElementById("button-settings-main-menu").addEventListener("click", openMainMenu);
+    document.getElementById("button-settings-help").addEventListener("click", openHelp);
+    document.getElementById("button-settings-about").addEventListener("click", openAbout);
+
+    document.getElementById("button-about-puzzle").addEventListener("click", openPuzzle);
+    document.getElementById("button-about-main-menu").addEventListener("click", openMainMenu);
+    document.getElementById("button-about-settings").addEventListener("click", openSettings);
+    document.getElementById("button-about-help").addEventListener("click", openHelp);
+
+    document.getElementById("button-help-puzzle").addEventListener("click", openPuzzle);
+    document.getElementById("button-help-main-menu").addEventListener("click", openMainMenu);
+    document.getElementById("button-help-settings").addEventListener("click", openSettings);
+    document.getElementById("button-help-about").addEventListener("click", openAbout);
+    
+    document.getElementById("button-puzzle-main-menu").addEventListener("click", openMainMenu);
+    document.getElementById("button-puzzle-settings").addEventListener("click", openSettings);
+    document.getElementById("button-puzzle-help").addEventListener("click", openHelp);
+    document.getElementById("button-puzzle-about").addEventListener("click", openAbout);
+    
+    
+    document.getElementById("button-puzzle-pass").addEventListener("click", passMove);
+    document.getElementById("button-puzzle-prev").addEventListener("click", prevPuzzle);
+    document.getElementById("button-puzzle-undo").addEventListener("click", undoMove);
+    document.getElementById("button-puzzle-reset").addEventListener("click", resetPuzzle);
+    document.getElementById("button-puzzle-next").addEventListener("click", nextPuzzle);
+
+    document.getElementById("button-puzzle-pass").addEventListener("touchend", passMove);
+    document.getElementById("button-puzzle-prev").addEventListener("touchend", prevPuzzle);
+    document.getElementById("button-puzzle-undo").addEventListener("touchend", undoMove);
+    document.getElementById("button-puzzle-reset").addEventListener("touchend", resetPuzzle);
+    document.getElementById("button-puzzle-next").addEventListener("touchend", nextPuzzle);
+
+    if(settings.auto_advance) {
+        document.getElementById("auto-advance-cb").checked = true;    
+    } else {
+        document.getElementById("auto-advance-cb").checked = false;
+    }
+
+    document.getElementById("auto-advance-cb").addEventListener('change', autoAdvanceCheckboxChange);
+
+    if(settings.delay_response) {
+        document.getElementById("delay-response-cb").checked = true;    
+    } else {
+        document.getElementById("delay-response-cb").checked = false;
+    }
+
+    document.getElementById("delay-response-cb").addEventListener('change', delayResponseCheckboxChange);
+
+    if(settings.symmetric) {
+        document.getElementById("symm-cb").checked = true;    
+    } else {
+        document.getElementById("symm-cb").checked = false;
+    }
+    document.getElementById("symm-cb").addEventListener('change', symmCheckboxChange);
+}
+
+
+
+
+onload = function() {
+    UPSCALE = 32;
+    STONE_SIZE = 12.5;
+    
+    //document.getElementById("openfilecontrol").onchange = openfileChange;
+    document.getElementById("openprogressfilecontrol").onchange = openfileProgressChange;
+    document.getElementById("clear-progress").addEventListener("click", clearProgress);
+
+    
+    
+    
+    loadSettings();
+
+    
+    setButtonEventHandlers();
+    
+    loadPuzzleData(puzzle_data);
+
+    addSettingsStyleExamples();
+
+    loadBoard(findLastPuzzleIndex());
+
+    var a = "matt", d = "hew.seymour", b = "&#064;", f = "gma", c = "il.com";
+	var e = document.getElementById("about-contact");
+	e.innerHTML += "Questions? Comments? Contact me at <a href='mailto:" + a + d + b + f + c + "'>" + a + d + b + f + c + "</a>";
+}
+
